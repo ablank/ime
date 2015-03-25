@@ -1,0 +1,34 @@
+<?php
+
+/**
+ * @file
+ * Install and uninstall functionality for the mediaelement module.
+ */
+
+/**
+ * Implements hook_uninstall().
+ */
+function mediaelement_uninstall() {
+  variable_del('mediaelement_sitewide');
+  variable_del('mediaelement_default_skin');
+  // Audio vars.
+  variable_del('mediaelement_audio_default_autoplay');
+  variable_del('mediaelement_audio_default_loop');
+  variable_del('mediaelement_audio_default_preload');
+  variable_del('mediaelement_audio_default_controls');
+  variable_del('mediaelement_audio_default_width');
+  variable_del('mediaelement_audio_default_height');
+  variable_del('mediaelement_audio_default_class');
+  variable_del('mediaelement_audio_default_download_link');
+  variable_del('mediaelement_audio_default_download_text');
+  // Video vars.
+  variable_del('mediaelement_video_default_autoplay');
+  variable_del('mediaelement_video_default_loop');
+  variable_del('mediaelement_video_default_preload');
+  variable_del('mediaelement_video_default_controls');
+  variable_del('mediaelement_video_default_width');
+  variable_del('mediaelement_video_default_height');
+  variable_del('mediaelement_video_default_class');
+  variable_del('mediaelement_video_default_download_link');
+  variable_del('mediaelement_video_default_download_text');
+}

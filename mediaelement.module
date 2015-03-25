@@ -1,0 +1,362 @@
+<?php
+/**
+ * @file
+ * Provides HTML5 video and audio elements using Mediaelement.js.
+ */
+
+/**
+ * Implements hook_menu().
+ */
+function mediaelement_menu() {
+  return array(
+    'admin/config/media/mediaelement' => array(
+      'title' => 'MediaElement.js',
+      'description' => 'Settings for MediaElement.js integration with Drupal',
+      'page callback' => 'drupal_get_form',
+      'page arguments' => array('mediaelement_admin_form'),
+      'access arguments' => array('administer site configuration'),
+      'file' => 'mediaelement.admin.inc',
+    ),
+  );
+}
+
+/**
+ * Implements hook_library().
+ */
+function mediaelement_library() {
+  $libpath = libraries_get_path('mediaelement');
+
+  $libraries = array(
+    'mediaelement' => array(
+      'title' => 'Media Element',
+      'website' => 'http://mediaelementjs.com/',
+      'version' => '2.1.6',
+      'js' => array(
+        // The mediaelement script detects the path to itself to call other files
+        // in the same location. With preprocessing this is problematic as the
+        // script is no longer in the same directory as its other assets. There
+        // is an option that can be passed into the script with its location.
+        // @todo Update all calls to mediaelement to pass in the assets location.
+        $libpath . '/build/mediaelement-and-player.min.js' => array(
+          'group' => JS_LIBRARY,
+          'preprocess' => TRUE,
+        ),
+      ),
+      'css' => array(variable_get('mediaelement_default_skin', $libpath . '/build/mediaelementplayer.min.css')),
+    ),
+  );
+
+  return $libraries;
+}
+
+/**
+ * Implements hook_init().
+ */
+function mediaelement_init() {
+  // When the media player is set to be on all pages add it to the page.
+  if (variable_get('mediaelement_sitewide', FALSE)) {
+    drupal_add_library('mediaelement', 'mediaelement');
+    drupal_add_js(drupal_get_path('module', 'mediaelement') . '/mediaelement.min.js');
+    drupal_add_js(array('mediaelementAll' => TRUE), array('type' => 'setting'));
+  }
+}
+
+/**
+ * Implements hook_field_formatter_info().
+ */
+function mediaelement_field_formatter_info() {
+  $formatters = array();
+  $libpath = libraries_get_path('mediaelement') . '/build';
+  // Get / Set default settings for audio.
+  $formatters['mediaelement_audio'] = array(
+    'label' => t('MediaElement Audio'),
+    'field types' => array('file', 'link_field'),
+    'settings' => array(
+      'ctrl' => array(
+        'controls' => variable_get('mediaelement_audio_default_controls', TRUE),
+        'autoplay' => variable_get('mediaelement_audio_default_autoplay', FALSE),
+        'loop' => variable_get('mediaelement_audio_default_loop', FALSE),
+        'preload' => variable_get('mediaelement_audio_default_preload', 'none'),
+      ),
+      'appearance' => array(
+        //'skin' => variable_get('mediaelement_default_skin'),
+        'width' => variable_get('mediaelement_audio_default_width', '240'),
+        'height' => variable_get('mediaelement_audio_default_height', '30'),
+      ),
+      'download' => array(
+        'download_link' => variable_get('mediaelement_audio_default_download_link', FALSE),
+        'download_text' => variable_get('mediaelement_audio_default_download_text', t('Download')),
+      ),
+    ),
+  );
+
+  // Get / Set default settings for video.
+  $formatters['mediaelement_video'] = array(
+    'label' => t('MediaElement Video'),
+    'field types' => array('file', 'link_field'),
+    'settings' => array(
+      'ctrl' => array(
+        'controls' => variable_get('mediaelement_video_default_controls', TRUE),
+        'autoplay' => variable_get('mediaelement_video_default_autoplay', FALSE),
+        'loop' => variable_get('mediaelement_video_default_loop', FALSE),
+        'preload' => variable_get('mediaelement_video_default_preload', 'none'),
+      ),
+      'appearance' => array(
+        //'skin' => variable_get('mediaelement_default_skin'),
+        'width' => variable_get('mediaelement_video_default_width', '640'),
+        'height' => variable_get('mediaelement_video_default_height', '385'),
+      ),
+      'download' => array(
+        'download_link' => variable_get('mediaelement_video_default_download_link', FALSE),
+        'download_text' => variable_get('mediaelement_video_default_download_text', t('Download')),
+      ),
+    ),
+  );
+
+  return $formatters;
+}
+
+/**
+ * Implements hook_field_formatter_view().
+ */
+function mediaelement_field_formatter_view($entity_type, $entity, $field, $instance, $langcode, $items, $display) {
+  // A unique caller per page for the JS specific settings to use. This may be
+  // different for ever page view and should not be used for styling.
+  static $id = 0;
+  $settings = $display['settings'];
+  $element = array();
+  $path = drupal_get_path('module', 'mediaelement');
+  foreach ($items as $delta => $item) {
+    // Support the link field type which stores it's data in 'url'.
+    $src = ($field['type'] == 'link_field') ? $item['url'] : $item['uri'];
+
+    $js_settings = array();
+    $js_settings['opts'] = array();
+    $js_settings['controls'] = (bool) $settings['ctrl']['controls'];
+
+    if ($display['type'] == 'mediaelement_video') {
+      $js_settings['opts']['videoHeight'] = (int) $settings['appearance']['height'];
+      $js_settings['opts']['videoWidth'] = (int) $settings['appearance']['width'];
+    }
+    elseif ($display['type'] == 'mediaelement_audio') {
+      $js_settings['opts']['audioHeight'] = (int) $settings['appearance']['height'];
+      $js_settings['opts']['audioWidth'] = (int) $settings['appearance']['width'];
+    }
+
+    $class = 'mediaelement-formatter-identifier-' . time() . '-' . $id++;
+    $element[$delta] = array(
+      '#attributes' => array(
+        'src' => file_create_url($src),
+        'class' => $class,
+        'preload' => $settings['ctrl']['preload'],
+      ),
+      '#settings' => $settings,
+      '#attached' => array(
+        'library' => array(array('mediaelement', 'mediaelement')),
+        // 'css' => array(variable_get('mediaelement_default_skin')),
+        'js' => array(
+          $path . '/mediaelement.min.js' => array(),
+          0 => array(
+            'type' => 'setting',
+            'data' => array(
+              'mediaelement' => array('.' . $class => $js_settings)),
+          ),
+        ),
+      ),
+    );
+
+    if (!empty($settings['ctrl']['controls'])) {
+      $element[$delta]['#attributes']['controls'] = TRUE;
+    }
+    if (!empty($settings['ctrl']['autoplay'])) {
+      $element[$delta]['#attributes']['autoplay'] = TRUE;
+    }
+    if (!empty($settings['ctrl']['loop'])) {
+      $element[$delta]['#attributes']['loop'] = TRUE;
+    }
+
+    if ($display['type'] == 'mediaelement_audio') {
+      $element[$delta]['#theme'] = 'mediaelement_audio';
+    }
+    elseif ($display['type'] == 'mediaelement_video') {
+      $element[$delta]['#theme'] = 'mediaelement_video';
+      $element[$delta]['#attributes']['height'] = $settings['appearance']['height'];
+      $element[$delta]['#attributes']['width'] = $settings['appearance']['width'];
+    }
+  }
+
+  return $element;
+}
+
+/**
+ * Implements hook_theme().
+ */
+function mediaelement_theme() {
+  return array(
+    'mediaelement_audio' => array(
+      'variables' => array('attributes' => array(), 'settings' => array()),
+    ),
+    'mediaelement_video' => array(
+      'variables' => array('attributes' => array(), 'settings' => array()),
+    ),
+  );
+}
+
+/**
+ * Markup for Video
+ *
+ * @param type $variables
+ * @return type
+ */
+function theme_mediaelement_audio($variables) {
+
+  return mediaelement_markup($variables, 'audio');
+}
+
+/**
+ * Markup for Video
+ *
+ * @param type $variables
+ * @return type
+ */
+function theme_mediaelement_video($variables) {
+
+  return mediaelement_markup($variables, 'video');
+}
+
+/**
+ * Structure markup for mediaelement audio & video tags.
+ *
+ * @param array $variables
+ * @param string $type
+ */
+function mediaelement_markup($variables, $type) {
+  $output = "<div class=\"mediaelement mediaelement-$type\"";
+  // Set the container width so we can center media.
+  $output .= ' style="width: ' . $variables['settings']['appearance']['width'] . 'px; ">';
+  $output .= "<$type " . drupal_attributes($variables['attributes']) . " ></$type>";
+  if ($variables['settings']['download']['download_link']) {
+    $output .= '<div class = "mediaelement-download-link"><a href = "' . $variables['attributes']['src'] . '">' . filter_xss_admin($variables['settings']['download']['download_text']) . '</a></div>';
+  }
+  $output .= '</div>';
+
+  return $output;
+}
+
+/**
+ * Implements hook_field_formatter_settings_form().
+ */
+function mediaelement_field_formatter_settings_form($field, $instance, $view_mode, $form, &$form_state) {
+  $display = $instance['display'][$view_mode];
+  $settings = $display['settings'];
+  $element = array();
+  $lib_path = libraries_get_path('mediaelement') . '/build';
+
+  $element['appearance'] = array(
+    '#title' => t('Player Appearance'),
+    '#type' => 'fieldset',
+    '#weight' => 0,
+    '#collapsible' => TRUE,
+    '#collapsed' => FALSE,
+  );
+  /*
+    $element['appearance']['skin'] = array(
+    '#title' => t('Skin'),
+    '#type' => 'select',
+    '#options' => [
+    $lib_path . '/mediaelementplayer_dark.min.css' => t('ME Dark'),
+    $lib_path . '/mediaelementplayer_light.min.css' => t('ME Light'),
+    $lib_path . '/mediaelementplayer.min.css' => t('Default'),
+    $lib_path . '/mediaelementplayer_tedk.min.css' => t('TED'),
+    $lib_path . '/mediaelementplayer_wmp.min.css' => t('WMP'),
+    ],
+    '#default_value' => $settings['appearance']['skin'],
+    );
+   */
+  $element['appearance']['width'] = array(
+    '#title' => t('Width'),
+    '#type' => 'textfield',
+    '#size' => 8,
+    '#default_value' => $settings['appearance']['width'],
+  );
+
+  $element['appearance']['height'] = array(
+    '#title' => t('Height'),
+    '#type' => 'textfield',
+    '#size' => 8,
+    '#default_value' => $settings['appearance']['height'],
+  );
+
+  $element['ctrl'] = array(
+    '#title' => t('Playback Control'),
+    '#type' => 'fieldset',
+    '#weight' => 1,
+    '#collapsible' => TRUE,
+    '#collapsed' => TRUE,
+  );
+  $element['ctrl']['controls'] = array(
+    '#title' => t('Controls'),
+    '#type' => 'checkbox',
+    '#default_value' => $settings['ctrl']['controls'],
+  );
+
+  $element['ctrl']['autoplay'] = array(
+    '#title' => t('Autoplay'),
+    '#type' => 'checkbox',
+    '#default_value' => $settings['ctrl']['autoplay'],
+  );
+
+  $element['ctrl']['loop'] = array(
+    '#title' => t('Loop'),
+    '#type' => 'checkbox',
+    '#default_value' => $settings['ctrl']['loop'],
+  );
+
+  $element['ctrl']['preload'] = array(
+    '#title' => t('Preload'),
+    '#type' => 'select',
+    '#options' => array(
+      'none' => t('None'),
+      'auto' => t('Auto'),
+      'metadata' => t('Metadata'),
+    ),
+    '#default_value' => $settings['ctrl']['preload'],
+  );
+
+  $element['download'] = array(
+    '#title' => t('Download'),
+    '#type' => 'fieldset',
+    '#weight' => 2,
+    '#collapsible' => TRUE,
+    '#collapsed' => TRUE,
+  );
+
+  $element['download']['download_link'] = array(
+    '#title' => t('Download Link'),
+    '#type' => 'checkbox',
+    '#default_value' => $settings['download']['download_link'],
+  // '#attributes' => array('name' => array('opt-download-link')),
+  );
+
+  $element['download']['download_text'] = array(
+    '#title' => t('Download Link Text'),
+    '#type' => 'textfield',
+    '#default_value' => $settings['download']['download_text'],
+    '#size' => 30,
+  );
+
+  return $element;
+}
+
+/**
+ * Implements hook_field_formatter_settings_summary().
+ */
+function mediaelement_field_formatter_settings_summary($field, $instance, $view_mode) {
+  $display = $instance['display'][$view_mode];
+  $settings = $display['settings'];
+  return t('Width: @width px, Height: @height px', array(
+    '@width' => $settings['appearance']['width'],
+    '@height' => $settings['appearance']['height'],
+  //'@skin' => $settings['appearance']['skin'],
+  ));
+}
