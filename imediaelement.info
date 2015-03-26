@@ -1,0 +1,8 @@
+name = "Improved MediaElement"
+description = "Provide MediaElement.js integration with the entire site or Filefields."
+core = 7.x
+dependencies[] = libraries
+files[] = imediaelement.admin.inc
+files[] = imediaelement.install
+files[] = imediaelement.module
+configure = admin/config/media/imediaelement
