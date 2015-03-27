@@ -53,7 +53,9 @@ ___
 
 Streaming media from 3rd party sources is accomplished by adding a `link` field displayed as Mediaelement Audio/Video. Youtube & Vimeo are explicitly supported, though other providers may also be used as long as they provide public file access.
 
-The link may reference either the Embed (`https://www.youtube.com/embed/mUPyVAdbnag`) or Share (`http://youtu.be/mUPyVAdbnag`) source. It's best to use protocol agnostic (`//youtu.be/mUPyVAdbnag`) links, although this isn't a requirement.
+The link may reference either the Embed (`https://www.youtube.com/embed/mUPyVAdbnag`) or Share (`http://youtu.be/mUPyVAdbnag`) source.
+
+It's best to use protocol agnostic (`//youtu.be/mUPyVAdbnag`) links, although that isn't a requirement.
 
 ### Player Skins
 
