@@ -12,14 +12,15 @@ This module is functionally the same as the [mediaelement module](https://www.dr
 
 ## Installation and Usage
 
-1. Download/git the [improved mediaelement library](https://github.com/ablank/imediaelement) and extract to `$base_url/sites/all/libraries/mediaelement`
+1. Download/git the [improved mediaelement library](https://github.com/ablank/imediaelement) and extract to `$base_url/sites/all/libraries/imediaelement`
 
--  *Optional* Customize the mediaelement script for your specific needs (*i18n or other features*) by editing the `grunt/concat` task or editing the `/src/` assets and rebuilding the library.
-
+-  *Optional* Customize mediaelement.js for your specific needs (*i18n or other features*) by editing the `grunt/concat` task or editing the `/src/` assets and rebuilding the script.
+    - `cd path/to/imediaelement`
+    - `npm install` : installs grunt & tasks.
     - `grunt` : compiles all `/src/` assets to `/local-build/`.
     - `grunt build` : copies the `/local-build/` to `/build/`.
 
-2. Download/git the mediaelement module and extract to `$base_url/sites/$site/modules/mediaelement`
+2. Download/git the mediaelement module and extract to `$base_url/sites/$site/modules/imediaelement`
 
 3. Enable the module.
 
