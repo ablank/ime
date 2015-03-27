@@ -28,9 +28,9 @@ This module is functionally the same as the [mediaelement module](https://www.dr
 
  Select the player skin and sitewide use options that make you happy: `$base_url/admin/config/media/imediaelement`
 
-### Configure field settings
+### Configure content fields
 
-1. Add fields to a content type
+**Add fields:** Your content type should include some type of media.
 
   - `File` : *media hosted on your server*.
 
@@ -39,7 +39,7 @@ This module is functionally the same as the [mediaelement module](https://www.dr
 ___
  ![alt](https://github.com/ablank/ablank.github.io/blob/master/imediaelement/fields.png)
 
-2. Manage Display: Set the Format to `MediaElement Audio` or `MediaElement Video`
+**Manage Display:** Set the Format to `MediaElement Audio` or `MediaElement Video`
 
   - The Format settings allow you to manage attributes specific to that field (*i.e. width, height, autoplay, etc.*).
 
