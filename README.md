@@ -38,6 +38,7 @@ This module is functionally the same as the [mediaelement module](https://www.dr
 
 ___
  ![alt](https://github.com/ablank/ablank.github.io/blob/master/imediaelement/fields.png)
+___
 
 **Manage Display:** Set the Format to `MediaElement Audio` or `MediaElement Video`
 
@@ -46,6 +47,7 @@ ___
 ___
 
 ![alt](https://github.com/ablank/ablank.github.io/blob/master/imediaelement/formatsettings.png)
+___
 
 ### Player Skins
 
