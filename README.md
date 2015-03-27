@@ -27,16 +27,6 @@ This module is functionally the same as the [mediaelement module](https://www.dr
 ### Configure global settings
 
  Select the player skin and sitewide use options that make you happy: `$base_url/admin/config/media/imediaelement`
-___
- ![alt](https://github.com/ablank/ablank.github.io/blob/master/imediaelement/ME_dark.png)
-
- ![alt](https://github.com/ablank/ablank.github.io/blob/master/imediaelement/ME_light.png)
-
- ![alt](https://github.com/ablank/ablank.github.io/blob/master/imediaelement/ME_dark_large.png)
-
- ![alt](https://github.com/ablank/ablank.github.io/blob/master/imediaelement/ME_light_large.png)
-
- ![alt](https://github.com/ablank/ablank.github.io/blob/master/imediaelement/Original_ME.png)
 
 ### Configure field settings
 
@@ -52,3 +42,15 @@ ___
 
 ___
 ![alt](https://github.com/ablank/ablank.github.io/blob/master/imediaelement/formatsettings.png)
+
+### Player Skins
+
+![alt](https://github.com/ablank/ablank.github.io/blob/master/imediaelement/ME_dark.png)
+
+![alt](https://github.com/ablank/ablank.github.io/blob/master/imediaelement/ME_light.png)
+
+![alt](https://github.com/ablank/ablank.github.io/blob/master/imediaelement/ME_dark_large.png)
+
+![alt](https://github.com/ablank/ablank.github.io/blob/master/imediaelement/ME_light_large.png)
+
+![alt](https://github.com/ablank/ablank.github.io/blob/master/imediaelement/Original_ME.png)
