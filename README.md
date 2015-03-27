@@ -10,6 +10,17 @@ This module is a fork of the mediaelement module for Drupal- It is functionally 
 
 - ~20% smaller player filesize
 
+
+![alt](https://github.com/ablank/ablank.github.io/blob/master/imediaelement/ME_dark.png")
+
+![alt](https://github.com/ablank/ablank.github.io/blob/master/imediaelement/ME_light.png")
+
+![alt](https://github.com/ablank/ablank.github.io/blob/master/imediaelement/ME_dark_large.png")
+
+![alt](https://github.com/ablank/ablank.github.io/blob/master/imediaelement/ME_light_large.png")
+
+![alt](https://github.com/ablank/ablank.github.io/blob/master/imediaelement/Original_ME.png")
+
 ## Installation and Usage
 
 1. Download/git the [improved mediaelement library](https://github.com/ablank/imediaelement) and extract to `$base_url/sites/all/libraries/mediaelement`
@@ -25,7 +36,7 @@ This module is a fork of the mediaelement module for Drupal- It is functionally 
 
 4. Configure global settings: `$base_url/admin/config/media/imediaelement`.
 
-5. Add fields to a content type: `File` (*for media hosted on your server*) or `Link` (*for media hosted on another domain*).
+5. Add fields to a content type: `File` (*for media hosted on your server*) or `Link` (*for media hosted on another domain, i.e. YouTube.*).
 
 6. Manage Display: Set the Format to `MediaElement Audio` or `MediaElement Video`
 
