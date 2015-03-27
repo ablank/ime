@@ -44,7 +44,7 @@ ___
 
   - `File` : *media hosted on your server*.
 
-  - `Link` *media hosted on another domain, i.e. YouTube.*.
+  - `Link` : *media hosted on another domain, i.e. YouTube, Vimeo, etc.*
 
 2. Manage Display: Set the Format to `MediaElement Audio` or `MediaElement Video`
 
