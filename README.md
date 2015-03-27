@@ -36,7 +36,7 @@ This module is functionally the same as the [mediaelement module](https://www.dr
 
   - `Link` : *media hosted on another domain, i.e. YouTube, Vimeo, etc.*
 
-  ___  ![alt](https://github.com/ablank/ablank.github.io/blob/master/imediaelement/fields.png)
+___ ![alt](https://github.com/ablank/ablank.github.io/blob/master/imediaelement/fields.png)
 
 2. Manage Display: Set the Format to `MediaElement Audio` or `MediaElement Video`
 
