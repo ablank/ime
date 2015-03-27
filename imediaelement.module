@@ -25,7 +25,6 @@ function imediaelement_menu() {
  */
 function imediaelement_library() {
   $libpath = libraries_get_path('imediaelement');
-  $script = variable_get('imediaelement_i18n') ? 'mediaelement.i18n.min.js' : 'mediaelement.min.js';
 
   $libraries = array(
     'imediaelement' => array(
@@ -38,7 +37,7 @@ function imediaelement_library() {
         // script is no longer in the same directory as its other assets. There
         // is an option that can be passed into the script with its location.
         // @todo Update all calls to mediaelement to pass in the assets location.
-        $libpath . '/build/' . $script => array(
+        $libpath . '/build/mediaelement.min.js' => array(
           'group' => JS_LIBRARY,
           'preprocess' => FALSE,
         ),
@@ -75,7 +74,7 @@ function imediaelement_field_formatter_info() {
     'settings' => array(
       'appearance' => array(
         'width' => variable_get('imediaelement_audio_default_width', '240'),
-        'height' => variable_get('imediaelement_audio_default_height', '30'),
+        'height' => variable_get('imediaelement_audio_default_height', '32'),
       ),
       'ctrl' => array(
         'controls' => variable_get('imediaelement_audio_default_controls', TRUE),
@@ -218,8 +217,22 @@ function theme_imediaelement_audio($variables) {
  * @return type
  */
 function theme_imediaelement_video($variables) {
+  dpm($variables);
+  $src = $variables['attributes']['src'];
+  if (!strpos($src, $GLOBALS['base_url'])) {
+    $provider = "";
+    if (strpos($src, 'youtu.be/') || strpos($src, 'youtube.com/')) {
+      $provider = 'youtube';
+    }
+    elseif (strpos($src, 'vimeo.com/')) {
+      $provider = 'vimeo';
+    }
+    else {
+      $provider = end(explode('.', $src));
+    }
+  }
 
-  return imediaelement_markup($variables, 'video');
+  return imediaelement_markup($variables, 'video', $provider);
 }
 
 /**
@@ -228,13 +241,19 @@ function theme_imediaelement_video($variables) {
  * @param array $variables
  * @param string $type
  */
-function imediaelement_markup($variables, $type) {
+function imediaelement_markup($variables, $type, $provider = NULL) {
+  $source = "";
+  if ($provider) {
+    $source = '<source type="' . "$type/$provider" . '" src="' . $variables['attributes']['src'] . '" />';
+    unset($variables['attributes']['src']);
+  }
+
   $output = '<div class="mediaelement"';
   // Set the container width so we can center media.
   $output .= ' style="width: ' . $variables['settings']['appearance']['width'] . 'px; ">';
-  $output .= "<$type " . drupal_attributes($variables['attributes']) . " ></$type>";
+  $output .= "<$type" . drupal_attributes($variables['attributes']) . " >$source</$type>";
   if ($variables['settings']['download']['download_link']) {
-    $output .= '<div class = "mediaelement-download"><a href = "' . $variables['attributes']['src'] . '">' . filter_xss_admin($variables['settings']['download']['download_text']) . '</a></div>';
+    $output .= '<div class="mediaelement-download"><a href = "' . $variables['attributes']['src'] . '">' . filter_xss_admin($variables['settings']['download']['download_text']) . '</a></div>';
   }
   $output .= '</div>';
 
@@ -256,7 +275,7 @@ function imediaelement_field_formatter_settings_form($field, $instance, $view_mo
     '#collapsible' => TRUE,
     '#collapsed' => FALSE,
   );
-   
+
   $element['appearance']['width'] = array(
     '#title' => t('Width'),
     '#type' => 'textfield',

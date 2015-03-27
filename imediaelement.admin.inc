@@ -40,13 +40,6 @@ function imediaelement_admin_form() {
     '#default_value' => variable_get('imediaelement_sitewide', FALSE),
   );
 
-  $form['imediaelement_i18n'] = array(
-    '#type' => 'checkbox',
-    '#title' => t('Enable MediaElement I18n'),
-    '#description' => "Use mediaelement I18n (internationalization/language/) to translate controls. \nA custom build of mediaelement.i18n.js will be needed to effectively use this functionality.",
-    '#default_value' => variable_get('imediaelement_i18n', 0),
-  );
-
   // Display a sample video. We add the library here because we cannot be sure
   // it is otherwise included in the page.
   drupal_add_library('imediaelement', 'imediaelement');
