@@ -27,6 +27,7 @@ This module is functionally the same as the [mediaelement module](https://www.dr
 ### Configure global settings
 
  Select the player skin and sitewide use options that make you happy: `$base_url/admin/config/media/imediaelement`
+___
  ![alt](https://github.com/ablank/ablank.github.io/blob/master/imediaelement/ME_dark.png)
 
  ![alt](https://github.com/ablank/ablank.github.io/blob/master/imediaelement/ME_light.png)
@@ -49,4 +50,5 @@ This module is functionally the same as the [mediaelement module](https://www.dr
 
   - The Format settings allow you to manage attributes specific to that field (*i.e. width, height, autoplay, etc.*).
 
+___
 ![alt](https://github.com/ablank/ablank.github.io/blob/master/imediaelement/formatsettings.png)
