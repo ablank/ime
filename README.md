@@ -11,15 +11,15 @@ This module is a fork of the mediaelement module for Drupal- It is functionally 
 - ~20% smaller player filesize
 
 
-![alt](https://github.com/ablank/ablank.github.io/blob/master/imediaelement/ME_dark.png")
+![alt](https://github.com/ablank/ablank.github.io/blob/master/imediaelement/ME_dark.png)
 
-![alt](https://github.com/ablank/ablank.github.io/blob/master/imediaelement/ME_light.png")
+![alt](https://github.com/ablank/ablank.github.io/blob/master/imediaelement/ME_light.png)
 
-![alt](https://github.com/ablank/ablank.github.io/blob/master/imediaelement/ME_dark_large.png")
+![alt](https://github.com/ablank/ablank.github.io/blob/master/imediaelement/ME_dark_large.png)
 
-![alt](https://github.com/ablank/ablank.github.io/blob/master/imediaelement/ME_light_large.png")
+![alt](https://github.com/ablank/ablank.github.io/blob/master/imediaelement/ME_light_large.png)
 
-![alt](https://github.com/ablank/ablank.github.io/blob/master/imediaelement/Original_ME.png")
+![alt](https://github.com/ablank/ablank.github.io/blob/master/imediaelement/Original_ME.png)
 
 ## Installation and Usage
 
