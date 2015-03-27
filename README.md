@@ -1,6 +1,6 @@
 # A better mediaelement for Drupal 7
 
-This module is functionally the same as the [mediaelement module](https://www.drupal.org/project/mediaelement) for Drupal 7 but uses an [improved mediaelement library](https://github.com/ablank/imediaelement) and provides some super-useful features not found in the drupal.org version.
+This module is functionally the same as the [mediaelement module](https://www.drupal.org/project/mediaelement) for Drupal 7 but uses an [improved mediaelement library](https://github.com/ablank/imediaelement) and provides some super-useful features not found in the drupal.org module:
 
 - Simple integration with 3rd party media providers (YouTube, Vimeo, etc.)
 
