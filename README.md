@@ -1,14 +1,14 @@
 # A better mediaelement for Drupal 7
 
-This module is a fork of the mediaelement module for Drupal- It is functionally the same, but uses an improved mediaelement library and provides a bunch of super-useful features not found in the drupal.org module.
+This module is functionally the same as the [mediaelement module](https://www.drupal.org/project/mediaelement) for Drupal 7 but uses an [improved mediaelement library](https://github.com/ablank/imediaelement) and provides some super-useful features not found in the drupal.org version.
 
-- `autoplay`, `preload`, and `loop` media attributes.
-
-- Simple integration with 3rd party media providers (YouTube, etc.)
+- Simple integration with 3rd party media providers (YouTube, Vimeo, etc.)
 
 - Player skin selection.
 
-- ~20% smaller player filesize
+- `autoplay`, `preload`, and `loop` media attributes.
+
+- ~20% smaller player filesize.
 
 ## Installation and Usage
 
