@@ -217,7 +217,6 @@ function theme_imediaelement_audio($variables) {
  * @return type
  */
 function theme_imediaelement_video($variables) {
-  dpm($variables);
   $src = $variables['attributes']['src'];
   if (!strpos($src, $GLOBALS['base_url'])) {
     $provider = "";
@@ -240,6 +239,7 @@ function theme_imediaelement_video($variables) {
  *
  * @param array $variables
  * @param string $type
+ * @param string $provider
  */
 function imediaelement_markup($variables, $type, $provider = NULL) {
   $source = "";

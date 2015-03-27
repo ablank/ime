@@ -11,23 +11,22 @@
 function imediaelement_uninstall() {
   variable_del('imediaelement_sitewide');
   variable_del('imediaelement_skin');
-  variable_del('imediaelement_i18n');
   // Audio vars.
+  variable_del('imediaelement_audio_default_width');
+  variable_del('imediaelement_audio_default_height');
   variable_del('imediaelement_audio_default_autoplay');
   variable_del('imediaelement_audio_default_loop');
   variable_del('imediaelement_audio_default_preload');
   variable_del('imediaelement_audio_default_controls');
-  variable_del('imediaelement_audio_default_width');
-  variable_del('imediaelement_audio_default_height');
   variable_del('imediaelement_audio_default_download_link');
   variable_del('imediaelement_audio_default_download_text');
   // Video vars.
+  variable_del('imediaelement_video_default_width');
+  variable_del('imediaelement_video_default_height');
   variable_del('imediaelement_video_default_autoplay');
   variable_del('imediaelement_video_default_loop');
   variable_del('imediaelement_video_default_preload');
   variable_del('imediaelement_video_default_controls');
-  variable_del('imediaelement_video_default_width');
-  variable_del('imediaelement_video_default_height');
   variable_del('imediaelement_video_default_download_link');
   variable_del('imediaelement_video_default_download_text');
 }

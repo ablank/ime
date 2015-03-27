@@ -40,4 +40,4 @@ This module is a fork of the mediaelement module for Drupal- It is functionally 
     - A known issue with mediaelement... I'll squash the bug if I can find it.
 
 - Mediaelement controls are unavailable for Vimeo content.
-    - API changed, need to update scripts.
+    - API changed, need to update scripts...

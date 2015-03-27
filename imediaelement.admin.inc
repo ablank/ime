@@ -3,9 +3,7 @@
  * @file
  * Admin only functionality for the imediaelement module.
  */
-function imediaelement_css_alter(&$vars) {
-  dpm($vars);
-}
+
 /**
  * Menu form callback; Display the MediaElement admin form.
  */
