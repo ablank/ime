@@ -124,6 +124,7 @@ function imediaelement_field_formatter_view($entity_type, $entity, $field, $inst
   $settings = $display['settings'];
   $element = array();
   $path = drupal_get_path('module', 'imediaelement');
+
   foreach ($items as $delta => $item) {
     // Support the link field type which stores it's data in 'url'.
     $src = ($field['type'] == 'link_field') ? $item['url'] : $item['uri'];
@@ -161,6 +162,14 @@ function imediaelement_field_formatter_view($entity_type, $entity, $field, $inst
         ),
       ),
     );
+    // Add vimeo controls.
+    if (strpos($src, 'vimeo.com/')) {
+      $element[$delta]['#attached']['js']['vimeo'] = array(
+        'data' => '//f.vimeocdn.com/js/froogaloop2.min.js',
+        'type' => 'external',
+        'weight' => -10
+      );
+    }
 
     if (!empty($settings['ctrl']['controls'])) {
       $element[$delta]['#attributes']['controls'] = TRUE;
@@ -171,7 +180,6 @@ function imediaelement_field_formatter_view($entity_type, $entity, $field, $inst
     if (!empty($settings['ctrl']['loop'])) {
       $element[$delta]['#attributes']['loop'] = TRUE;
     }
-
     if ($display['type'] == 'imediaelement_audio') {
       $element[$delta]['#theme'] = 'imediaelement_audio';
     }
@@ -227,7 +235,8 @@ function theme_imediaelement_video($variables) {
       $provider = 'vimeo';
     }
     else {
-      $provider = end(explode('.', $src));
+      $srcarray = explode('.', $src);
+      $provider = end($srcarray);
     }
   }
 

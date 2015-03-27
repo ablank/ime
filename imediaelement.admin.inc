@@ -44,7 +44,9 @@ function imediaelement_admin_form() {
   drupal_add_js(drupal_get_path('module', 'imediaelement') . '/imediaelement.min.js');
   drupal_add_js(array('imediaelementAll' => TRUE), array('type' => 'setting'));
   $form['test'] = array(
-    '#markup' => '<video width="360" height="203" id="player1" src="'. base_path(). '/' . $libpath . '/media/echo-hereweare.mp4"><p>Your browser leaves much to be desired.</p></video>',
+    '#markup' => '<video width="360" height="203" id="player1">'
+    . '<source type="video/youtube" src="//youtu.be/XsZDWNk_RIA">'
+    . '<p>Your browser leaves much to be desired.</p></video>',
   );
 
   return system_settings_form($form);
