@@ -42,13 +42,4 @@ This module is a fork of the mediaelement module for Drupal- It is functionally 
 
 - The Format settings allow you to manage attributes specific to that field (*i.e. width, height, autoplay, etc.*).
 
-## Known Issues
-
-- Fullscreen controls revert to default mediaelement skin
-    - Need to update theme implementation in actionscript and recompile.
-
-- Fullscreen controls disappear in Firefox.
-    - A known issue with mediaelement... I'll squash the bug if I can find it.
-
-- Mediaelement controls are unavailable for Vimeo content.
-    - API changed, need to update scripts...
+![alt](https://github.com/ablank/ablank.github.io/blob/master/imediaelement/formatsettings.png)
