@@ -1,5 +1,5 @@
 (function($) {
   $('.mediaelement').each(function(){
-    $(this).mediaelement();
+    $(this).mediaelementplayer();
   });
 })(jQuery);
