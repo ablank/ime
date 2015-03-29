@@ -1,1 +1,5 @@
-console.log('This would be the main JS file.');
+(function($) {
+  $('.mediaelement').each(function(){
+    $(this).mediaelement();
+  });
+})(jQuery);
