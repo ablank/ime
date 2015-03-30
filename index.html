@@ -86,36 +86,32 @@
           <p>Download/git the <a href="https://github.com/ablank/imediaelement">improved mediaelement library</a> and extract to
             <code>$base_url/sites/all/libraries/imediaelement</code>
           </p>
-        </li>
-      </ol>
-
-      <ul>
-        <li>
-          <p>
-            <em>Optional</em> Customize mediaelement.js for your specific needs (
-            <em>i18n or other features</em>) by editing the
-            <code>grunt/concat</code> task or editing the
-            <code>/src/</code> assets and rebuilding the script.</p>
-
           <ul>
             <li>
-              <code>cd path/to/imediaelement</code>
+              <p>
+                <em>Optional</em> Customize mediaelement.js for your specific needs (
+                <em>i18n or other features</em>) by editing the
+                <code>grunt/concat</code> task or editing the
+                <code>/src/</code> assets and rebuilding the script.</p>
+
+              <ul>
+                <li>
+                  <code>cd path/to/imediaelement</code>
+                </li>
+                <li>
+                  <code>npm install</code> : installs grunt &amp; tasks.</li>
+                <li>
+                  <code>grunt</code> : compiles all
+                  <code>/src/</code> assets to
+                  <code>/local-build/</code>.</li>
+                <li>
+                  <code>grunt build</code> : copies the
+                  <code>/local-build/</code> to
+                  <code>/build/</code>.</li>
+              </ul>
             </li>
-            <li>
-              <code>npm install</code> : installs grunt &amp; tasks.</li>
-            <li>
-              <code>grunt</code> : compiles all
-              <code>/src/</code> assets to
-              <code>/local-build/</code>.</li>
-            <li>
-              <code>grunt build</code> : copies the
-              <code>/local-build/</code> to
-              <code>/build/</code>.</li>
           </ul>
         </li>
-      </ul>
-
-      <ol>
         <li>
           <p>Download/git the mediaelement module and extract to
             <code>$base_url/sites/$site/modules/imediaelement</code>
