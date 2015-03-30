@@ -9,6 +9,7 @@
  */
 function imediaelement_admin_form() {
   $form = array();
+  $bool = array(1, 0);
   $libraries = libraries_get_libraries();
   $libpath = libraries_get_path('imediaelement', FALSE);
 
@@ -22,13 +23,13 @@ function imediaelement_admin_form() {
   $form['imediaelement_skin'] = array(
     '#title' => t('Player Skin'),
     '#type' => 'select',
-    '#options' => [
+    '#options' => array(
       $libpath . '/build/mediaelement_dark.min.css' => t('ME Dark'),
       $libpath . '/build/mediaelement_light.min.css' => t('ME Light'),
       $libpath . '/build/mediaelement_large_dark.min.css' => t('ME Large Dark'),
       $libpath . '/build/mediaelement_large_light.min.css' => t('ME Large Light'),
       $libpath . '/build/mediaelementplayer.min.css' => t('Original ME'),
-    ],
+    ),
     '#default_value' => variable_get('imediaelement_skin', $libpath . '/build/mediaelement_dark.min.css'),
   );
 
@@ -36,6 +37,66 @@ function imediaelement_admin_form() {
     '#type' => 'checkbox',
     '#title' => t('Enable MediaElement site wide'),
     '#default_value' => variable_get('imediaelement_sitewide', FALSE),
+  );
+  
+  $form['imediaelement_ctrl_alwaysShowControls'] = array(
+    '#type' => 'checkbox',
+    '#title' => t('Always Show Controls'),
+    '#default_value' => variable_get('imediaelement_ctrl_alwaysShowControls', FALSE),
+  );
+  
+  $form['imediaelement_ctrl_nativecontrols'] = array(
+    '#type' => 'checkbox',
+    '#title' => t('Force native controls on android & iOS.'),
+    '#default_value' => variable_get('imediaelement_ctrl_nativecontrols', FALSE),
+  );
+
+  $form['imediaelement_ctrl_playpause'] = array(
+    '#type' => 'checkbox',
+    '#title' => t('Play / Pause'),
+    '#options' => $bool,
+    '#default_value' => variable_get('imediaelement_ctrl_playpause', TRUE),
+  );
+
+  $form['imediaelement_ctrl_volume'] = array(
+    '#type' => 'checkbox',
+    '#title' => t('Volume'),
+    '#options' => $bool,
+    '#default_value' => variable_get('imediaelement_ctrl_volume', TRUE),
+  );
+
+  $form['imediaelement_ctrl_current'] = array(
+    '#type' => 'checkbox',
+    '#title' => t('Current Time'),
+    '#options' => $bool,
+    '#default_value' => variable_get('imediaelement_ctrl_current', TRUE),
+  );
+
+  $form['imediaelement_ctrl_duration'] = array(
+    '#type' => 'checkbox',
+    '#title' => t('Total Time'),
+    '#options' => $bool,
+    '#default_value' => variable_get('imediaelement_ctrl_duration', TRUE),
+  );
+
+  $form['imediaelement_ctrl_progress'] = array(
+    '#type' => 'checkbox',
+    '#title' => t('Progress Bar'),
+    '#options' => $bool,
+    '#default_value' => variable_get('imediaelement_ctrl_progress', TRUE),
+  );
+
+  $form['imediaelement_ctrl_fullscreen'] = array(
+    '#title' => t('Enable Fullscreen Video'),
+    '#type' => 'checkbox',
+    '#default_value' => variable_get('imediaelement_ctrl_fullscreen', TRUE),
+  );
+  
+  $form['imediaelement_ctrl_startVolume'] = array(
+    '#title' => t('Start Volume'),
+    '#type' => 'textfield',
+    '#size' => 8,
+    '#default_value' => variable_get('imediaelement_ctrl_startVolume', '0.75'),
   );
 
   // Display a sample video. We add the library here because we cannot be sure

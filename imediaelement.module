@@ -60,12 +60,42 @@ function imediaelement_init() {
     drupal_add_js(array('imediaelementAll' => TRUE), array('type' => 'setting'));
   }
 }
+/**
+ * Get default height for audio controls.
+ *
+ * @param type $skin
+ * @return string
+ */
+function imediaelement_controls($settings) {
+  $lib = libraries_get_path('imediaelement');
+  $skin = array();
+  switch ($settings) {
+    case $lib . '/build/mediaelementplayer.min.css':
+      $skin['height'] = '30';
+      break;
+
+    case $lib . '/build/mediaelement_light.min.css':
+    case $lib . '/build/mediaelement_dark.min.css':
+      $skin['height'] = '32';
+      break;
+
+    case $lib . '/build/mediaelement_large_light.min.css':
+    case $lib . '/build/mediaelement_large_dark.min.css':
+     $skin['height'] = '48';
+      break;
+  }
+
+  return $skin;
+}
 
 /**
  * Implements hook_field_formatter_info().
  */
 function imediaelement_field_formatter_info() {
   $formatters = array();
+  // /build/mediaelement_dark.min.css
+  // /build/mediaelement_large_dark.min.css
+  $skin = imediaelement_controls(variable_get('imediaelement_skin'));
 
   // Get / Set default settings for audio.
   $formatters['imediaelement_audio'] = array(
@@ -74,7 +104,7 @@ function imediaelement_field_formatter_info() {
     'settings' => array(
       'appearance' => array(
         'width' => variable_get('imediaelement_audio_default_width', '240'),
-        'height' => variable_get('imediaelement_audio_default_height', '32'),
+        'height' => variable_get('imediaelement_audio_default_height', $skin['height']),
       ),
       'ctrl' => array(
         'controls' => variable_get('imediaelement_audio_default_controls', TRUE),
@@ -83,8 +113,8 @@ function imediaelement_field_formatter_info() {
         'preload' => variable_get('imediaelement_audio_default_preload', 'none'),
       ),
       'download' => array(
-        'download_link' => variable_get('imediaelement_audio_default_download_link', FALSE),
-        'download_text' => variable_get('imediaelement_audio_default_download_text', t('Download')),
+        'download_link' => variable_get('imediaelement_download_link', FALSE),
+        'download_text' => variable_get('imediaelement_download_text', t('Download')),
       ),
     ),
   );
@@ -95,18 +125,19 @@ function imediaelement_field_formatter_info() {
     'field types' => array('file', 'link_field'),
     'settings' => array(
       'appearance' => array(
-        'width' => variable_get('imediaelement_video_default_width', '640'),
-        'height' => variable_get('imediaelement_video_default_height', '385'),
+        'width' => variable_get('imediaelement_video_default_width', '480'),
+        'height' => variable_get('imediaelement_video_default_height', '270'),
       ),
       'ctrl' => array(
         'controls' => variable_get('imediaelement_video_default_controls', TRUE),
         'autoplay' => variable_get('imediaelement_video_default_autoplay', FALSE),
         'loop' => variable_get('imediaelement_video_default_loop', FALSE),
         'preload' => variable_get('imediaelement_video_default_preload', 'none'),
+        'fullscreen' => variable_get('imediaelement_video_default_fullscreen', TRUE),
       ),
       'download' => array(
-        'download_link' => variable_get('imediaelement_video_default_download_link', FALSE),
-        'download_text' => variable_get('imediaelement_video_default_download_text', t('Download')),
+        'download_link' => variable_get('imediaelement_download_link', FALSE),
+        'download_text' => variable_get('imediaelement_download_text', t('Download')),
       ),
     ),
   );
@@ -128,18 +159,46 @@ function imediaelement_field_formatter_view($entity_type, $entity, $field, $inst
   foreach ($items as $delta => $item) {
     // Support the link field type which stores it's data in 'url'.
     $src = ($field['type'] == 'link_field') ? $item['url'] : $item['uri'];
+    $js_settings = array('opts' => array());
 
-    $js_settings = array();
-    $js_settings['opts'] = array();
-    $js_settings['controls'] = (bool) $settings['ctrl']['controls'];
+    $js_settings['opts']['controls'] = (bool) $settings['ctrl']['controls'];
+    $js_settings['opts']['loop'] = (bool) $settings['ctrl']['loop'];
+    $js_settings['opts']['startVolume'] = (float) variable_get('imediaelement_ctrl_startVolume', '0.75');
+    $js_settings['opts']['alwaysShowControls'] = (bool) variable_get('imediaelement_ctrl_alwaysShowControls', FALSE);
+    $js_settings['opts']['AndroidUseNativeControls'] = $js_settings['opts']['iPadUseNativeControls'] = $js_settings['opts']['iPhoneUseNativeControls'] = (bool) variable_get('imediaelement_ctrl_nativecontrols', FALSE);
 
-    if ($display['type'] == 'imediaelement_video') {
-      $js_settings['opts']['videoHeight'] = (int) $settings['appearance']['height'];
-      $js_settings['opts']['videoWidth'] = (int) $settings['appearance']['width'];
-    }
-    elseif ($display['type'] == 'imediaelement_audio') {
-      $js_settings['opts']['audioHeight'] = (int) $settings['appearance']['height'];
+    // Text settings for buttons & contextmenu.
+    $js_settings['opts']['muteText'] = (string) t('Mute Toggle');
+    $js_settings['opts']['allyVolumeControlText'] = (string) t('Use Up/Down Arrow keys to increase or decrease volume.');
+    $js_settings['opts']['skipBackText'] = (string) t('Skip back %1 seconds');
+    $js_settings['opts']['tracksText'] = (string) t('Captions/Subtitles');
+    $js_settings['opts']['fullscreenText'] = (string) t('Fullscreen');
+    $js_settings['opts']['postrollCloseText'] = (string) t('Close');
+    $js_settings['opts']['playText'] = (string) t('Play');
+    $js_settings['opts']['pauseText'] = (string) t('Pause');
+
+    if ($display['type'] == 'imediaelement_audio') {
       $js_settings['opts']['audioWidth'] = (int) $settings['appearance']['width'];
+      $js_settings['opts']['audioHeight'] = (int) $settings['appearance']['height'];
+      $js_settings['opts']['features'] = array(
+        variable_get('imediaelement_ctrl_playpause') == TRUE ? 'playpause' : NULL,
+        variable_get('imediaelement_ctrl_current') == TRUE ? 'current' : NULL,
+        variable_get('imediaelement_ctrl_progress') == TRUE ? 'progress' : NULL,
+        variable_get('imediaelement_ctrl_duration') == TRUE ? 'duration' : NULL,
+        variable_get('imediaelement_ctrl_volume') == TRUE ? 'volume' : NULL,
+      );
+    }
+    if ($display['type'] == 'imediaelement_video') {
+      $js_settings['opts']['videoWidth'] = (int) $settings['appearance']['width'];
+      $js_settings['opts']['videoHeight'] = (int) $settings['appearance']['height'];
+      $js_settings['opts']['features'] = array(
+        variable_get('imediaelement_ctrl_playpause') == TRUE ? 'playpause' : NULL,
+        variable_get('imediaelement_ctrl_volume') == TRUE ? 'volume' : NULL,
+        variable_get('imediaelement_ctrl_current') == TRUE ? 'current' : NULL,
+        variable_get('imediaelement_ctrl_progress') == TRUE ? 'progress' : NULL,
+        variable_get('imediaelement_ctrl_duration') == TRUE ? 'duration' : NULL,
+        variable_get('imediaelement_ctrl_fullscreen') == TRUE ? 'fullscreen' : NULL,
+      );
     }
 
     $class = 'mediaelement-formatter-identifier-' . time() . '-' . $id++;
@@ -180,6 +239,7 @@ function imediaelement_field_formatter_view($entity_type, $entity, $field, $inst
     if (!empty($settings['ctrl']['loop'])) {
       $element[$delta]['#attributes']['loop'] = TRUE;
     }
+
     if ($display['type'] == 'imediaelement_audio') {
       $element[$delta]['#theme'] = 'imediaelement_audio';
     }
@@ -306,8 +366,9 @@ function imediaelement_field_formatter_settings_form($field, $instance, $view_mo
     '#collapsible' => TRUE,
     '#collapsed' => TRUE,
   );
+
   $element['ctrl']['controls'] = array(
-    '#title' => t('Controls'),
+    '#title' => t('Show Controls'),
     '#type' => 'checkbox',
     '#default_value' => $settings['ctrl']['controls'],
   );
@@ -364,8 +425,12 @@ function imediaelement_field_formatter_settings_form($field, $instance, $view_mo
  * Implements hook_field_formatter_settings_summary().
  */
 function imediaelement_field_formatter_settings_summary($field, $instance, $view_mode) {
+
   $display = $instance['display'][$view_mode];
   $settings = $display['settings'];
+
+  imediaelement_controls(variable_get('imediaelement_skin'));
+
   return t('Width: @width px, Height: @height px', array(
     '@width' => $settings['appearance']['width'],
     '@height' => $settings['appearance']['height'],
