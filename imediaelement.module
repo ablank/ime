@@ -60,8 +60,9 @@ function imediaelement_init() {
     drupal_add_js(array('imediaelementAll' => TRUE), array('type' => 'setting'));
   }
 }
+
 /**
- * Get default height for audio controls.
+ * Get default attributes for currently selected skin.
  *
  * @param type $skin
  * @return string
@@ -71,17 +72,20 @@ function imediaelement_controls($settings) {
   $skin = array();
   switch ($settings) {
     case $lib . '/build/mediaelementplayer.min.css':
+      $skin['width'] = '240';
       $skin['height'] = '30';
       break;
 
     case $lib . '/build/mediaelement_light.min.css':
     case $lib . '/build/mediaelement_dark.min.css':
+      $skin['width'] = '240';
       $skin['height'] = '32';
       break;
 
     case $lib . '/build/mediaelement_large_light.min.css':
     case $lib . '/build/mediaelement_large_dark.min.css':
-     $skin['height'] = '48';
+      $skin['width'] = '300';
+      $skin['height'] = '48';
       break;
   }
 
@@ -103,7 +107,7 @@ function imediaelement_field_formatter_info() {
     'field types' => array('file', 'link_field'),
     'settings' => array(
       'appearance' => array(
-        'width' => variable_get('imediaelement_audio_default_width', '240'),
+        'width' => variable_get('imediaelement_audio_default_width', $skin['width']),
         'height' => variable_get('imediaelement_audio_default_height', $skin['height']),
       ),
       'ctrl' => array(

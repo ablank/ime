@@ -17,6 +17,7 @@
               'duration',
               'fullscreen'
             ],
+            setDimensions: true,
             // Hide controls when playing and mouse is not over the video
             alwaysShowControls: false,
             // width of audio player
@@ -57,19 +58,15 @@
           $(selector, context).once('mediaelement', function () {
             //console.log(opts);
 
-            if (opts.controls == false) {
-              opts.features = [];
-              /*
-              $(this).parents().find('.mejs-controls').css({
-                'display': 'none',
-                'visibility': 'hidden',
-                'left': '-999999em'
-              });
-              */
-              // console.log($(this).parent().siblings());
+            if (opts.controls) {
+              $(this).mediaelementplayer(opts);
             }
-            
-            $(this).mediaelementplayer(opts);
+            else {
+              var mediaelement = new MediaElement($(this).get(0), {
+                startVolume: opts.startVolume
+              });
+              mediaelement.play();
+            }
           });
         });
       }
