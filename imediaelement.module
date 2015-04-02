@@ -160,7 +160,7 @@ function imediaelement_field_formatter_info() {
  *
  * @staticvar int $id
  * @param string $entity_type
- * @param array $entity
+ * @param object $entity
  * @param array $field
  * @param array $instance
  * @param string $langcode
@@ -169,7 +169,7 @@ function imediaelement_field_formatter_info() {
  *
  * @return array
  */
-function imediaelement_field_formatter_view($entity_type, array $entity, array $field, array $instance, $langcode, array $items, array $display) {
+function imediaelement_field_formatter_view($entity_type, $entity, array $field, array $instance, $langcode, array $items, array $display) {
   // A unique caller per page for the JS specific settings to use. This may be
   // different for ever page view and should not be used for styling.
   static $id = 0;
