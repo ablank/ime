@@ -38,13 +38,13 @@ function imediaelement_admin_form() {
     '#title' => t('Enable MediaElement site wide'),
     '#default_value' => variable_get('imediaelement_sitewide', FALSE),
   );
-  
+
   $form['imediaelement_ctrl_alwaysShowControls'] = array(
     '#type' => 'checkbox',
     '#title' => t('Always Show Controls'),
     '#default_value' => variable_get('imediaelement_ctrl_alwaysShowControls', FALSE),
   );
-  
+
   $form['imediaelement_ctrl_nativecontrols'] = array(
     '#type' => 'checkbox',
     '#title' => t('Force native controls on android & iOS.'),
@@ -91,7 +91,7 @@ function imediaelement_admin_form() {
     '#type' => 'checkbox',
     '#default_value' => variable_get('imediaelement_ctrl_fullscreen', TRUE),
   );
-  
+
   $form['imediaelement_ctrl_startVolume'] = array(
     '#title' => t('Start Volume'),
     '#type' => 'textfield',
@@ -116,4 +116,4 @@ function imediaelement_admin_form() {
 
   return system_settings_form($form);
 }
-// 	enableAutosize	clickToPlayPause: hideVideoControlsOnLoad	pauseOtherPlayers
+// enableAutosize	clickToPlayPause: hideVideoControlsOnLoad	pauseOtherPlayers.

@@ -1,14 +1,15 @@
+/**
+ * @file
+ * Javascript integration between Drupal & Mediaelement.js.
+ */
+
 (function ($, Drupal, undefined) {
-  /**
-   * When set to enable mediaelement for all audio/video files add it to the page.
-   */
   Drupal.behaviors.imediaelement = {
     attach: function (context, settings) {
       if (settings.imediaelement !== undefined) {
-        // @todo Remove anonymous function.
         $.each(settings.imediaelement, function (selector, options) {
           var opts = $.extend({
-            // the order of controls you want on the control bar (and other plugins below)
+            // The order of controls (+ other plugins) on the control bar.
             features: [
               'playpause',
               'volume',
@@ -18,46 +19,45 @@
               'fullscreen'
             ],
             setDimensions: true,
-            // Hide controls when playing and mouse is not over the video
+            // Hide controls when playing and mouse is not over the video.
             alwaysShowControls: false,
-            // width of audio player
+            // Width of audio player.
             audioWidth: 240,
-            // height of audio player
+            // Height of audio player.
             audioHeight: 32,
-            // if the <video width> is not specified, this is the default
+            // If the <video width> is not specified, this is the default.
             defaultVideoWidth: 480,
-            // if the <video height> is not specified, this is the default
+            // If the <video height> is not specified, this is the default.
             defaultVideoHeight: 270,
-            // initial volume when the player starts
+            // Initial volume when the player starts.
             startVolume: 0.8,
-            // useful for <audio> player loops
+            // Useful for <audio> player loops.
             loop: false,
-            // when this player starts, it will pause other players
+            // When this player starts, it will pause other players.
             pauseOtherPlayers: true,
-            // enables Flash and Silverlight to resize to content size
+            // Enables Flash and Silverlight to resize to content size.
             enableAutosize: true,
-            // forces the hour marker (##:00:00)
+            // Forces the hour marker (##:00:00).
             // alwaysShowHours: false,
-            // show framecount in timecode (##:00:00:00)
+            // Show framecount in timecode (##:00:00:00).
             // showTimecodeFrameCount: false,
-            // used when showTimecodeFrameCount is set to true
+            // Used when showTimecodeFrameCount is set to true.
             // framesPerSecond: 25,
-            // turns keyboard support on and off for this instance
+            // Turns keyboard support on and off for this instance.
             enableKeyboard: true,
-            // array of keyboard commands
+            // Array of keyboard commands.
             // keyActions: [],
-            // force Android's native controls
+            // Force Android's native controls.
             AndroidUseNativeControls: false,
-            // force iPad's native controls
+            // Force iPad's native controls.
             iPadUseNativeControls: false,
-            // force iPhone's native controls
+            // Force iPhone's native controls.
             iPhoneUseNativeControls: false
 
           }, options.opts);
 
           $(selector, context).once('mediaelement', function () {
-            //console.log(opts);
-
+            // console.log(opts);
             if (opts.controls) {
               $(this).mediaelementplayer(opts);
             }

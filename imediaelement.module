@@ -6,6 +6,8 @@
 
 /**
  * Implements hook_menu().
+ *
+ * @return array
  */
 function imediaelement_menu() {
   return array(
@@ -22,6 +24,8 @@ function imediaelement_menu() {
 
 /**
  * Implements hook_library().
+ *
+ * @return array
  */
 function imediaelement_library() {
   $libpath = libraries_get_path('imediaelement');
@@ -64,13 +68,14 @@ function imediaelement_init() {
 /**
  * Get default attributes for currently selected skin.
  *
- * @param type $skin
- * @return string
+ * @param string $setting
+ * 
+ * @return array
  */
-function imediaelement_controls($settings) {
+function imediaelement_controls($setting) {
   $lib = libraries_get_path('imediaelement');
   $skin = array();
-  switch ($settings) {
+  switch ($setting) {
     case $lib . '/build/mediaelementplayer.min.css':
       $skin['width'] = '240';
       $skin['height'] = '30';
@@ -94,11 +99,11 @@ function imediaelement_controls($settings) {
 
 /**
  * Implements hook_field_formatter_info().
+ *
+ * @return array
  */
 function imediaelement_field_formatter_info() {
   $formatters = array();
-  // /build/mediaelement_dark.min.css
-  // /build/mediaelement_large_dark.min.css
   $skin = imediaelement_controls(variable_get('imediaelement_skin'));
 
   // Get / Set default settings for audio.
@@ -107,6 +112,7 @@ function imediaelement_field_formatter_info() {
     'field types' => array('file', 'link_field'),
     'settings' => array(
       'appearance' => array(
+        // Set correct default size based on the selected skin unless overridden.
         'width' => variable_get('imediaelement_audio_default_width', $skin['width']),
         'height' => variable_get('imediaelement_audio_default_height', $skin['height']),
       ),
@@ -151,8 +157,19 @@ function imediaelement_field_formatter_info() {
 
 /**
  * Implements hook_field_formatter_view().
+ *
+ * @staticvar int $id
+ * @param string $entity_type
+ * @param array $entity
+ * @param array $field
+ * @param array $instance
+ * @param string $langcode
+ * @param array $items
+ * @param array $display
+ *
+ * @return array
  */
-function imediaelement_field_formatter_view($entity_type, $entity, $field, $instance, $langcode, $items, $display) {
+function imediaelement_field_formatter_view($entity_type, array $entity, array $field, array $instance, $langcode, array $items, array $display) {
   // A unique caller per page for the JS specific settings to use. This may be
   // different for ever page view and should not be used for styling.
   static $id = 0;
@@ -274,10 +291,12 @@ function imediaelement_theme() {
 /**
  * Markup for Video
  *
- * @param type $variables
- * @return type
+ * @param array $variables
+ *
+ * @return string
+ *   Formatted html.
  */
-function theme_imediaelement_audio($variables) {
+function theme_imediaelement_audio(array $variables) {
 
   return imediaelement_markup($variables, 'audio');
 }
@@ -285,10 +304,12 @@ function theme_imediaelement_audio($variables) {
 /**
  * Markup for Video
  *
- * @param type $variables
- * @return type
+ * @param array $variables
+ *
+ * @return string
+ *   Formatted html.
  */
-function theme_imediaelement_video($variables) {
+function theme_imediaelement_video(array $variables) {
   $src = $variables['attributes']['src'];
   if (!strpos($src, $GLOBALS['base_url'])) {
     $provider = "";
@@ -313,8 +334,10 @@ function theme_imediaelement_video($variables) {
  * @param array $variables
  * @param string $type
  * @param string $provider
+ *
+ * @return string
  */
-function imediaelement_markup($variables, $type, $provider = NULL) {
+function imediaelement_markup(array $variables, $type, $provider = NULL) {
   $source = "";
   if ($provider) {
     $source = '<source type="' . "$type/$provider" . '" src="' . $variables['attributes']['src'] . '" />';
@@ -335,8 +358,16 @@ function imediaelement_markup($variables, $type, $provider = NULL) {
 
 /**
  * Implements hook_field_formatter_settings_form().
+ * 
+ * @param array $field
+ * @param array $instance
+ * @param string $view_mode
+ * @param array $form
+ * @param array $form_state
+ * 
+ * @return array
  */
-function imediaelement_field_formatter_settings_form($field, $instance, $view_mode, $form, &$form_state) {
+function imediaelement_field_formatter_settings_form(array $field, array $instance, $view_mode, array $form, array &$form_state) {
   $display = $instance['display'][$view_mode];
   $settings = $display['settings'];
   $element = array();
@@ -427,8 +458,15 @@ function imediaelement_field_formatter_settings_form($field, $instance, $view_mo
 
 /**
  * Implements hook_field_formatter_settings_summary().
+ *
+ * @param array $field
+ * @param array $instance
+ * @param string $view_mode
+ *
+ * @return string
+ *   Translated summary.
  */
-function imediaelement_field_formatter_settings_summary($field, $instance, $view_mode) {
+function imediaelement_field_formatter_settings_summary(array $field, array $instance, $view_mode) {
 
   $display = $instance['display'][$view_mode];
   $settings = $display['settings'];
