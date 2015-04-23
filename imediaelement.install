@@ -5,6 +5,18 @@
  */
 
 /**
+ * Implements hook_enable().
+ */
+function imediaelement_enable() {
+  $lib = libraries_get_path('imediaelement');
+  if (empty($lib)) {
+    drupal_set_message('<h3>' .
+    t('The <a href="@imediaelement">iMediaElement library</a> is required to use this module.', array('@imediaelement' => 'https://github.com/ablank/imediaelement'))
+    . '</h3>', 'warning');
+  }
+}
+
+/**
  * Implements hook_uninstall().
  */
 function imediaelement_uninstall() {

@@ -1,10 +1,13 @@
-name = "Improved MediaElement"
-description = "Improved MediaElement integration for playing audio & video."
+name = Improved MediaElement
+description = Improved MediaElement integration for playing audio & video.
 core = 7.x
+
 dependencies[] = libraries
 dependencies[] = link
 dependencies[] = file
+
 files[] = imediaelement.admin.inc
 files[] = imediaelement.install
 files[] = imediaelement.module
+
 configure = admin/config/media/imediaelement
