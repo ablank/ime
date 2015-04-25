@@ -30,7 +30,7 @@
             // If the <video height> is not specified, this is the default.
             defaultVideoHeight: 270,
             // Initial volume when the player starts.
-            startVolume: 0.8,
+            startVolume: 0.75,
             // Useful for <audio> player loops.
             loop: false,
             // When this player starts, it will pause other players.

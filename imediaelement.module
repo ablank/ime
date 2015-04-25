@@ -480,11 +480,11 @@ function imediaelement_field_formatter_settings_summary($field, $instance, $view
  */
 function imediaelement_help($path, $arg) {
   if ($path === 'admin/help#imediaelement') {
-  // Display a sample video. We add the library here because we cannot be sure
-  // it is otherwise included in the page.
-  drupal_add_library('imediaelement', 'imediaelement');
-  drupal_add_js(drupal_get_path('module', 'imediaelement') . '/imediaelement.min.js');
-  drupal_add_js(array('imediaelementAll' => TRUE), array('type' => 'setting'));
+    // Display a sample video. We add the library here because we cannot be sure
+    // it is otherwise included in the page.
+    drupal_add_library('imediaelement', 'imediaelement');
+    drupal_add_js(drupal_get_path('module', 'imediaelement') . '/imediaelement.min.js');
+    drupal_add_js(array('imediaelementAll' => TRUE), array('type' => 'setting'));
 
     $output = '<table><tr>'
     . '<thead><th colspan=2>Demo</th></thead>'
@@ -493,12 +493,12 @@ function imediaelement_help($path, $arg) {
     . '<source type="video/youtube" src="//youtu.be/XsZDWNk_RIA">'
     . '<p>Your browser leaves much to be desired.</p></video></td>'
     . '</tr></table>';
-  
+
     $output .= '<p>' . t('The iMediaElement module provides support for playing nearly any audio &amp; video content from both the local filesystem and 3rd party providers like Youtube.') . '</p>';
     $output .= '<h2>' . t('Configuration') . '</h2>';
     $output .= '<ol>';
     $output .= '<li>' . t('Download/git the <a href="@imediaelement">improved mediaelement library</a> and extract to $base_url/sites/$site/libraries/imediaelement', array('@imediaelement' => 'https://github.com/ablank/imediaelement')) . '</li>';
-    $output .= '<li>' . t('<a href="!globalsettings">Configure the global settings</a> - Select the player skin, controls, and other options that make you happy.', array('!globalsettings' => 'admin/config/media/imediaelement')) . '</li>';
+    $output .= '<li>' . t('<a href="@globalsettings">Configure the global settings</a> - Select the player skin, controls, and other options that make you happy.', array('@globalsettings' => $GLOBALS['base_url'] . '/admin/config/media/imediaelement')) . '</li>';
     $output .= '<li>' . t('Add fields to your content type.');
     $output .= '<ul>';
     $output .= '<li>' . t('Navigate to <code>admin/structure/types/manage/$yourContentType/fields</code>.') . '</li>';
@@ -527,18 +527,18 @@ function imediaelement_help($path, $arg) {
     $output .= '<li>' . t('Click <strong>Share</strong> and copy the url.');
     $output .= '<li>' . t('Paste the url into the link field and <strong>Save</strong> the node.');
     $output .= '<ul>';
-    $output .= '<li>Vimeo: <code>https://youtu.be/xTA_FexW3qU</code></li>';
-    $output .= '<li>Youtube: <code>https://vimeo.com/channels/staffpicks/124740781</code></li>';
+    $output .= '<li>Vimeo link example: <code>https://vimeo.com/channels/staffpicks/124740781</code></li>';
+    $output .= '<li>Youtube link example: <code>https://youtu.be/xTA_FexW3qU</code></li>';
     $output .= '<img alt="Share from Youtube" src="' . file_create_url(drupal_get_path('module', 'imediaelement') . '/help/youtube.jpg') . '" width=440 height=380 />';
     $output .= '<img alt="Share from Vimeo" src="' . file_create_url(drupal_get_path('module', 'imediaelement') . '/help/vimeo.jpg') . '" width=440 height=380 />';
     $output .= '</ul></li>';
     $output .= '</ul></li>';
     $output .= '</ul></li>';
     $output .= '</ul></li>';
-    $output .= '<li>' . t('Enjoy!') . '</li>';
+    $output .= '<li><h3>' . t('Enjoy!') . '</h3></li>';
     // $output .= '<li>' . t() . '</li>';
     $output .= '</ol>';
-    
+
     return $output;
   }
 }
