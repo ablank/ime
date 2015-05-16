@@ -1,6 +1,7 @@
 name = iMediaElement
 description = Improved MediaElement integration for playing audio & video.
 core = 7.x
+package = Media
 
 dependencies[] = libraries
 dependencies[] = link
