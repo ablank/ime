@@ -35,6 +35,8 @@ This module is based on the [mediaelement module](https://www.drupal.org/project
   - `File` : *media hosted on your server*.
 
   - `Link` : *media hosted on another domain, i.e. YouTube, Vimeo, etc.*
+  
+  - `Image` : *optional image field to be used as a poster image for MediaElement videos*.
 
 ___
  ![alt](https://github.com/ablank/ablank.github.io/blob/master/imediaelement/fields.png)
@@ -43,6 +45,8 @@ ___
 **Manage Display:** Set the Format to `MediaElement Audio` or `MediaElement Video`
 
   - The Format settings allow you to manage attributes specific to that field (*i.e. width, height, autoplay, etc.*).
+  
+  - To use an image field as a poster image, select the image field to be used and the desired image style in the MediaElement Video format settings.
 
 ___
 
