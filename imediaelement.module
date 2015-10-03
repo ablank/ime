@@ -81,7 +81,7 @@ function imediaelement_file_mimetype_mapping_alter(&$mapping) {
  * Get default attributes for currently selected skin.
  *
  * @param string $setting
- * 
+ *
  * @return array
  */
 function imediaelement_controls($setting) {
@@ -126,6 +126,8 @@ function imediaelement_field_formatter_info() {
         // Set correct default size based on the selected skin unless overridden.
         'width' => variable_get('imediaelement_audio_default_width', $skin['width']),
         'height' => variable_get('imediaelement_audio_default_height', $skin['height']),
+        'poster_img' => variable_get('imediaelement_audio_default_poster_img', NULL),
+        'poster_img_style' => variable_get('imediaelement_audio_default_poster_img_style', NULL),
       ),
       'ctrl' => array(
         'controls' => variable_get('imediaelement_audio_default_controls', TRUE),
@@ -148,6 +150,8 @@ function imediaelement_field_formatter_info() {
       'appearance' => array(
         'width' => variable_get('imediaelement_video_default_width', '480'),
         'height' => variable_get('imediaelement_video_default_height', '270'),
+        'poster_img' => variable_get('imediaelement_video_default_poster_img', NULL),
+        'poster_img_style' => variable_get('imediaelement_video_default_poster_img_style', NULL),
       ),
       'ctrl' => array(
         'controls' => variable_get('imediaelement_video_default_controls', TRUE),
@@ -159,6 +163,10 @@ function imediaelement_field_formatter_info() {
       'download' => array(
         'download_link' => variable_get('imediaelement_download_link', FALSE),
         'download_text' => variable_get('imediaelement_download_text', t('Download')),
+      ),
+      'poster' => array(
+        'poster_image' => variable_get('imediaelement_poster_field', FALSE),
+        'poster_style' => variable_get('imediaelement_poster_style', FALSE),
       ),
     ),
   );
@@ -223,10 +231,11 @@ function imediaelement_field_formatter_view($entity_type, $entity, $field, $inst
       );
 
       // Mabye just map settings ?:
-// array_map('variable_get', array_keys($settings), array_values($settings));
+      // array_map('variable_get', array_keys($settings), array_values($settings));
     }
 
     $class = 'mediaelement-formatter-identifier-' . time() . '-' . $id++;
+
     $element[$delta] = array(
       '#attributes' => array(
         'src' => file_create_url($src),
@@ -272,6 +281,28 @@ function imediaelement_field_formatter_view($entity_type, $entity, $field, $inst
       $element[$delta]['#theme'] = 'imediaelement_video';
       $element[$delta]['#attributes']['height'] = $settings['appearance']['height'];
       $element[$delta]['#attributes']['width'] = $settings['appearance']['width'];
+
+      //$element[$delta]['#attributes']['poster'] = !empty($settings['poster']['poster_style']) ? $settings['poster']['poster_style'] : FALSE;
+    }
+
+    // Add the poster image.
+    if (($poster_field = $settings['appearance']['poster']['poster_field']) && !empty($entity->{$poster_field})) {
+      //if (!empty($entity->{$poster_field})) {
+      $image = field_get_items($entity_type, $entity, $poster_field);
+
+      if (isset($image[0]['filemime']) && strpos($image[0]['filemime'], 'image/') !== FALSE) {
+        if ($poster_style = $settings['appearance']['poster']['poster_style']) {
+          $element[$delta]['#attributes']['poster'] = image_style_url($poster_style, $image[0]['uri']);
+        }
+        else {
+          $element[$delta]['#attributes']['poster'] = file_create_url($image[0]['uri']);
+        }
+        /*
+          $element[$delta]['#attached']['js'][0]['data'][] = array(
+          'poster' => (string) $element[$delta]['#attributes']['poster']
+          );
+         */
+      }
     }
   }
 
@@ -343,11 +374,13 @@ function theme_imediaelement_video($variables) {
  */
 function imediaelement_markup($variables, $type, $provider = NULL) {
   $source = "";
+
   if ($provider) {
     $source = '<source type="' . "$type/$provider" . '" src="' . $variables['attributes']['src'] . '" />';
     unset($variables['attributes']['src']);
   }
 
+  $variables['attributes'][] = array('data-poster' => '');
   $output = '<div class="mediaelement"';
   // Set the container width so we can center media.
   $output .= ' style="width: ' . $variables['settings']['appearance']['width'] . 'px; ">';
@@ -366,6 +399,11 @@ function imediaelement_markup($variables, $type, $provider = NULL) {
 function imediaelement_field_formatter_settings_form($field, $instance, $view_mode, $form, &$form_state) {
   $display = $instance['display'][$view_mode];
   $settings = $display['settings'];
+
+  if (module_exists('image') && isset($instance['entity_type']) && isset($instance['bundle'])) {
+    $imagefields = _imediaelement_find_image_fields($field, $instance['entity_type'], $instance['bundle']);
+  }
+
   $element = array();
 
   $element['appearance'] = array(
@@ -389,6 +427,37 @@ function imediaelement_field_formatter_settings_form($field, $instance, $view_mo
     '#size' => 8,
     '#default_value' => $settings['appearance']['height'],
   );
+
+  if (!empty($imagefields)) {
+    $image_styles = image_style_options(FALSE);
+
+    $element['appearance']['poster'] = array(
+      '#title' => t('Poster Image'),
+      '#type' => 'fieldset',
+      '#weight' => 3,
+      '#collapsible' => TRUE,
+      '#collapsed' => TRUE,
+    );
+
+    $element['appearance']['poster']['poster_field'] = array(
+      '#type' => 'select',
+      '#title' => t('Poster Image Field'),
+      '#default_value' => $settings['appearance']['poster']['poster_field'],
+      '#options' => $imagefields,
+      '#description' => t('If an image is uploaded to the field above it will be used as the poster image.'),
+      '#empty_value' => NULL,
+      '#empty_option' => t('- None -'),
+    );
+
+    $element['appearance']['poster']['poster_style'] = array(
+      '#title' => t('Poster Image Style'),
+      '#type' => 'select',
+      '#default_value' => $settings['appearance']['poster']['poster_style'],
+      '#empty_option' => t('None (original image)'),
+      '#description' => t('The original video thumbnail will be displayed. Otherwise, you can add a custom image style at !settings.', array('!settings' => l(t('media image styles'), 'admin/config/media/image-styles'))),
+      '#options' => $image_styles,
+    );
+  }
 
   $element['ctrl'] = array(
     '#title' => t('Playback Control'),
@@ -541,4 +610,75 @@ function imediaelement_help($path, $arg) {
 
     return $output;
   }
+}
+
+/**
+ * Finds image fields in the given entity and bundle.
+ *
+ * @param array $field
+ *   Field definition of the video field, used to match image fields when
+ *   this field is rendered using Views.
+ * @param string $entity_type
+ *   Entity type in which the image field must occur.
+ * @param string $bundle
+ *   Bundle in which the image field must occur.
+ *
+ * @return array
+ *   Array of image field names.
+ */
+function _imediaelement_find_image_fields($field, $entity_type, $bundle) {
+  $imagefields = array();
+
+  // Determine the image fields that will be selectable.
+  if ($entity_type === 'ctools' && $bundle === 'ctools') {
+    // This is a fake instance (see ctools_fields_fake_field_instance()).
+    // This occurs for instance when this formatter is used in Views.
+    // Display all image fields in bundles that contain this field.
+    $otherfields = field_info_fields();
+
+    foreach ($otherfields as $otherfield) {
+      if ($otherfield['type'] === 'image' && !empty($otherfield['bundles'])) {
+        // Find a label by finding an instance label.
+        $instancelabels = array();
+        $bundles_names = array();
+
+        foreach ($otherfield['bundles'] as $otherentitytype => $otherbundles) {
+          foreach ($otherbundles as $otherbundle) {
+            // Check if this image field appears in one of the video field
+            // bundles.
+            if (isset($field['bundles'][$otherentitytype]) && in_array($otherbundle, $field['bundles'][$otherentitytype])) {
+              $otherinstance = field_info_instance($otherentitytype, $otherfield['field_name'], $otherbundle);
+              $instancelabels[$otherinstance['label']] = isset($instancelabels[$otherinstance['label']]) ?
+              $instancelabels[$otherinstance['label']] + 1 : 1;
+              $bundles_names[] = t('@entity:@bundle', array(
+                '@entity' => $otherentitytype,
+                '@bundle' => $otherbundle,
+              ));
+            }
+          }
+        }
+
+        if (!empty($instancelabels)) {
+          arsort($instancelabels);
+          $instancelabel = key($instancelabels);
+          $imagefields[$otherfield['field_name']] = $instancelabel . ' — ' . t('Appears in: @bundles.', array(
+            '@bundles' => implode(', ', $bundles_names),
+          ));
+        }
+      }
+    }
+  }
+  else {
+    $otherinstances = field_info_instances($entity_type, $bundle);
+
+    foreach ($otherinstances as $otherinstance) {
+      $otherfield = field_info_field_by_id($otherinstance['field_id']);
+
+      if ($otherfield['type'] == 'image') {
+        $imagefields[$otherinstance['field_name']] = $otherinstance['label'];
+      }
+    }
+  }
+
+  return $imagefields;
 }

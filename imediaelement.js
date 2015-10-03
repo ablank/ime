@@ -18,6 +18,9 @@
               'duration',
               'fullscreen'
             ],
+            // Source URL of poster image.
+            poster: '',
+            // Fixed player dimension.
             setDimensions: true,
             // Hide controls when playing and mouse is not over the video.
             alwaysShowControls: false,
