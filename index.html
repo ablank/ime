@@ -1,251 +1,250 @@
 ﻿<!DOCTYPE html>
 <html>
 
-<head>
-  <meta charset='utf-8'>
-  <meta http-equiv="X-UA-Compatible" content="chrome=1">
-  <meta name="description" content="iMediaElement.module : An improved mediaelement module for Drupal 7">
+  <head>
+    <meta charset='utf-8'>
+    <meta http-equiv="X-UA-Compatible" content="chrome=1">
+    <meta name="description" content="iMediaElement.module : An improved mediaelement module for Drupal 7">
 
-  <link rel="stylesheet" type="text/css" media="screen" href="stylesheets/stylesheet.css">
-  <link rel="stylesheet" type="text/css" media="screen" href="https://raw.githubusercontent.com/ablank/imediaelement/improved/build/mediaelement_light.min.css">
+    <link rel="stylesheet" type="text/css" media="screen" href="stylesheets/stylesheet.css">
+    <link rel="stylesheet" type="text/css" media="screen" href="https://raw.githubusercontent.com/ablank/imediaelement/improved/build/mediaelement_light.min.css">
 
-  <title>iMediaElement.module</title>
-</head>
+    <title>iMediaElement.module</title>
+  </head>
 
-<body>
+  <body>
 
-  <!-- HEADER -->
-  <div id="header_wrap" class="outer">
-    <header class="inner">
-      <a id="forkme_banner" href="https://github.com/ablank/imediaelement.module">View on GitHub</a>
+    <!-- HEADER -->
+    <div id="header_wrap" class="outer">
+      <header class="inner">
+        <a id="forkme_banner" href="https://github.com/ablank/imediaelement.module">View on GitHub</a>
 
-      <h1 id="project_title">iMediaElement.module</h1>
-      <h2 id="project_tagline">A better mediaelement for Drupal 7</h2>
+        <h1 id="project_title">iMediaElement.module</h1>
+        <h2 id="project_tagline">A better mediaelement for Drupal 7</h2>
 
-      <section id="downloads">
-        <a class="zip_download_link" href="https://github.com/ablank/imediaelement.module/zipball/master">Download this project as a .zip file</a>
-        <a class="tar_download_link" href="https://github.com/ablank/imediaelement.module/tarball/master">Download this project as a tar.gz file</a>
+        <section id="downloads">
+          <a class="zip_download_link" href="https://github.com/ablank/imediaelement.module/zipball/master">Download this project as a .zip file</a>
+          <a class="tar_download_link" href="https://github.com/ablank/imediaelement.module/tarball/master">Download this project as a tar.gz file</a>
+        </section>
+      </header>
+    </div>
+
+    <!-- MAIN CONTENT -->
+    <div id="main_content_wrap" class="outer">
+      <section id="main_content" class="inner">
+
+        <a id="a-better-mediaelement-for-drupal-7" class="anchor" href="#a-better-mediaelement-for-drupal-7" aria-hidden="true">
+          <span class="octicon octicon-link"></span>
+        </a>
+
+        <div class="mediaelement" style="width: 480px;">
+          <video class="mediaelement-formatter-identifier-1430978499-0" preload="none" controls="1" height="270" width="480">
+            <source type="video/youtube" src="https://youtu.be/Jy1O9PqvMD8" />
+          </video>
+        </div>
+
+        <p>The iMediaElement module is based on the
+          <a href="https://www.drupal.org/project/mediaelement">MediaElement module</a> for Drupal 7 but uses an <a href="https://github.com/ablank/imediaelement">
+            improved
+            mediaelement library
+          </a> and provides some super-useful features not found in the drupal.org version:
+        </p>
+
+        <ul>
+          <li>
+            <p>Simple integration with 3rd party media providers (YouTube, Vimeo, etc.)</p>
+          </li>
+          <li>
+            <p>Player skin selection.</p>
+          </li>
+          <li>
+            <p>
+              <code>autoplay</code>,
+              <code>preload</code>, and
+              <code>loop</code> media attributes.
+            </p>
+          </li>
+
+          <li>
+            <p>Support for many mediaelement.js settings through the admin UI.</p>
+          </li>
+
+          <li>
+            <p>I18n integration with Drupal.</p>
+          </li>
+          <li>
+            <p>~20% smaller player filesize.</p>
+          </li>
+        </ul>
+
+
+
+        <h2>
+          <a id="installation-and-usage" class="anchor" href="#installation-and-usage" aria-hidden="true">
+            <span class="octicon octicon-link"></span>
+          </a>Installation and Usage
+        </h2>
+
+        <ol>
+          <li>
+            <p>
+              Download/git the <a href="https://github.com/ablank/imediaelement">improved mediaelement library</a> and extract
+              to
+              <code>$base_url/sites/all/libraries/imediaelement</code>
+            </p>
+            <ul>
+              <li>
+                <p>
+                  <em>Optional</em> Customize mediaelement.js for your specific needs (
+                  <em>ads, playlist, sourcechooser, or other features</em>) by editing the
+                  <code>grunt/concat</code> task or editing the
+                  <code>/src/</code> assets and rebuilding the script.
+                </p>
+
+                <ul>
+                  <li>
+                    <code>cd path/to/imediaelement</code>
+                  </li>
+                  <li>
+                    <code>npm install</code> : installs grunt &amp; tasks.
+                  </li>
+                  <li>
+                    <code>grunt</code> : compiles all
+                    <code>/src/</code> assets to
+                    <code>/local-build/</code>.
+                  </li>
+                  <li>
+                    <code>grunt build</code> : copies the
+                    <code>/local-build/</code> to
+                    <code>/build/</code>.
+                  </li>
+                </ul>
+              </li>
+            </ul>
+          </li>
+          <li>
+            <p>
+              Download/git the mediaelement module and extract to
+              <code>$base_url/sites/$site/modules/imediaelement</code>
+            </p>
+          </li>
+          <li>
+            <p>Enable the module.</p>
+          </li>
+        </ol>
+
+        <h3>
+          <a id="configure-global-settings" class="anchor" href="#configure-global-settings" aria-hidden="true">
+            <span class="octicon octicon-link"></span>
+          </a>Configure global settings
+        </h3>
+
+        <p>
+          Select the player skin other sitewide options that make you happy:
+          <code>$base_url/admin/config/media/imediaelement</code>
+        </p>
+
+        <h3>
+          <a id="configure-content-fields" class="anchor" href="#configure-content-fields" aria-hidden="true">
+            <span class="octicon octicon-link"></span>
+          </a>Configure content fields
+        </h3>
+
+        <p>
+          <strong>Add fields:</strong> Your content type should include some type of media.
+        </p>
+
+        <ul>
+          <li>
+            <p>
+              <code>File</code> :
+              <em>media hosted on your server</em>.
+            </p>
+          </li>
+          <li>
+            <p>
+              <code>Link</code> :
+              <em>media hosted on another domain, i.e. YouTube, Vimeo, etc.</em>
+            </p>
+          </li>
+        </ul>
+
+        <hr>
+
+        <img src="https://ablank.github.io/imediaelement.module/images/fields.png" alt="alt">
+
+        <hr>
+
+        <p>
+          <strong>Manage Display:</strong> Set the Format to
+          <code>MediaElement Audio</code> or
+          <code>MediaElement Video</code>
+        </p>
+
+        <ul>
+          <li>
+            The Format settings allow you to manage attributes specific to that field (
+            <em>i.e. width, height, autoplay, etc.</em>).
+          </li>
+        </ul>
+
+        <hr>
+
+        <img src="https://ablank.github.io/imediaelement.module/images/formatsettings.png" alt="alt">
+
+        <hr>
+
+        <h3>
+          <a id="3rd-party-sources" class="anchor" href="#3rd-party-sources" aria-hidden="true">
+            <span class="octicon octicon-link"></span>
+          </a>3rd Party Sources
+        </h3>
+
+        <p>
+          Streaming media from 3rd party sources is accomplished by adding a
+          <code>link</code> field displayed as Mediaelement Audio/Video. Youtube &amp; Vimeo are explicitly supported, though
+          other providers may also be used as long as they provide public file access.
+        </p>
+
+        <p>
+          The link may reference either the Embed (
+          <code>https://www.youtube.com/embed/mUPyVAdbnag</code>) or Share (
+          <code>http://youtu.be/mUPyVAdbnag</code>) source.
+        </p>
+
+        <p>
+          It's best to use protocol agnostic (
+          <code>//youtu.be/mUPyVAdbnag</code>) links, although that isn't a requirement.
+        </p>
+
+        <h3>
+          <a id="player-skins" class="anchor" href="#player-skins" aria-hidden="true">
+            <span class="octicon octicon-link"></span>
+          </a>Player Skins
+        </h3>
+
+        <img src="https://ablank.github.io/imediaelement.module/images/ME_dark.jpg" alt="alt">
+
+        <img src="https://ablank.github.io/imediaelement.module/images/ME_light.jpg" alt="alt">
+
+        <img src="https://ablank.github.io/imediaelement.module/images/ME_dark_large.jpg" alt="alt">
+
+        <img src="https://ablank.github.io/imediaelement.module/images/ME_light_large.jpg" alt="alt">
+
+        <img src="https://ablank.github.io/imediaelement.module/images/Original_ME.png" alt="alt">
       </section>
-    </header>
-  </div>
+    </div>
 
-  <!-- MAIN CONTENT -->
-  <div id="main_content_wrap" class="outer">
-    <section id="main_content" class="inner">
-
-      <a id="a-better-mediaelement-for-drupal-7" class="anchor" href="#a-better-mediaelement-for-drupal-7" aria-hidden="true">
-        <span class="octicon octicon-link"></span>
-      </a>
-
-      <div class="mediaelement" style="width: 480px;">
-        <video class="mediaelement-formatter-identifier-1430978499-0" preload="none" controls="1" height="270" width="480">
-          <source type="video/youtube" src="https://youtu.be/Jy1O9PqvMD8" />
-        </video>
-      </div>
-      
-      <p>
-        The iMediaElement module is based on the
-        <a href="https://www.drupal.org/project/mediaelement">MediaElement module</a> for Drupal 7 but uses an <a href="https://github.com/ablank/imediaelement">
-          improved
-          mediaelement library
-        </a> and provides some super-useful features not found in the drupal.org version:
-      </p>
-
-      <ul>
-        <li>
-          <p>Simple integration with 3rd party media providers (YouTube, Vimeo, etc.)</p>
-        </li>
-        <li>
-          <p>Player skin selection.</p>
-        </li>
-        <li>
-          <p>
-            <code>autoplay</code>,
-            <code>preload</code>, and
-            <code>loop</code> media attributes.
-          </p>
-        </li>
-
-        <li>
-          <p>Support for many mediaelement.js settings through the admin UI.</p>
-        </li>
-
-        <li>
-          <p>I18n integration with Drupal.</p>
-        </li>
-        <li>
-          <p>~20% smaller player filesize.</p>
-        </li>
-      </ul>
-
-      
-
-      <h2>
-        <a id="installation-and-usage" class="anchor" href="#installation-and-usage" aria-hidden="true">
-          <span class="octicon octicon-link"></span>
-        </a>Installation and Usage
-      </h2>
-
-      <ol>
-        <li>
-          <p>
-            Download/git the <a href="https://github.com/ablank/imediaelement">improved mediaelement library</a> and extract
-            to
-            <code>$base_url/sites/all/libraries/imediaelement</code>
-          </p>
-          <ul>
-            <li>
-              <p>
-                <em>Optional</em> Customize mediaelement.js for your specific needs (
-                <em>ads, playlist, sourcechooser, or other features</em>) by editing the
-                <code>grunt/concat</code> task or editing the
-                <code>/src/</code> assets and rebuilding the script.
-              </p>
-
-              <ul>
-                <li>
-                  <code>cd path/to/imediaelement</code>
-                </li>
-                <li>
-                  <code>npm install</code> : installs grunt &amp; tasks.
-                </li>
-                <li>
-                  <code>grunt</code> : compiles all
-                  <code>/src/</code> assets to
-                  <code>/local-build/</code>.
-                </li>
-                <li>
-                  <code>grunt build</code> : copies the
-                  <code>/local-build/</code> to
-                  <code>/build/</code>.
-                </li>
-              </ul>
-            </li>
-          </ul>
-        </li>
-        <li>
-          <p>
-            Download/git the mediaelement module and extract to
-            <code>$base_url/sites/$site/modules/imediaelement</code>
-          </p>
-        </li>
-        <li>
-          <p>Enable the module.</p>
-        </li>
-      </ol>
-
-      <h3>
-        <a id="configure-global-settings" class="anchor" href="#configure-global-settings" aria-hidden="true">
-          <span class="octicon octicon-link"></span>
-        </a>Configure global settings
-      </h3>
-
-      <p>
-        Select the player skin other sitewide options that make you happy:
-        <code>$base_url/admin/config/media/imediaelement</code>
-      </p>
-
-      <h3>
-        <a id="configure-content-fields" class="anchor" href="#configure-content-fields" aria-hidden="true">
-          <span class="octicon octicon-link"></span>
-        </a>Configure content fields
-      </h3>
-
-      <p>
-        <strong>Add fields:</strong> Your content type should include some type of media.
-      </p>
-
-      <ul>
-        <li>
-          <p>
-            <code>File</code> :
-            <em>media hosted on your server</em>.
-          </p>
-        </li>
-        <li>
-          <p>
-            <code>Link</code> :
-            <em>media hosted on another domain, i.e. YouTube, Vimeo, etc.</em>
-          </p>
-        </li>
-      </ul>
-
-      <hr>
-
-      <img src="https://ablank.github.io/imediaelement.module/images/fields.png" alt="alt">
-
-      <hr>
-
-      <p>
-        <strong>Manage Display:</strong> Set the Format to
-        <code>MediaElement Audio</code> or
-        <code>MediaElement Video</code>
-      </p>
-
-      <ul>
-        <li>
-          The Format settings allow you to manage attributes specific to that field (
-          <em>i.e. width, height, autoplay, etc.</em>).
-        </li>
-      </ul>
-
-      <hr>
-
-      <img src="https://ablank.github.io/imediaelement.module/images/formatsettings.png" alt="alt">
-
-      <hr>
-
-      <h3>
-        <a id="3rd-party-sources" class="anchor" href="#3rd-party-sources" aria-hidden="true">
-          <span class="octicon octicon-link"></span>
-        </a>3rd Party Sources
-      </h3>
-
-      <p>
-        Streaming media from 3rd party sources is accomplished by adding a
-        <code>link</code> field displayed as Mediaelement Audio/Video. Youtube &amp; Vimeo are explicitly supported, though
-        other providers may also be used as long as they provide public file access.
-      </p>
-
-      <p>
-        The link may reference either the Embed (
-        <code>https://www.youtube.com/embed/mUPyVAdbnag</code>) or Share (
-        <code>http://youtu.be/mUPyVAdbnag</code>) source.
-      </p>
-
-      <p>
-        It's best to use protocol agnostic (
-        <code>//youtu.be/mUPyVAdbnag</code>) links, although that isn't a requirement.
-      </p>
-
-      <h3>
-        <a id="player-skins" class="anchor" href="#player-skins" aria-hidden="true">
-          <span class="octicon octicon-link"></span>
-        </a>Player Skins
-      </h3>
-
-      <img src="https://ablank.github.io/imediaelement.module/images/ME_dark.jpg" alt="alt">
-
-      <img src="https://ablank.github.io/imediaelement.module/images/ME_light.jpg" alt="alt">
-
-      <img src="https://ablank.github.io/imediaelement.module/images/ME_dark_large.jpg" alt="alt">
-
-      <img src="https://ablank.github.io/imediaelement.module/images/ME_light_large.jpg" alt="alt">
-
-      <img src="https://ablank.github.io/imediaelement.module/images/Original_ME.png" alt="alt">
-    </section>
-  </div>
-
-  <!-- FOOTER  -->
-  <div id="footer_wrap" class="outer">
-    <footer class="inner">
-      <p class="copyright">iMediaElement.module maintained by <a href="https://github.com/ablank">ablank</a></p>
-      <p>Published with <a href="https://pages.github.com">GitHub Pages</a></p>
-    </footer>
-  </div>
-  <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
-  <script src="https://raw.githubusercontent.com/ablank/imediaelement/improved/build/mediaelement.min.js"></script>
-  <script src="javascripts/main.js"></script>
-</body>
+    <!-- FOOTER  -->
+    <div id="footer_wrap" class="outer">
+      <footer class="inner">
+        <p class="copyright">iMediaElement.module maintained by <a href="https://github.com/ablank">ablank</a></p>
+        <p>Published with <a href="https://pages.github.com">GitHub Pages</a></p>
+      </footer>
+    </div>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
+    <script src="https://raw.githubusercontent.com/ablank/imediaelement/improved/build/imediaelement.min.js"></script>
+    <script src="https://ablank.github.io/imediaelement.module/javascripts/main.js"></script>
+  </body>
 
 </html>
