@@ -1,12 +1,14 @@
 # A better mediaelement for Drupal 7
 
-This module is based on the [mediaelement module](https://www.drupal.org/project/mediaelement) for Drupal 7 but uses an [improved mediaelement library](https://github.com/ablank/imediaelement) and provides some super-useful features not found in the drupal.org version:
+This module is started as a fork of the [mediaelement module](https://www.drupal.org/project/mediaelement) for Drupal 7 but ended up using an [improved mediaelement library](https://github.com/ablank/imediaelement). The module provides deeper integration with drupal and expands control in several key areas to provide some super-useful features not found in the mediaelement project on drupal.org:
 
 - Simple integration with 3rd party media providers (YouTube, Vimeo, etc.)
 
 - Player skin selection.
 
 - `autoplay`, `preload`, and `loop` media attributes.
+
+- i18n integration with drupal.
 
 - ~20% smaller player filesize.
 
@@ -39,7 +41,7 @@ This module is based on the [mediaelement module](https://www.drupal.org/project
   - `Image` : *optional image field to be used as a poster image for MediaElement videos*.
 
 ___
- ![alt](https://github.com/ablank/ablank.github.io/blob/master/imediaelement/fields.png)
+ ![alt](https://rawgit.com/ablank/imediaelement.module/gh-pages/images/fields.png)
 ___
 
 **Manage Display:** Set the Format to `MediaElement Audio` or `MediaElement Video`
@@ -50,7 +52,7 @@ ___
 
 ___
 
-![alt](https://github.com/ablank/ablank.github.io/blob/master/imediaelement/formatsettings.png)
+![alt](https://rawgit.com/ablank/imediaelement.module/gh-pages/images/formatsettings.png)
 ___
 
 ### 3rd Party Sources
@@ -63,12 +65,12 @@ It's best to use protocol agnostic (`//youtu.be/mUPyVAdbnag`) links, although th
 
 ### Player Skins
 
-![alt](https://github.com/ablank/ablank.github.io/blob/master/imediaelement/ME_dark.png)
+![alt](https://rawgit.com/ablank/imediaelement.module/gh-pages/images/ME_dark.png)
 
-![alt](https://github.com/ablank/ablank.github.io/blob/master/imediaelement/ME_light.png)
+![alt](https://rawgit.com/ablank/imediaelement.module/gh-pages/images/ME_light.png)
 
-![alt](https://github.com/ablank/ablank.github.io/blob/master/imediaelement/ME_dark_large.png)
+![alt](https://rawgit.com/ablank/imediaelement.module/gh-pages/images/ME_dark_large.png)
 
-![alt](https://github.com/ablank/ablank.github.io/blob/master/imediaelement/ME_light_large.png)
+![alt](https://rawgit.com/ablank/imediaelement.module/gh-pages/images/ME_light_large.png)
 
-![alt](https://github.com/ablank/ablank.github.io/blob/master/imediaelement/Original_ME.png)
+![alt](https://rawgit.com/ablank/imediaelement.module/gh-pages/images/Original_ME.png)
