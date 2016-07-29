@@ -1,6 +1,6 @@
 # A better mediaelement for Drupal 7
 
-This module is started as a fork of the [mediaelement module](https://www.drupal.org/project/mediaelement) for Drupal 7 but ended up using an [improved mediaelement library](https://github.com/ablank/imediaelement). The module provides deeper integration with drupal and expands control in several key areas to provide some super-useful features not found in the mediaelement project on drupal.org:
+This module is started as a fork of the [mediaelement module](https://www.drupal.org/project/mediaelement) for Drupal 7 but ended up creating/implementing an [improved mediaelement](https://github.com/ablank/imediaelement) library instead to provide greater functionality and performance. The module provides deeper integration with drupal and expands control in several key areas to provide some super-useful features not found in the mediaelement project on drupal.org:
 
 - Simple integration with 3rd party media providers (YouTube, Vimeo, etc.)
 
