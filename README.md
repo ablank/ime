@@ -16,13 +16,13 @@ This module is started as a fork of the [mediaelement module](https://www.drupal
 
 1. Download/git the [improved mediaelement library](https://github.com/ablank/imediaelement) and extract to `$base_url/sites/all/libraries/imediaelement`
 
--  *Optional* Customize mediaelement.js for your specific needs (*i18n or other features*) by editing the `grunt/concat` task or editing the `/src/` assets and rebuilding the script.
+-  *Optional* Extend mediaelement.js by uncommenting features in the `grunt/concat` task, or edit the `/src/` assets, and rebuild the script.
     - `cd path/to/imediaelement`
     - `npm install` : installs grunt & tasks.
     - `grunt` : compiles all `/src/` assets to `/local-build/`.
     - `grunt build` : copies the `/local-build/` to `/build/`.
 
-2. Download/git the mediaelement module and extract to `$base_url/sites/$site/modules/imediaelement`
+2. Download/git the imediaelement module and extract to `$base_url/sites/$site/modules/imediaelement`
 
 3. Enable the module.
 
@@ -32,13 +32,13 @@ This module is started as a fork of the [mediaelement module](https://www.drupal
 
 ### Configure content fields
 
-**Add fields:** Your content type should include some type of media.
+**Add fields** : Your content type should include some type of media that can be displayed as a mediaelement.
 
-  - `File` : *media hosted on your server*.
+  - `File` : *media hosted on your web server*.
 
   - `Link` : *media hosted on another domain, i.e. YouTube, Vimeo, etc.*
   
-  - `Image` : *optional image field to be used as a poster image for MediaElement videos*.
+  - `Image` *[optional]* : *image fields can be set as the poster image for a mediaelement player*.
 
 ___
  ![alt](https://rawgit.com/ablank/imediaelement.module/gh-pages/images/fields.png)
@@ -46,9 +46,9 @@ ___
 
 **Manage Display:** Set the Format to `MediaElement Audio` or `MediaElement Video`
 
-  - The Format settings allow you to manage attributes specific to that field (*i.e. width, height, autoplay, etc.*).
+  - The Format settings allow you to manage attributes specific to the mediaelement as it is being used in that instance. i.e. A content type's field display, panels, views, etc. can independently set the mediaelement width, height, autoplay, etc.
   
-  - To use an image field as a poster image, select the image field to be used and the desired image style in the MediaElement Video format settings.
+  - To use an image field as a poster image, select the image field to be used and the desired image style in the MediaElement format settings.
 
 ___
 
