@@ -36,7 +36,7 @@ function imediaelement_admin_form() {
   $form['imediaelement_sitewide'] = array(
     '#type' => 'checkbox',
     '#title' => t('Enable MediaElement site wide'),
-    '#default_value' => variable_get('imediaelement_sitewide', FALSE),
+    '#default_value' => variable_get('imediaelement_sitewide', TRUE),
   );
 
   $form['imediaelement_ctrl_alwaysShowControls'] = array(
@@ -105,13 +105,13 @@ function imediaelement_admin_form() {
   drupal_add_js(drupal_get_path('module', 'imediaelement') . '/imediaelement.min.js');
   drupal_add_js(array('imediaelementAll' => TRUE), array('type' => 'setting'));
   $form['test'] = array(
-    '#markup' => '<table><tr>'
-    . '<thead><th colspan=2>Demo</th></thead>'
-    . '<td></td>'
-    . '<td><video width="360" height="203" id="player1">'
+    '#markup' => '<table>'
+    . '<thead><tr><th>Demo</th><tr></thead>'
+    . '<tbody><tr><td style="text-align:center">'
+    . '<video width="360" height="200" id="player1">'
     . '<source type="video/youtube" src="//youtu.be/XsZDWNk_RIA">'
-    . '<p>Your browser leaves much to be desired.</p></video></td>'
-    . '</tr></table>',
+    . '<p>Your browser leaves much to be desired.</p></video>'
+    . '</td></tr></tbody></table>',
   );
 
   return system_settings_form($form);

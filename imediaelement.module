@@ -39,10 +39,19 @@ function imediaelement_library() {
         // @todo Update all calls to mediaelement to pass in the assets location.
         $libpath . '/build/mediaelement.min.js' => array(
           'group' => JS_LIBRARY,
-          'preprocess' => FALSE,
+          'preprocess' => TRUE,
+        ),
+        drupal_get_path('module', 'imediaelement') . '/imediaelement.min.js' => array(
+          'group' => JS_LIBRARY,
+          'preprocess' => TRUE,
         ),
       ),
-      'css' => array(variable_get('imediaelement_skin', $libpath . '/build/mediaelement_dark.min.css')),
+      'css' => array(
+        variable_get('imediaelement_skin', $libpath . '/build/mediaelement_dark.min.css') => array(
+          'group' => CSS_DEFAULT,
+          'preprocess' => TRUE,
+        ),
+      ),
     ),
   );
 
@@ -53,11 +62,12 @@ function imediaelement_library() {
  * Implements hook_init().
  */
 function imediaelement_init() {
-  // When the media player is set to be on all pages add it to the page.
-  if (variable_get('imediaelement_sitewide', FALSE)) {
-    drupal_add_library('imediaelement', 'imediaelement');
-    drupal_add_js(drupal_get_path('module', 'imediaelement') . '/imediaelement.min.js');
+  if (variable_get('imediaelement_sitewide', TRUE) == TRUE) {
+    drupal_add_library('imediaelement', 'imediaelement', TRUE);
     drupal_add_js(array('imediaelementAll' => TRUE), array('type' => 'setting'));
+  }
+  else {
+    drupal_add_library('imediaelement', 'imediaelement');
   }
 }
 
@@ -256,7 +266,7 @@ function imediaelement_field_formatter_view($entity_type, $entity, $field, $inst
       ),
     );
     // Add vimeo controls.
-    if (strpos($src, 'vimeo.com/')) {
+    if (strpos($src, 'https://vimeo.com/')) {
       $element[$delta]['#attached']['js']['vimeo'] = array(
         'data' => '//f.vimeocdn.com/js/froogaloop2.min.js',
         'type' => 'external',
@@ -285,8 +295,7 @@ function imediaelement_field_formatter_view($entity_type, $entity, $field, $inst
       //$element[$delta]['#attributes']['poster'] = !empty($settings['poster']['poster_style']) ? $settings['poster']['poster_style'] : FALSE;
     }
 
-    // Add the poster image.
-    if (($poster_field = $settings['appearance']['poster']['poster_field']) && !empty($entity->{$poster_field})) {
+    if (!empty($settings['appearance']['poster']) && $poster_field = $settings['appearance']['poster']['poster_field'] && !empty($entity->{$poster_field})) {
       //if (!empty($entity->{$poster_field})) {
       $image = field_get_items($entity_type, $entity, $poster_field);
 
@@ -551,17 +560,16 @@ function imediaelement_help($path, $arg) {
   if ($path === 'admin/help#imediaelement') {
     // Display a sample video. We add the library here because we cannot be sure
     // it is otherwise included in the page.
-    drupal_add_library('imediaelement', 'imediaelement');
-    drupal_add_js(drupal_get_path('module', 'imediaelement') . '/imediaelement.min.js');
-    drupal_add_js(array('imediaelementAll' => TRUE), array('type' => 'setting'));
+    //drupal_add_library('imediaelement', 'imediaelement');
+    //drupal_add_js(array('imediaelementAll' => TRUE), array('type' => 'setting'));
 
-    $output = '<table><tr>'
-    . '<thead><th colspan=2>Demo</th></thead>'
-    . '<td></td>'
-    . '<td><video width="360" height="203" id="player1">'
+    $output = '<table>'
+    . '<thead><tr><th>Demo</th><tr></thead>'
+    . '<tbody><tr><td style="text-align:center">'
+    . '<video width="360" height="200" id="player1">'
     . '<source type="video/youtube" src="//youtu.be/XsZDWNk_RIA">'
-    . '<p>Your browser leaves much to be desired.</p></video></td>'
-    . '</tr></table>';
+    . '<p>Your browser leaves much to be desired.</p></video>'
+    . '</td></tr></tbody></table>';
 
     $output .= '<p>' . t('The iMediaElement module provides support for playing nearly any audio &amp; video content from both the local filesystem and 3rd party providers like Youtube.') . '</p>';
     $output .= '<h2>' . t('Configuration') . '</h2>';
@@ -648,7 +656,8 @@ function _imediaelement_find_image_fields($field, $entity_type, $bundle) {
             // bundles.
             if (isset($field['bundles'][$otherentitytype]) && in_array($otherbundle, $field['bundles'][$otherentitytype])) {
               $otherinstance = field_info_instance($otherentitytype, $otherfield['field_name'], $otherbundle);
-              $instancelabels[$otherinstance['label']] = isset($instancelabels[$otherinstance['label']]) ?
+              $instancelabels[$otherinstance['label']] = isset($instancelabels[$otherinstance['label']])
+                ?
               $instancelabels[$otherinstance['label']] + 1 : 1;
               $bundles_names[] = t('@entity:@bundle', array(
                 '@entity' => $otherentitytype,
