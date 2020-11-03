@@ -1,693 +1,107 @@
 <?php
+
 /**
  * @file
- * Provides video and audio elements using Mediaelement.js.
+ * Primary module file.
  */
-
-/**
- * Implements hook_menu().
- */
-function imediaelement_menu() {
-  return array(
-    'admin/config/media/imediaelement' => array(
-      'title' => 'iMediaElement',
-      'description' => 'Settings for iMediaElement integration with Drupal',
-      'page callback' => 'drupal_get_form',
-      'page arguments' => array('imediaelement_admin_form'),
-      'access arguments' => array('administer site configuration'),
-      'file' => 'imediaelement.admin.inc',
-    ),
-  );
-}
-
-/**
- * Implements hook_library().
- */
-function imediaelement_library() {
-  $libpath = libraries_get_path('imediaelement');
-
-  $libraries = array(
-    'imediaelement' => array(
-      'title' => 'Improved Media Element',
-      'website' => 'http://github.com/ablank/imediaelement',
-      'version' => '2.1.6',
-      'js' => array(
-        // The mediaelement script detects the path to itself to call other files
-        // in the same location. With preprocessing this is problematic as the
-        // script is no longer in the same directory as its other assets. There
-        // is an option that can be passed into the script with its location.
-        // @todo Update all calls to mediaelement to pass in the assets location.
-        $libpath . '/build/mediaelement.min.js' => array(
-          'group' => JS_LIBRARY,
-          'preprocess' => TRUE,
-        ),
-        drupal_get_path('module', 'imediaelement') . '/imediaelement.min.js' => array(
-          'group' => JS_LIBRARY,
-          'preprocess' => TRUE,
-        ),
-      ),
-      'css' => array(
-        variable_get('imediaelement_skin', $libpath . '/build/mediaelement_dark.min.css') => array(
-          'group' => CSS_DEFAULT,
-          'preprocess' => TRUE,
-        ),
-      ),
-    ),
-  );
-
-  return $libraries;
-}
-
-/**
- * Implements hook_init().
- */
-function imediaelement_init() {
-  if (variable_get('imediaelement_sitewide', TRUE) == TRUE) {
-    drupal_add_library('imediaelement', 'imediaelement', TRUE);
-    drupal_add_js(array('imediaelementAll' => TRUE), array('type' => 'setting'));
-  }
-  else {
-    drupal_add_library('imediaelement', 'imediaelement');
-  }
-}
-
-/**
- * Implements hook_file_mimetype_mapping_alter().
- */
-function imediaelement_file_mimetype_mapping_alter(&$mapping) {
-  $nMap = array(
-    'video/vimeo',
-    'video/youtube'
-  );
-
-  foreach ($nMap as $key) {
-    if (empty($mapping[$key])) {
-      $mapping['mimetypes'][] = $key;
-    }
-  }
-}
-
-/**
- * Get default attributes for currently selected skin.
- *
- * @param string $setting
- *
- * @return array
- */
-function imediaelement_controls($setting) {
-  $lib = libraries_get_path('imediaelement');
-  $skin = array();
-  switch ($setting) {
-    case $lib . '/build/mediaelementplayer.min.css':
-      $skin['width'] = '240';
-      $skin['height'] = '30';
-      break;
-
-    case $lib . '/build/mediaelement_large_light.min.css':
-    case $lib . '/build/mediaelement_large_dark.min.css':
-      $skin['width'] = '300';
-      $skin['height'] = '48';
-      break;
-
-    case $lib . '/build/mediaelement_light.min.css':
-    case $lib . '/build/mediaelement_dark.min.css':
-    default:
-      $skin['width'] = '240';
-      $skin['height'] = '32';
-      break;
-  }
-
-  return $skin;
-}
-
-/**
- * Implements hook_field_formatter_info().
- */
-function imediaelement_field_formatter_info() {
-  $formatters = array();
-  $skin = imediaelement_controls(variable_get('imediaelement_skin'));
-
-  // Get / Set default settings for audio.
-  $formatters['imediaelement_audio'] = array(
-    'label' => t('MediaElement Audio'),
-    'field types' => array('file', 'link_field'),
-    'settings' => array(
-      'appearance' => array(
-        // Set correct default size based on the selected skin unless overridden.
-        'width' => variable_get('imediaelement_audio_default_width', $skin['width']),
-        'height' => variable_get('imediaelement_audio_default_height', $skin['height']),
-        'poster_img' => variable_get('imediaelement_audio_default_poster_img', NULL),
-        'poster_img_style' => variable_get('imediaelement_audio_default_poster_img_style', NULL),
-      ),
-      'ctrl' => array(
-        'controls' => variable_get('imediaelement_audio_default_controls', TRUE),
-        'autoplay' => variable_get('imediaelement_audio_default_autoplay', FALSE),
-        'loop' => variable_get('imediaelement_audio_default_loop', FALSE),
-        'preload' => variable_get('imediaelement_audio_default_preload', 'none'),
-      ),
-      'download' => array(
-        'download_link' => variable_get('imediaelement_download_link', FALSE),
-        'download_text' => variable_get('imediaelement_download_text', t('Download')),
-      ),
-    ),
-  );
-
-  // Get / Set default settings for video.
-  $formatters['imediaelement_video'] = array(
-    'label' => t('MediaElement Video'),
-    'field types' => array('file', 'link_field'),
-    'settings' => array(
-      'appearance' => array(
-        'width' => variable_get('imediaelement_video_default_width', '480'),
-        'height' => variable_get('imediaelement_video_default_height', '270'),
-        'poster_img' => variable_get('imediaelement_video_default_poster_img', NULL),
-        'poster_img_style' => variable_get('imediaelement_video_default_poster_img_style', NULL),
-      ),
-      'ctrl' => array(
-        'controls' => variable_get('imediaelement_video_default_controls', TRUE),
-        'autoplay' => variable_get('imediaelement_video_default_autoplay', FALSE),
-        'loop' => variable_get('imediaelement_video_default_loop', FALSE),
-        'preload' => variable_get('imediaelement_video_default_preload', 'none'),
-        'fullscreen' => variable_get('imediaelement_video_default_fullscreen', TRUE),
-      ),
-      'download' => array(
-        'download_link' => variable_get('imediaelement_download_link', FALSE),
-        'download_text' => variable_get('imediaelement_download_text', t('Download')),
-      ),
-      'poster' => array(
-        'poster_image' => variable_get('imediaelement_poster_field', FALSE),
-        'poster_style' => variable_get('imediaelement_poster_style', FALSE),
-      ),
-    ),
-  );
-
-  return $formatters;
-}
-
-/**
- * Implements hook_field_formatter_view().
- */
-function imediaelement_field_formatter_view($entity_type, $entity, $field, $instance, $langcode, $items, $display) {
-  // A unique caller per page for the JS specific settings to use. This may be
-  // different for every page view and should not be used for styling.
-  static $id = 0;
-  $settings = $display['settings'];
-  $element = array();
-  $path = drupal_get_path('module', 'imediaelement');
-
-  foreach ($items as $delta => $item) {
-    // Support the link field type which stores it's data in 'url'.
-    $src = ($field['type'] == 'link_field') ? $item['url'] : $item['uri'];
-    $js_settings = array('opts' => array());
-
-    $js_settings['opts']['controls'] = (bool) $settings['ctrl']['controls'];
-    $js_settings['opts']['loop'] = (bool) $settings['ctrl']['loop'];
-    $js_settings['opts']['startVolume'] = (float) variable_get('imediaelement_ctrl_startVolume', '0.75');
-    $js_settings['opts']['alwaysShowControls'] = (bool) variable_get('imediaelement_ctrl_alwaysShowControls', FALSE);
-    $js_settings['opts']['AndroidUseNativeControls'] = $js_settings['opts']['iPadUseNativeControls'] = $js_settings['opts']['iPhoneUseNativeControls'] = (bool) variable_get('imediaelement_ctrl_nativecontrols', FALSE);
-
-    // Text settings for buttons & contextmenu.
-    $js_settings['opts']['muteText'] = (string) t('Mute Toggle');
-    $js_settings['opts']['allyVolumeControlText'] = (string) t('Use Up/Down Arrow keys to increase or decrease volume.');
-    $js_settings['opts']['skipBackText'] = (string) t('Skip back %1 seconds');
-    $js_settings['opts']['tracksText'] = (string) t('Captions/Subtitles');
-    $js_settings['opts']['fullscreenText'] = (string) t('Fullscreen');
-    $js_settings['opts']['postrollCloseText'] = (string) t('Close');
-    $js_settings['opts']['playText'] = (string) t('Play');
-    $js_settings['opts']['pauseText'] = (string) t('Pause');
-
-    if ($display['type'] == 'imediaelement_audio') {
-      $js_settings['opts']['audioWidth'] = (int) $settings['appearance']['width'];
-      $js_settings['opts']['audioHeight'] = (int) $settings['appearance']['height'];
-      $js_settings['opts']['features'] = array(
-        variable_get('imediaelement_ctrl_playpause') == TRUE ? 'playpause' : NULL,
-        variable_get('imediaelement_ctrl_volume') == TRUE ? 'volume' : NULL,
-        variable_get('imediaelement_ctrl_current') == TRUE ? 'current' : NULL,
-        variable_get('imediaelement_ctrl_progress') == TRUE ? 'progress' : NULL,
-        variable_get('imediaelement_ctrl_duration') == TRUE ? 'duration' : NULL,
-      );
-    }
-
-    if ($display['type'] == 'imediaelement_video') {
-      $js_settings['opts']['videoWidth'] = (int) $settings['appearance']['width'];
-      $js_settings['opts']['videoHeight'] = (int) $settings['appearance']['height'];
-      $js_settings['opts']['features'] = array(
-        variable_get('imediaelement_ctrl_playpause') == TRUE ? 'playpause' : NULL,
-        variable_get('imediaelement_ctrl_volume') == TRUE ? 'volume' : NULL,
-        variable_get('imediaelement_ctrl_current') == TRUE ? 'current' : NULL,
-        variable_get('imediaelement_ctrl_progress') == TRUE ? 'progress' : NULL,
-        variable_get('imediaelement_ctrl_duration') == TRUE ? 'duration' : NULL,
-        variable_get('imediaelement_ctrl_fullscreen') == TRUE ? 'fullscreen' : NULL,
-      );
-
-      // Mabye just map settings ?:
-      // array_map('variable_get', array_keys($settings), array_values($settings));
-    }
-
-    $class = 'mediaelement-formatter-identifier-' . time() . '-' . $id++;
-
-    $element[$delta] = array(
-      '#attributes' => array(
-        'src' => file_create_url($src),
-        'class' => $class,
-        'preload' => $settings['ctrl']['preload'],
-      ),
-      '#settings' => $settings,
-      '#attached' => array(
-        'library' => array(array('imediaelement', 'imediaelement')),
-        'js' => array(
-          $path . '/imediaelement.min.js' => array(),
-          0 => array(
-            'type' => 'setting',
-            'data' => array(
-              'imediaelement' => array('.' . $class => $js_settings)),
-          ),
-        ),
-      ),
-    );
-    // Add vimeo controls.
-    if (strpos($src, 'https://vimeo.com/')) {
-      $element[$delta]['#attached']['js']['vimeo'] = array(
-        'data' => '//f.vimeocdn.com/js/froogaloop2.min.js',
-        'type' => 'external',
-        'weight' => -10
-      );
-    }
-
-    if (!empty($settings['ctrl']['controls'])) {
-      $element[$delta]['#attributes']['controls'] = TRUE;
-    }
-    if (!empty($settings['ctrl']['autoplay'])) {
-      $element[$delta]['#attributes']['autoplay'] = TRUE;
-    }
-    if (!empty($settings['ctrl']['loop'])) {
-      $element[$delta]['#attributes']['loop'] = TRUE;
-    }
-
-    if ($display['type'] == 'imediaelement_audio') {
-      $element[$delta]['#theme'] = 'imediaelement_audio';
-    }
-    elseif ($display['type'] == 'imediaelement_video') {
-      $element[$delta]['#theme'] = 'imediaelement_video';
-      $element[$delta]['#attributes']['height'] = $settings['appearance']['height'];
-      $element[$delta]['#attributes']['width'] = $settings['appearance']['width'];
-
-      //$element[$delta]['#attributes']['poster'] = !empty($settings['poster']['poster_style']) ? $settings['poster']['poster_style'] : FALSE;
-    }
-
-    if (!empty($settings['appearance']['poster']) && $poster_field = $settings['appearance']['poster']['poster_field'] && !empty($entity->{$poster_field})) {
-      //if (!empty($entity->{$poster_field})) {
-      $image = field_get_items($entity_type, $entity, $poster_field);
-
-      if (isset($image[0]['filemime']) && strpos($image[0]['filemime'], 'image/') !== FALSE) {
-        if ($poster_style = $settings['appearance']['poster']['poster_style']) {
-          $element[$delta]['#attributes']['poster'] = image_style_url($poster_style, $image[0]['uri']);
-        }
-        else {
-          $element[$delta]['#attributes']['poster'] = file_create_url($image[0]['uri']);
-        }
-        /*
-          $element[$delta]['#attached']['js'][0]['data'][] = array(
-          'poster' => (string) $element[$delta]['#attributes']['poster']
-          );
-         */
-      }
-    }
-  }
-
-  return $element;
-}
 
 /**
  * Implements hook_theme().
  */
-function imediaelement_theme() {
-  return array(
-    'imediaelement_audio' => array(
-      'variables' => array('attributes' => array(), 'settings' => array()),
-    ),
-    'imediaelement_video' => array(
-      'variables' => array('attributes' => array(), 'settings' => array()),
-    ),
-  );
+function imediaelement_theme($existing, $type, $theme, $path) {
+  $defaults = [
+    'variables' => [
+      'files' => [],
+      'attributes' => NULL,
+      'download_link' => FALSE,
+      'download_text' => '',
+    ],
+    'path' => "${path}/templates",
+    'preprocess functions' => [
+      'imediaelement_preprocess_imediaelement_file',
+    ],
+  ];
+
+  return [
+    'imediaelement_file_video' => [] + $defaults,
+    'imediaelement_file_audio' => [] + $defaults,
+  ];
 }
 
 /**
- * Markup for Video
- *
- * @param array $variables
- *
- * @return string
- *   Formatted html.
+ * Implements hook_preprocess_html().
  */
-function theme_imediaelement_audio($variables) {
+function imediaelement_preprocess_html(&$variables) {
+  $config = \Drupal::config('imediaelement.settings');
+  $default_config = $config->get('default_settings');
+  $settings = imediaelement_parse_config($default_config);
 
-  return imediaelement_markup($variables, 'audio');
+  $variables['#attached']['drupalSettings']['imediaelement'] = $settings;
 }
 
 /**
- * Markup for Video
- *
- * @param array $variables
- *
- * @return string
- *   Formatted html.
+ * Implements imediaelement_preprocess_imediaelement_file().
  */
-function theme_imediaelement_video($variables) {
-  $src = $variables['attributes']['src'];
-  if (!strpos($src, $GLOBALS['base_url'])) {
-    $provider = "";
-    if (strpos($src, 'youtu.be/') || strpos($src, 'youtube.com/')) {
-      $provider = 'youtube';
-    }
-    elseif (strpos($src, 'vimeo.com/')) {
-      $provider = 'vimeo';
-    }
-    else {
-      $srcarray = explode('.', $src);
-      $provider = end($srcarray);
-    }
+function imediaelement_preprocess_imediaelement_file(&$variables) {
+  $variables['attributes']->addClass('imediaelementjs');
+/*
+  $file = Media::load(your_file_id);
+ $file_uri = $file->field_file->entity->getFileUri();
+ $file_downloadable_link = file_create_url($file_uri);
+ */
+}
+
+/**
+ * Converts module into JS config.
+ *
+ * @param array $confg
+ *   An array of config items.
+ */
+function imediaelement_parse_config($config) {
+  $settings = [];
+  $config = imediaelement_flatten_array($config);
+  //dpm($config);
+
+  // Prepare config for Javascript.
+  foreach ($config as $setting => $value) {
+    // Camel case the setting name.
+    $settingCamel = str_replace('_', '', lcfirst(ucwords($setting, '_')));
+    $settings[$settingCamel] = $value;
   }
 
-  return imediaelement_markup($variables, 'video', $provider);
+  return $settings;
 }
 
 /**
- * Structure markup for mediaelement audio & video tags.
+ * Flattens nested array into a single level array.
  *
- * @param array $variables
- * @param string $type
- * @param string $provider
- *
- * @return string
- */
-function imediaelement_markup($variables, $type, $provider = NULL) {
-  $source = "";
-
-  if ($provider) {
-    $source = '<source type="' . "$type/$provider" . '" src="' . $variables['attributes']['src'] . '" />';
-    unset($variables['attributes']['src']);
-  }
-
-  $variables['attributes'][] = array('data-poster' => '');
-  $output = '<div class="mediaelement"';
-  // Set the container width so we can center media.
-  $output .= ' style="width: ' . $variables['settings']['appearance']['width'] . 'px; ">';
-  $output .= "<$type" . drupal_attributes($variables['attributes']) . " >$source</$type>";
-  if ($variables['settings']['download']['download_link']) {
-    $output .= '<div class="mediaelement-download"><a href = "' . $variables['attributes']['src'] . '">' . filter_xss_admin($variables['settings']['download']['download_text']) . '</a></div>';
-  }
-  $output .= '</div>';
-
-  return $output;
-}
-
-/**
- * Implements hook_field_formatter_settings_form().
- */
-function imediaelement_field_formatter_settings_form($field, $instance, $view_mode, $form, &$form_state) {
-  $display = $instance['display'][$view_mode];
-  $settings = $display['settings'];
-
-  if (module_exists('image') && isset($instance['entity_type']) && isset($instance['bundle'])) {
-    $imagefields = _imediaelement_find_image_fields($field, $instance['entity_type'], $instance['bundle']);
-  }
-
-  $element = array();
-
-  $element['appearance'] = array(
-    '#title' => t('Player Appearance'),
-    '#type' => 'fieldset',
-    '#weight' => 0,
-    '#collapsible' => TRUE,
-    '#collapsed' => FALSE,
-  );
-
-  $element['appearance']['width'] = array(
-    '#title' => t('Width'),
-    '#type' => 'textfield',
-    '#size' => 8,
-    '#default_value' => $settings['appearance']['width'],
-  );
-
-  $element['appearance']['height'] = array(
-    '#title' => t('Height'),
-    '#type' => 'textfield',
-    '#size' => 8,
-    '#default_value' => $settings['appearance']['height'],
-  );
-
-  if (!empty($imagefields)) {
-    $image_styles = image_style_options(FALSE);
-
-    $element['appearance']['poster'] = array(
-      '#title' => t('Poster Image'),
-      '#type' => 'fieldset',
-      '#weight' => 3,
-      '#collapsible' => TRUE,
-      '#collapsed' => TRUE,
-    );
-
-    $element['appearance']['poster']['poster_field'] = array(
-      '#type' => 'select',
-      '#title' => t('Poster Image Field'),
-      '#default_value' => $settings['appearance']['poster']['poster_field'],
-      '#options' => $imagefields,
-      '#description' => t('If an image is uploaded to the field above it will be used as the poster image.'),
-      '#empty_value' => NULL,
-      '#empty_option' => t('- None -'),
-    );
-
-    $element['appearance']['poster']['poster_style'] = array(
-      '#title' => t('Poster Image Style'),
-      '#type' => 'select',
-      '#default_value' => $settings['appearance']['poster']['poster_style'],
-      '#empty_option' => t('None (original image)'),
-      '#description' => t('The original video thumbnail will be displayed. Otherwise, you can add a custom image style at !settings.', array('!settings' => l(t('media image styles'), 'admin/config/media/image-styles'))),
-      '#options' => $image_styles,
-    );
-  }
-
-  $element['ctrl'] = array(
-    '#title' => t('Playback Control'),
-    '#type' => 'fieldset',
-    '#weight' => 1,
-    '#collapsible' => TRUE,
-    '#collapsed' => TRUE,
-  );
-
-  $element['ctrl']['controls'] = array(
-    '#title' => t('Show Controls'),
-    '#type' => 'checkbox',
-    '#default_value' => $settings['ctrl']['controls'],
-  );
-
-  $element['ctrl']['autoplay'] = array(
-    '#title' => t('Autoplay'),
-    '#type' => 'checkbox',
-    '#default_value' => $settings['ctrl']['autoplay'],
-  );
-
-  $element['ctrl']['loop'] = array(
-    '#title' => t('Loop'),
-    '#type' => 'checkbox',
-    '#default_value' => $settings['ctrl']['loop'],
-  );
-
-  $element['ctrl']['preload'] = array(
-    '#title' => t('Preload'),
-    '#type' => 'select',
-    '#options' => array(
-      'none' => t('None'),
-      'auto' => t('Auto'),
-      'metadata' => t('Metadata'),
-    ),
-    '#default_value' => $settings['ctrl']['preload'],
-  );
-
-  $element['download'] = array(
-    '#title' => t('Download'),
-    '#type' => 'fieldset',
-    '#weight' => 2,
-    '#collapsible' => TRUE,
-    '#collapsed' => TRUE,
-  );
-
-  $element['download']['download_link'] = array(
-    '#title' => t('Download Link'),
-    '#type' => 'checkbox',
-    '#default_value' => $settings['download']['download_link'],
-  // '#attributes' => array('name' => array('opt-download-link')),
-  );
-
-  $element['download']['download_text'] = array(
-    '#title' => t('Download Link Text'),
-    '#type' => 'textfield',
-    '#default_value' => $settings['download']['download_text'],
-    '#size' => 30,
-  );
-
-  return $element;
-}
-
-/**
- * Implements hook_field_formatter_settings_summary().
- *
- * @param array $field
- * @param array $instance
- * @param string $view_mode
- *
- * @return string
- *   Translated summary.
- */
-function imediaelement_field_formatter_settings_summary($field, $instance, $view_mode) {
-
-  $display = $instance['display'][$view_mode];
-  $settings = $display['settings'];
-
-  imediaelement_controls(variable_get('imediaelement_skin'));
-
-  return t('Width: @width px, Height: @height px', array(
-    '@width' => $settings['appearance']['width'],
-    '@height' => $settings['appearance']['height'],
-  ));
-}
-
-/**
- * Implements hook_help().
- */
-function imediaelement_help($path, $arg) {
-  if ($path === 'admin/help#imediaelement') {
-    // Display a sample video. We add the library here because we cannot be sure
-    // it is otherwise included in the page.
-    //drupal_add_library('imediaelement', 'imediaelement');
-    //drupal_add_js(array('imediaelementAll' => TRUE), array('type' => 'setting'));
-
-    $output = '<table>'
-    . '<thead><tr><th>Demo</th><tr></thead>'
-    . '<tbody><tr><td style="text-align:center">'
-    . '<video width="360" height="200" id="player1">'
-    . '<source type="video/youtube" src="//youtu.be/XsZDWNk_RIA">'
-    . '<p>Your browser leaves much to be desired.</p></video>'
-    . '</td></tr></tbody></table>';
-
-    $output .= '<p>' . t('The iMediaElement module provides support for playing nearly any audio &amp; video content from both the local filesystem and 3rd party providers like Youtube.') . '</p>';
-    $output .= '<h2>' . t('Configuration') . '</h2>';
-    $output .= '<ol>';
-    $output .= '<li>' . t('Download/git the <a href="@imediaelement">improved mediaelement library</a> and extract to $base_url/sites/$site/libraries/imediaelement', array('@imediaelement' => 'https://github.com/ablank/imediaelement')) . '</li>';
-    $output .= '<li>' . t('<a href="@globalsettings">Configure the global settings</a> - Select the player skin, controls, and other options that make you happy.', array('@globalsettings' => $GLOBALS['base_url'] . '/admin/config/media/imediaelement')) . '</li>';
-    $output .= '<li>' . t('Add fields to your content type.');
-    $output .= '<ul>';
-    $output .= '<li>' . t('Navigate to <code>admin/structure/types/manage/$yourContentType/fields</code>.') . '</li>';
-    $output .= '<li>' . t('<strong>file</strong> fields are used to include media from a local file.') . '</li>';
-    $output .= '<li>' . t('<strong>link</strong> fields are used to include media from an external source like Youtube.') . '</li>';
-    $output .= '</ul></li>';
-    $output .= '<li>' . t('Format fields to display as MediaElement.');
-    $output .= '<ul>';
-    $output .= '<li>' . t('Navigate to <code>admin/structure/types/manage/$yourContentType/display</code>.') . '</li>';
-    $output .= '<li>' . t('<strong>MediaElement Audio</strong> format is used to play audio content (<code>mp3</code>,<code> ogg</code> audio, etc.).') . '</li>';
-    $output .= '<li>' . t('<strong>MediaElement Video</strong> format is used to play video content (Youtube, <code>mp4</code>,<code> ogg</code> video, etc.).') . '</li>';
-    $output .= '</ul></li>';
-    $output .= '<li>' . t('Add some content.');
-    $output .= '<ul>';
-    $output .= '<li>' . t('Navigate to <code>node/add/$yourContentType</code>.') . '</li>';
-    $output .= '<li>' . t('Files served from the local file system are added to the File field.');
-    $output .= '<ul>';
-    $output .= '<li>' . t('Click <strong>Choose File</strong>.');
-    $output .= '<li>' . t('Locate the file on your local system/network to upload and open it.') . '</li>';
-    $output .= '<li>' . t('<strong>Upload</strong> the file and <strong>Save</strong> the node.') . '</li>';
-    $output .= '</ul></li>';
-
-    $output .= '<li>' . t('Files served from the 3rd party sources are added to the Link field.');
-    $output .= '<ul>';
-    $output .= '<li>' . t('Find the video you would like to embed on vimeo or youtube') . '</li>';
-    $output .= '<li>' . t('Click <strong>Share</strong> and copy the url.');
-    $output .= '<li>' . t('Paste the url into the link field and <strong>Save</strong> the node.');
-    $output .= '<ul>';
-    $output .= '<li>Vimeo link example: <code>https://vimeo.com/channels/staffpicks/124740781</code></li>';
-    $output .= '<li>Youtube link example: <code>https://youtu.be/xTA_FexW3qU</code></li>';
-    $output .= '<img alt="Share from Youtube" src="' . file_create_url(drupal_get_path('module', 'imediaelement') . '/help/youtube.jpg') . '" width=440 height=380 />';
-    $output .= '<img alt="Share from Vimeo" src="' . file_create_url(drupal_get_path('module', 'imediaelement') . '/help/vimeo.jpg') . '" width=440 height=380 />';
-    $output .= '</ul></li>';
-    $output .= '</ul></li>';
-    $output .= '</ul></li>';
-    $output .= '</ul></li>';
-    $output .= '<li><h3>' . t('Enjoy!') . '</h3></li>';
-    // $output .= '<li>' . t() . '</li>';
-    $output .= '</ol>';
-
-    return $output;
-  }
-}
-
-/**
- * Finds image fields in the given entity and bundle.
- *
- * @param array $field
- *   Field definition of the video field, used to match image fields when
- *   this field is rendered using Views.
- * @param string $entity_type
- *   Entity type in which the image field must occur.
- * @param string $bundle
- *   Bundle in which the image field must occur.
+ * @param array $array
+ *   An array of items.
+ * @param array $return
+ *   The starting point of the return values.
  *
  * @return array
- *   Array of image field names.
+ *   The flattened array.
  */
-function _imediaelement_find_image_fields($field, $entity_type, $bundle) {
-  $imagefields = array();
-
-  // Determine the image fields that will be selectable.
-  if ($entity_type === 'ctools' && $bundle === 'ctools') {
-    // This is a fake instance (see ctools_fields_fake_field_instance()).
-    // This occurs for instance when this formatter is used in Views.
-    // Display all image fields in bundles that contain this field.
-    $otherfields = field_info_fields();
-
-    foreach ($otherfields as $otherfield) {
-      if ($otherfield['type'] === 'image' && !empty($otherfield['bundles'])) {
-        // Find a label by finding an instance label.
-        $instancelabels = array();
-        $bundles_names = array();
-
-        foreach ($otherfield['bundles'] as $otherentitytype => $otherbundles) {
-          foreach ($otherbundles as $otherbundle) {
-            // Check if this image field appears in one of the video field
-            // bundles.
-            if (isset($field['bundles'][$otherentitytype]) && in_array($otherbundle, $field['bundles'][$otherentitytype])) {
-              $otherinstance = field_info_instance($otherentitytype, $otherfield['field_name'], $otherbundle);
-              $instancelabels[$otherinstance['label']] = isset($instancelabels[$otherinstance['label']])
-                ?
-              $instancelabels[$otherinstance['label']] + 1 : 1;
-              $bundles_names[] = t('@entity:@bundle', array(
-                '@entity' => $otherentitytype,
-                '@bundle' => $otherbundle,
-              ));
-            }
-          }
-        }
-
-        if (!empty($instancelabels)) {
-          arsort($instancelabels);
-          $instancelabel = key($instancelabels);
-          $imagefields[$otherfield['field_name']] = $instancelabel . ' — ' . t('Appears in: @bundles.', array(
-            '@bundles' => implode(', ', $bundles_names),
-          ));
-        }
-      }
+function imediaelement_flatten_array($array, $return = []) {
+  foreach ($array as $key => $value) {
+    if (is_array($value)) {
+      $return = imediaelement_flatten_array($value, $return);
     }
-  }
-  else {
-    $otherinstances = field_info_instances($entity_type, $bundle);
-
-    foreach ($otherinstances as $otherinstance) {
-      $otherfield = field_info_field_by_id($otherinstance['field_id']);
-
-      if ($otherfield['type'] == 'image') {
-        $imagefields[$otherinstance['field_name']] = $otherinstance['label'];
-      }
+    else {
+      $return[$key] = $value;
     }
   }
 
-  return $imagefields;
+  return $return;
+}
+
+/**
+ * Implements hook_file_mimetype_mapping_alter()
+ */
+function imediaelement_file_mimetype_mapping_alter(&$mapping) {
+
+  // Add new MIME type 'drupal/info'.
+  $mapping['mimetypes']['youtube'] = 'video/x-youtube';
+
 }

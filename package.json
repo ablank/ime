@@ -1,0 +1,16 @@
+{
+  "name": "iimediaelement",
+  "version": "1.0.0",
+  "description": "Integration with iimediaelement.js library for Drupal 8+.",
+  "license": "MIT",
+  "scripts": {
+    "bundle": "babel js/imediaelement.es6.js -o js/imediaelement.bundle.js",
+    "watch": "babel js/imediaelement.es6.js -w -o js/imediaelement.bundle.js"
+  },
+  "devDependencies": {
+    "babel-cli": "^6.26.0",
+    "babel-core": "^6.26.3",
+    "babel-plugin-transform-object-rest-spread": "^6.26.0",
+    "babel-preset-env": "^1.7.0"
+  }
+}

@@ -1,0 +1,17 @@
+{
+  "name": "drupal/imediaelement",
+  "description": "Provide imediaelement.js to be used on the entire site or just with Filefields.",
+  "type": "drupal-module",
+  "homepage": "http://drupal.org/project/imediaelement",
+  "authors": [
+    {
+      "name": "Adam Blankenship",
+      "homepage": "https://ablank.github.io"
+    }
+  ],
+  "support": {
+    "issues": "https://www.github.com/ablank/imediaelement/issues"
+  },
+  "license": "GPL-2.0+",
+  "require": { }
+}

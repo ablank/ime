@@ -1,56 +1,8 @@
 <?php
+
 /**
  * @file
- * Install and uninstall functionality for the imediaelement module.
+ * Install, update, and uninstall hooks for the imediaelement module.
  */
 
-/**
- * Implements hook_enable().
- */
-function imediaelement_enable() {
-  $lib = libraries_get_path('imediaelement');
-  if (empty($lib)) {
-    drupal_set_message('<h3>' .
-    t('The <a href="@imediaelement">iMediaElement library</a> is required to use this module.', array('@imediaelement' => 'https://github.com/ablank/imediaelement'))
-    . '</h3>', 'warning');
-  }
-}
-
-/**
- * Implements hook_uninstall().
- */
-function imediaelement_uninstall() {
-
-  $vars = array(
-    'imediaelement_sitewide',
-    'imediaelement_skin',
-    'imediaelement_ctrl_alwaysShowControls',
-    'imediaelement_ctrl_nativecontrols',
-    'imediaelement_ctrl_playpause',
-    'imediaelement_ctrl_volume',
-    'imediaelement_ctrl_current',
-    'imediaelement_ctrl_duration',
-    'imediaelement_ctrl_progress',
-    'imediaelement_ctrl_fullscreen',
-    'imediaelement_ctrl_startVolume',
-    'imediaelement_download_link',
-    'imediaelement_download_text',
-    'imediaelement_audio_default_width',
-    'imediaelement_audio_default_height',
-    'imediaelement_audio_default_autoplay',
-    'imediaelement_audio_default_loop',
-    'imediaelement_audio_default_preload',
-    'imediaelement_audio_default_controls',
-    'imediaelement_video_default_width',
-    'imediaelement_video_default_height',
-    'imediaelement_video_default_autoplay',
-    'imediaelement_video_default_loop',
-    'imediaelement_video_default_preload',
-    'imediaelement_video_default_fullscreen',
-    'imediaelement_video_default_controls',
-    );
-
-  foreach ($vars as $var) {
-    variable_del($var);
-  }
-}
+ 
