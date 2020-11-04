@@ -1,42 +1,35 @@
-audio_width: 400
-audio_height: 40
-video_width: 480
-video_height: 270
-class_prefix: mehaha
-timeFormat: mm:ss
-  
-
-
+default_settings:
+  poster: ""
   # When the video is ended, show the poster.
-  #showPosterWhenEnded: false
+  showPosterWhenEnded: false
   # When the video is paused, show the poster.
-  #showPosterWhenPaused: false
+  showPosterWhenPaused: false
   # Default if the <video width> is not specified
-  #defaultVideoWidth: 480
+  defaultVideoWidth: 480
   # Default if the <video height> is not specified
-  #defaultVideoHeight: 270
+  defaultVideoHeight: 270
   # If set, overrides <video width>
-  #videoWidth: -1
+  videoWidth: -1
   # If set, overrides <video height>
-  #videoHeight: -1
+  videoHeight: -1
   # Default if the user doesn't specify
-  #defaultAudioWidth: 400
+  defaultAudioWidth: 400
   # Default if the user doesn't specify
-  #defaultAudioHeight: 40
+  defaultAudioHeight: 40
   # Default amount to move forward or backward when left/right key is pressed = duration * this val
-  #defaultSeekInterval: 0.05
+  defaultSeekInterval: 0.05
   # Set dimensions via JS instead of CSS
-  #setDimensions: true
+  setDimensions: true
   # Width of audio player
-  #audioWidth: -1
+  audioWidth: -1
   # Height of audio player
-  #audioHeight: -1
+  audioHeight: -1
   # Useful for <audio> player loops
-  #loop: false
+  loop: false
   # Rewind to beginning when media ends
-  #autoRewind: true
+  autoRewind: true
   # Resize to media dimensions
-  #enableAutosize: true
+  enableAutosize: true
    # Time format to use. Default: 'mm:ss'
    # Supported units:
    #   h: hour
@@ -50,87 +43,87 @@ timeFormat: mm:ss
    # Format 'mm:ss': 01:15
    # Format 'm:ss': 1:15
    # Format 'm:s': 1:15
-  #timeFormat: mm:ss
+  timeFormat: ""
   # Force the hour marker (##:00:00)
-  #alwaysShowHours: false
+  alwaysShowHours: false
   # Show framecount in timecode (##:00:00:00)
-  #showTimecodeFrameCount: false
+  showTimecodeFrameCount: false
   # Used when showTimecodeFrameCount is set to true
-  #framesPerSecond: 25
+  framesPerSecond: 25
   # Hide controls when playing and mouse is not over the video
-  #alwaysShowControls: false
+  alwaysShowControls: false
   # Display the video control when media is loading
-  #hideVideoControlsOnLoad: false
+  hideVideoControlsOnLoad: false
   # Display the video controls when media is paused
-  #hideVideoControlsOnPause: false
+  hideVideoControlsOnPause: false
   # Enable click video element to toggle play/pause
-  #clickToPlayPause: true
+  clickToPlayPause: true
   # Time in ms to hide controls
-  #controlsTimeoutDefault: 1500
+  controlsTimeoutDefault: 1500
   # Time in ms to trigger the timer when mouse moves
-  #controlsTimeoutMouseEnter: 2500
+  controlsTimeoutMouseEnter: 2500
   # Time in ms to trigger the timer when mouse leaves
-  #controlsTimeoutMouseLeave: 1000
+  controlsTimeoutMouseLeave: 1000
   # Force iPad's native controls
-  #iPadUseNativeControls: false
+  iPadUseNativeControls: false
   # Force iPhone's native controls
-  #iPhoneUseNativeControls: false
+  iPhoneUseNativeControls: false
   # Force Android's native controls
- # AndroidUseNativeControls: false
+  AndroidUseNativeControls: false
   # If set to `true`, all the default control elements listed in features above will be used, and the features will
   # add other features
-  #useDefaultControls: false
+  useDefaultControls: false
   # Only for dynamic
-  #isVideo: true
+  isVideo: true
   # Stretching modes (auto, fill, responsive, none)
-  #stretching: auto
+  stretching: auto
   # Prefix class names on elements
-  #classPrefix: mejs__
+  classPrefix: mejs__
   # Turn keyboard support on and off for this instance
-  #enableKeyboard: true
+  enableKeyboard: true
   # When this player starts, it will pause other players
-  #pauseOtherPlayers: true
+  pauseOtherPlayers: true
   # Number of decimal places to show if frames are shown
-  #secondsDecimalLength: 0
+  secondsDecimalLength: 0
   # Features to show
-  #features: 
-  #  - playpause
-  #  - current
-  #  - progress
-  #  - duration
-  #  - tracks
-  #  - volume
-  #  - fullscreen
-  #featureText: 
+  features: 
+    - playpause
+    - current
+    - progress
+    - duration
+    - tracks
+    - volume
+    - fullscreen
+  featureText: 
     # core/mediaelement.js
-  #  downloadFile: Download File
+    downloadFile: Download File
     # core/player.js
-  #  videoPlayer: Video Player
-  #  audioPlayer: Audio Player
+    videoPlayer: Video Player
+    audioPlayer: Audio Player
     # renderers/flash.js
-  #  flashRequired: You are using a browser that does not have Flash player enabled or installed. Please turn on your Flash player plugin or download the latest version from https:#get.adobe.com/flashplayer/
+    flashRequired: You are using a browser that does not have Flash player enabled or installed. Please turn on your Flash player plugin or download the latest version from https:#get.adobe.com/flashplayer/
     # features/playpause.js
-  #  play: Play
-  #  pause: Pause
+    play: Play
+    pause: Pause
     # features/progress.js
-  #  current: Current
-  #  progress: Progress
-  #  duration: Duration
-  #  tracks: Tracks
+    current: Current
+    progress: Progress
+    duration: Duration
+    tracks: Tracks
     # features/volume.js
-  #  volumeSlider: Volume Control
-   # volumeHelpText: Use Up/Down Arrow keys to increase or decrease volume.
-   # mute: Mute
-   # unmute: Unmute
+    volumeSlider: Volume Control
+    volumeHelpText: Use Up/Down Arrow keys to increase or decrease volume.
+    mute: Mute
+    unmute: Unmute
     # features/fullscreen.js
-  #  fullscreen: Fullscreen
+    fullscreen: Fullscreen
     # features/progress.js
-  #  timeSlider: Play Time
-  #  timeHelpText: Use Left/Right Arrow keys to advance one second, Up/Down arrows to advance ten seconds.
-  #  liveBroadcast: Live Broadcast
+    timeSlider: Play Time
+    timeHelpText: Use Left/Right Arrow keys to advance one second, Up/Down arrows to advance ten seconds.
+    liveBroadcast: Live Broadcast
     # features/tracks.js
-  #  captionsSubtitles: Captions/Subtitles
-  #  captionsChapters: Chapters
-  #  none: None
+    captionsSubtitles: Captions/Subtitles
+    captionsChapters: Chapters
+    none: None
     # features/i18n.js
-  #  languages: 
+    languages: 

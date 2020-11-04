@@ -10,6 +10,5 @@ imediaelement_local:
     - core/drupalSettings
     - core/jquery
     - core/jquery.once
-    - core/media
   version: VERSION
   

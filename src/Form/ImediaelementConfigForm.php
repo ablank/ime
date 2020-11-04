@@ -10,7 +10,7 @@ use Drupal\Core\Form\FormStateInterface;
 /**
  * Configuration form for imediaelement.js module.
  */
-class ImediaelementConfigForm extends ConfigFormBase {
+class IMediaElementConfigForm extends ConfigFormBase {
 /** 
    * Config settings.
    *
@@ -37,7 +37,8 @@ class ImediaelementConfigForm extends ConfigFormBase {
    *
    * @return string[]
    *   The array of version strings.
-   *//*
+   */
+  /*
   protected function getVersionList() {
     $data = $this->getApiData(['fields' => 'assets']);
     return array_map(function ($asset) {
@@ -57,7 +58,142 @@ class ImediaelementConfigForm extends ConfigFormBase {
     ];
 
     // Configuration that applies to all types of players.
-    $player_config = $config->get('default_settings');
+    $player_config = $config->get('imediaelement_settings');
+    /*
+    class_prefix: 
+      type: string
+      label: Class Prefix
+    download_link:
+      type: boolean
+      label: Show Download Link
+    download_text:
+      type: string
+      label: Download Link Text
+    poster_image_field:
+      type: string
+      label: Poster Image Field
+    poster_image_style:
+      type: string
+      label: Poster Image Style
+    audio_width:
+      type: integer
+      label: Audio Width
+    audio_height:
+      type: integer
+      label: Audio Height
+    video_width:
+      type: integer
+      label: Video Width
+    video_height:
+      type: integer
+      label: Video Height
+    showPosterWhenEnded: 
+      type: boolean
+      label: Show Poster When Ended
+    showPosterWhenPaused: 
+      type: boolean
+      label: Show Poster When Paused
+    defaultSeekInterval: 
+      type: float
+      label: Default Seek Interval (Duration * var)
+    loop: 
+      type: boolean
+      label: 'Loop media playback'
+    autoRewind: 
+      type: boolean
+      label: Rewind to beginning when media ends
+    setDimensions: 
+      type: boolean
+      label: Set dimensions via JS instead of CSS
+    enableAutosize: 
+      type: boolean
+      label: Resize to media dimensions
+    timeFormat:
+      type: string
+      label: >
+        Time format to use. Default: 'mm:ss'
+        Supported units:
+        h: hour
+        m: minute
+        s: second
+        f: frame count
+        When using 'hh', 'mm', 'ss' or 'ff' we always display 2 digits.
+        If you use 'h', 'm', 's' or 'f' we display 1 digit if possible.
+        
+        Example to display 75 seconds:
+        Format 'mm:ss': 01:15
+        Format 'm:ss': 1:15
+        Format 'm:s': 1:15
+    alwaysShowHours: 
+      type: boolean
+      label: Always Show Hours
+    showTimecodeFrameCount: 
+      type: boolean
+      label: Show Timecode Frame Count
+    framesPerSecond: 
+      type: int
+      label: Frames Per Second
+    alwaysShowControls: 
+      type: boolean
+      label: Always Show Controls
+    hideVideoControlsOnLoad: 
+      type: boolean
+      label: Hide Video Controls On Load
+    hideVideoControlsOnPause: 
+      type: boolean
+      label: Hide Video Controls On Pause
+    clickToPlayPause: 
+      type: boolean
+      label: Click Poster or Video To Play/Pause
+    controlsTimeoutDefault: 
+      type: int
+      label: Default Controls Timeout
+    controlsTimeoutMouseEnter: 
+      type: int
+      label: Controls Timeout on MouseEnter event
+    controlsTimeoutMouseLeave: 
+      type: int
+      label: Controls Timeout on MouseLeave event
+    stretching: 
+      type: string
+      label: >
+        Video stretch mode
+        (auto, fill, responsive, none)
+    enableKeyboard: 
+      type: boolean
+      label: Enable keyboard control
+    pauseOtherPlayers: 
+      type: boolean
+      label: Pause other players when another starts
+    secondsDecimalLength: 
+      type: int
+      label: Number of decimal places to show if frames are shown
+    features: 
+      type: sequence
+      label: Control features to display
+        sequence: 
+          playpause:
+            type: boolean
+            label: PlayPause
+          current:
+            type: boolean
+            label: Current
+          progress:
+            type: boolean
+            label: Progress
+          duration:
+            type: boolean
+            label: Duration
+          tracks:
+            type: boolean
+            label: Tracks
+          volume:
+            type: boolean
+            label: Volume
+          fullscreen:
+            type: boolean
+            label: Fullscreen
+     */
 
     $form['default_settings']['player_settings'] = [
       '#type' => 'details',
@@ -70,7 +206,7 @@ class ImediaelementConfigForm extends ConfigFormBase {
       '#title' => $this->t('Class Prefix'),
       '#description' => $this->t('Class prefix for player elements.'),
       '#default_value' => $player_config['class_prefix'] ?? '',
-      '#placeholder' => 'mejs__',
+      '#placeholder' => $player_config['class_prefix'] ?? 'mejs__',
     ];
 
     $form['default_settings']['player_settings']['set_dimensions'] = [
@@ -94,7 +230,7 @@ class ImediaelementConfigForm extends ConfigFormBase {
       '#title' => $this->t('Default Video Width'),
       '#description' => $this->t('Default width if the <code>&#60;video&#62;</code> width is not specified'),
       '#default_value' => $video_settings['default_video_width'] ?? '',
-      '#placeholder' => '480',
+      '#placeholder' => $video_settings['default_video_width'] ?? '480',
     ];
 
     $form['default_settings']['video_settings']['default_video_height'] = [

@@ -59,8 +59,8 @@ function imediaelement_preprocess_imediaelement_file(&$variables) {
  */
 function imediaelement_parse_config($config) {
   $settings = [];
+  dpm($config);
   $config = imediaelement_flatten_array($config);
-  //dpm($config);
 
   // Prepare config for Javascript.
   foreach ($config as $setting => $value) {

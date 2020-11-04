@@ -2,4 +2,4 @@ imediaelement.config:
   title: 'iMediaElement'
   description: 'Configure iMediaElement module.'
   parent: system.admin_config_media
-  route_name: imediaelement.config
+  route_name: imediaelement.settings
