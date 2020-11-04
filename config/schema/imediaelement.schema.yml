@@ -113,28 +113,28 @@ imediaelement_settings:
     features: 
       type: sequence
       label: Control features to display
-        sequence: 
-          playpause:
-            type: boolean
-            label: 'PlayPause'
-          current:
-            type: boolean
-            label: 'Current'
-          progress:
-            type: boolean
-            label: 'Progress'
-          duration:
-            type: boolean
-            label: 'Duration'
-          tracks:
-            type: boolean
-            label: 'Tracks'
-          volume:
-            type: boolean
-            label: 'Volume'
-          fullscreen:
-            type: boolean
-            label: 'Fullscreen'
+      sequence:
+        playpause:
+          type: boolean
+          label: 'PlayPause'
+        current:
+          type: boolean
+          label: 'Current'
+        progress:
+          type: boolean
+          label: 'Progress'
+        duration:
+          type: boolean
+          label: 'Duration'
+        tracks:
+          type: boolean
+          label: 'Tracks'
+        volume:
+          type: boolean
+          label: 'Volume'
+        fullscreen:
+          type: boolean
+          label: 'Fullscreen'
     
 
   # Features to show

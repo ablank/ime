@@ -59,6 +59,7 @@ class IMediaElementConfigForm extends ConfigFormBase {
 
     // Configuration that applies to all types of players.
     $player_config = $config->get('imediaelement_settings');
+    dpm($player_config);
     /*
     class_prefix: 
       type: string
@@ -527,7 +528,10 @@ class IMediaElementConfigForm extends ConfigFormBase {
   public function submitForm(array &$form, FormStateInterface $form_state) {
     $config = $this->configFactory->getEditable(static::SETTINGS);
 
-    $player_settings_fields = ['class_prefix', 'set_dimensions'];
+    $player_settings_fields = [
+      'class_prefix', 
+      'set_dimensions'
+    ];
 
     $default_settings = [];
 
@@ -559,7 +563,7 @@ class IMediaElementConfigForm extends ConfigFormBase {
       $form_state
     );
 
-    $config->set('default_settings', $default_settings);
+    $config->set('imediaelement_settings', $default_settings);
     $config->save();
 
     parent::submitForm($form, $form_state);
