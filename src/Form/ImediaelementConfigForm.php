@@ -59,7 +59,7 @@ class IMediaElementConfigForm extends ConfigFormBase {
 
     // Configuration that applies to all types of players.
     $player_config = $config->get('imediaelement_settings');
-    dpm($player_config);
+    //dpm($player_config);
     /*
     class_prefix: 
       type: string
@@ -202,12 +202,25 @@ class IMediaElementConfigForm extends ConfigFormBase {
       '#weight' => 1,
     ];
 
+    $form['default_settings']['player_settings']['skin'] = [
+      '#type' => 'select',
+      '#title' => $this->t('Player Skin'),
+      '#description' => $this->t('Select skin style for mediaplayer elements.'),
+      '#options' => [
+        'default'=>$this->t('Default'),
+        'dark'=>$this->t('Dark'),
+        'dark_large'=>$this->t('Dark [Large]'),
+        'light'=>$this->t('Light'),
+        'light_large'=>$this->t('Light [Large]'),
+      ]
+    ];
+
     $form['default_settings']['player_settings']['class_prefix'] = [
       '#type' => 'textfield',
       '#title' => $this->t('Class Prefix'),
       '#description' => $this->t('Class prefix for player elements.'),
       '#default_value' => $player_config['class_prefix'] ?? '',
-      '#placeholder' => $player_config['class_prefix'] ?? 'mejs__',
+      '#placeholder' => $player_config['class_prefix'] ?? 'mejs :)',
     ];
 
     $form['default_settings']['player_settings']['set_dimensions'] = [
@@ -239,7 +252,7 @@ class IMediaElementConfigForm extends ConfigFormBase {
       '#title' => $this->t('Default Video Height'),
       '#description' => $this->t('Default width if the <code>&#60;video&#62;</code> height is not specified'),
       '#default_value' => $video_settings['default_video_height'] ?? '',
-      '#placeholder' => '270',
+      '#placeholder' => $video_settings['default_video_height'] ?? '270',
     ];
 
     $form['default_settings']['video_settings']['video_width'] = [
@@ -247,7 +260,7 @@ class IMediaElementConfigForm extends ConfigFormBase {
       '#title' => $this->t('Video Width'),
       '#description' => $this->t('If set, overrides <code>&#60;video&#62;</code> width'),
       '#default_value' => $video_settings['video_width'] ?? '',
-      '#placeholder' => '-1',
+      '#placeholder' => $video_settings['video_width'] ?? '-1',
     ];
 
     $form['default_settings']['video_settings']['video_height'] = [
@@ -255,7 +268,7 @@ class IMediaElementConfigForm extends ConfigFormBase {
       '#title' => $this->t('Video Height'),
       '#description' => $this->t('If set, overrides <code>&#60;video&#62;</code> height'),
       '#default_value' => $video_settings['video_height'] ?? '',
-      '#placeholder' => '-1',
+      '#placeholder' => $video_settings['video_height'] ?? '-1',
     ];
 
     // Configuration for audio players.
@@ -272,7 +285,7 @@ class IMediaElementConfigForm extends ConfigFormBase {
       '#title' => $this->t('Default Audio Width'),
       '#description' => $this->t('Default width if the <code>&#60;audio&#62;</code> width is not specified'),
       '#default_value' => $audio_settings['default_audio_width'] ?? '',
-      '#placeholder' => '400',
+      '#placeholder' => $audio_settings['default_audio_width'] ?? '400',
     ];
 
     $form['default_settings']['audio_settings']['default_audio_height'] = [
@@ -280,7 +293,7 @@ class IMediaElementConfigForm extends ConfigFormBase {
       '#title' => $this->t('Default Audio Height'),
       '#description' => $this->t('Default width if the <code>&#60;audio&#62;</code> height is not specified'),
       '#default_value' => $audio_settings['default_audio_height'] ?? '',
-      '#placeholder' => '30',
+      '#placeholder' => $audio_settings['default_audio_height'] ?? '30',
     ];
 
     $form['default_settings']['audio_settings']['audio_width'] = [
@@ -288,7 +301,7 @@ class IMediaElementConfigForm extends ConfigFormBase {
       '#title' => $this->t('Audio Width'),
       '#description' => $this->t('If set, overrides <code>&#60;audio&#62;</code> width'),
       '#default_value' => $audio_settings['audio_width'] ?? '',
-      '#placeholder' => '-1',
+      '#placeholder' => $audio_settings['audio_width'] ?? '-1',
     ];
 
     $form['default_settings']['audio_settings']['audio_height'] = [
@@ -296,7 +309,7 @@ class IMediaElementConfigForm extends ConfigFormBase {
       '#title' => $this->t('Audio Height'),
       '#description' => $this->t('If set, overrides <code>&#60;audio&#62;</code> height'),
       '#default_value' => $audio_settings['audio_height'] ?? '',
-      '#placeholder' => '-1',
+      '#placeholder' => $audio_settings['audio_height'] ?? '-1',
     ];
 /*
     poster: ""
@@ -529,8 +542,9 @@ class IMediaElementConfigForm extends ConfigFormBase {
     $config = $this->configFactory->getEditable(static::SETTINGS);
 
     $player_settings_fields = [
-      'class_prefix', 
-      'set_dimensions'
+      'skin',
+      'class_prefix',
+      'set_dimensions',
     ];
 
     $default_settings = [];
