@@ -1,118 +1,105 @@
-imediaelement_settings:
+# Schema for the configuration files of the iMediaElement module.
+
+imediaelement.settings:
   type: config_object
-  label: iMediaElement Settings
+  label: 'iMediaElement Settings'
   mapping:
-    class_prefix: 
+    classPrefix: 
       type: string
-      label: Class Prefix
-    download_link:
+      label: 'Class Prefix'
+    download_file:
       type: boolean
-      label: Show Download Link
-    download_text:
+      label: 'Show Download Link'
+    downloadFile:
       type: string
-      label: Download Link Text
+      label: 'Download Link Text'
     poster_image_field:
       type: string
-      label: Poster Image Field
+      label: 'Poster Image Field'
     poster_image_style:
       type: string
-      label: Poster Image Style
-    audio_width:
+      label: 'Poster Image Style'
+    audioWidth:
       type: integer
-      label: Audio Width
-    audio_height:
+      label: 'Audio Width'
+    audioHeight:
       type: integer
-      label: Audio Height
-    video_width:
+      label: 'Audio Height'
+    videoWidth:
       type: integer
-      label: Video Width
-    video_height:
+      label: 'Video Width'
+    videoHeight:
       type: integer
-      label: Video Height
+      label: 'Video Height'
     showPosterWhenEnded: 
       type: boolean
-      label: Show Poster When Ended
+      label: 'Show Poster When Ended'
     showPosterWhenPaused: 
       type: boolean
-      label: Show Poster When Paused
+      label: 'Show Poster When Paused'
     defaultSeekInterval: 
       type: float
-      label: Default Seek Interval (Duration * var)
+      label: 'Default Seek Interval (Duration * var)'
     loop: 
       type: boolean
       label: 'Loop media playback'
     autoRewind: 
       type: boolean
-      label: Rewind to beginning when media ends
+      label: 'Rewind to beginning when media ends'
     setDimensions: 
       type: boolean
-      label: Set dimensions via JS instead of CSS
+      label: 'Set dimensions via JS instead of CSS'
     enableAutosize: 
       type: boolean
-      label: Resize to media dimensions
+      label: 'Resize to media dimensions'
     timeFormat:
       type: string
-      label: >
-        Time format to use. Default: 'mm:ss'
-        Supported units:
-        h: hour
-        m: minute
-        s: second
-        f: frame count
-        When using 'hh', 'mm', 'ss' or 'ff' we always display 2 digits.
-        If you use 'h', 'm', 's' or 'f' we display 1 digit if possible.
-        
-        Example to display 75 seconds:
-        Format 'mm:ss': 01:15
-        Format 'm:ss': 1:15
-        Format 'm:s': 1:15
+      label: 'Time format to use'
     alwaysShowHours: 
       type: boolean
-      label: Always Show Hours
+      label: 'Always Show Hours'
     showTimecodeFrameCount: 
       type: boolean
-      label: Show Timecode Frame Count
+      label: 'Show Timecode Frame Count'
     framesPerSecond: 
       type: int
-      label: Frames Per Second
+      label: 'Frames Per Second'
     alwaysShowControls: 
       type: boolean
-      label: Always Show Controls
+      label: 'Always Show Controls'
     hideVideoControlsOnLoad: 
       type: boolean
-      label: Hide Video Controls On Load
+      label: 'Hide Video Controls On Load'
     hideVideoControlsOnPause: 
       type: boolean
-      label: Hide Video Controls On Pause
+      label: 'Hide Video Controls On Pause'
     clickToPlayPause: 
       type: boolean
-      label: Click Poster or Video To Play/Pause
+      label: 'Click Poster or Video To Play/Pause'
     controlsTimeoutDefault: 
       type: int
-      label: Default Controls Timeout
+      label: 'Default Controls Timeout'
     controlsTimeoutMouseEnter: 
       type: int
-      label: Controls Timeout on MouseEnter event
+      label: 'Controls Timeout on MouseEnter event'
     controlsTimeoutMouseLeave: 
       type: int
-      label: Controls Timeout on MouseLeave event
+      label: 'Controls Timeout on MouseLeave event'
     stretching: 
       type: string
-      label: >
-        Video stretch mode
-        (auto, fill, responsive, none)
+      label: 'Video stretch mode'
     enableKeyboard: 
       type: boolean
-      label: Enable keyboard control
+      label: 'Enable keyboard control'
     pauseOtherPlayers: 
       type: boolean
-      label: Pause other players when another starts
+      label: 'Pause other players when another starts'
     secondsDecimalLength: 
       type: int
-      label: Number of decimal places to show if frames are shown
+      label: 'Number of decimal places to show if frames are shown'
     features: 
       type: sequence
-      label: Control features to display
+      label: 'Control features to display'
       sequence:
         playpause:
           type: boolean
@@ -135,14 +122,98 @@ imediaelement_settings:
         fullscreen:
           type: boolean
           label: 'Fullscreen'
-    
+    featureText: 
+      type: mapping
+      label: 'Control features to display'
+      mapping:
+        downloadFile:
+          type: string
+          label: 'Download File'
+        videoPlayer:
+          type: string
+          label: 'Video Player'
+        audioPlayer:
+          type: string
+          label: 'Audio Player'
+        flashRequired:
+          type: string
+          label: 'Flash Required Message'
+        play:
+          type: string
+          label: 'Play'
+        pause:
+          type: string
+          label: 'Pause'
+        current:
+          type: string
+          label: 'Current'
+        progress:
+          type: string
+          label: 'Progress'
+        duration:
+          type: string
+          label: 'Duration'
+        tracks:
+          type: string
+          label: 'Tracks'
+        volumeSlider:
+          type: string
+          label: 'Volume Control'
+        volumeHelpText:
+          type: string
+          label: 'Volume Help Text'
+        mute:
+          type: string
+          label: 'Mute'
+        unmute:
+          type: string
+          label: 'Unmute'
+        fullscreen:
+          type: string
+          label: 'Fullscreen'
+        timeSlider:
+          type: string
+          label: 'Play Time'
+        timeHelpText:
+          type: string
+          label: 'Time Help Text'
+        liveBroadcast:
+          type: string
+          label: 'Live Broadcast'
+        captionsSubtitles:
+          type: string
+          label: 'Captions/Subtitles'
+        captionsChapters:
+          type: string
+          label: 'Chapters'
 
-  # Features to show
- # features: 
- #   - playpause
- #   - current
- #   - progress
- #   - duration
- #   - tracks
- #   - volume
- #   - fullscreen
+imediaelement.audio.settings:
+  audioWidth:
+    type: integer
+    label: 'Audio Width'
+  audioHeight:
+    type: integer
+    label: 'Audio Height'
+
+imediaelement.video.settings:
+  hideVideoControlsOnLoad:       
+    type: boolean
+    label: 'Hide Video Controls On Load'
+  hideVideoControlsOnPause: 
+    type: boolean
+    label: 'Hide Video Controls On Pause'
+  clickToPlayPause: 
+    type: boolean
+    label: 'Click Poster or Video To Play/Pause'
+  controlsTimeoutDefault: 
+    type: int
+    label: 'Default Controls Timeout'
+  controlsTimeoutMouseEnter: 
+    type: int
+    label: 'Controls Timeout on MouseEnter event'
+  controlsTimeoutMouseLeave: 
+    type: int
+    label: 'Controls Timeout on MouseLeave event'
+  stretching: 
+    type: string
+    label: 'Video stretch mode'

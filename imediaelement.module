@@ -33,8 +33,7 @@ function imediaelement_theme($existing, $type, $theme, $path) {
  */
 function imediaelement_preprocess_html(&$variables) {
   $config = \Drupal::config('imediaelement.settings');
-  $default_config = $config->get('default_settings');
-  $settings = imediaelement_parse_config($default_config);
+  $settings = imediaelement_parse_config($config);
 
   $variables['#attached']['drupalSettings']['imediaelement'] = $settings;
 }

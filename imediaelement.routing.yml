@@ -1,7 +1,7 @@
 imediaelement.settings:
-  path: '/admin/config/media/imediaelement/settings'
+  path: '/admin/config/media/imediaelement'
   defaults:
-    _form: '\Drupal\imediaelement\Form\IMediaElementConfigForm'
     _title: 'iMediaElement Settings'
+    _form: '\Drupal\imediaelement\Form\IMediaElementConfigForm'
   requirements:
     _permission: 'administer imediaelement'

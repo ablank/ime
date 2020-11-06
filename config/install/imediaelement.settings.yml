@@ -1,8 +1,8 @@
-audio_width: 400
-audio_height: 40
-video_width: 480
-video_height: 270
-class_prefix: mehaha
+classPrefix: mejs__
+audioWidth: 400
+audioHeight: 40
+videoWidth: 480
+videoHeight: 270
 timeFormat: mm:ss
   
 
