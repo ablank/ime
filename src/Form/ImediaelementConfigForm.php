@@ -217,26 +217,37 @@ class IMediaElementConfigForm extends ConfigFormBase {
    * @return array
    *   The settings to save keyed by their name.
    */
-  private function getConfigurationValues(array $fields, FormStateInterface $form_state) {
-    $values = [];
-    // \Drupal::configFactory()->loadMultiple(
+  private function getFormValues(array $fields, FormStateInterface $form_state) {
+    $form_values = [];
 
     foreach ($fields as $field) {
       $value = $form_state->getValue($field);
 
       if (!empty($value) || $value === 0) {
-        $values[$field] = $value;
+        $form_values[$field] = $value;
       }
     }
 
-    return $values;
+    return $form_values;
   }
 
   /**
    * {@inheritdoc}
    */
   public function submitForm(array &$form, FormStateInterface $form_state) {
-    $settings = \Drupal::configFactory()->getEditable(static::SETTINGS);
+ 
+    // Retrieve the configuration from form.
+    $this->configFactory->getEditable(static::SETTINGS)
+      // Set the submitted configuration setting.
+      ->set('example_thing', $form_state->getValue('example_thing'))
+      // You can set multiple configurations at once by making
+      // multiple calls to set().
+      ->set('other_things', $form_state->getValue('other_things'))
+      ->save();
+
+    parent::submitForm($form, $form_state);
+   
+      /* $settings = \Drupal::configFactory()->getEditable(static::SETTINGS);
 
     $player_settings_fields = [
       'skin',
@@ -277,7 +288,7 @@ class IMediaElementConfigForm extends ConfigFormBase {
 
     $imediaelement_settings = [];
 
-    $imediaelement_settings['player_settings'] = $this->getConfigurationValues(
+    $imediaelement_settings['player_settings'] = $this->getFormValues(
       $player_settings_fields,
       $form_state
     );
@@ -294,7 +305,8 @@ class IMediaElementConfigForm extends ConfigFormBase {
 
     $settings->set(static::SETTINGS, $imediaelement_settings)->save();
 
-    parent::submitForm($form, $form_state);
+    parent::submitForm($form, $form_state); 
+    */
   }
 
 }
