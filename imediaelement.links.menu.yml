@@ -1,4 +1,4 @@
-imediaelement.config:
+imediaelement.settings:
   title: 'iMediaElement'
   description: 'Configure iMediaElement module.'
   parent: system.admin_config_media

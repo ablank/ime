@@ -236,19 +236,8 @@ class IMediaElementConfigForm extends ConfigFormBase {
    */
   public function submitForm(array &$form, FormStateInterface $form_state) {
  
-    // Retrieve the configuration from form.
-    $this->configFactory->getEditable(static::SETTINGS)
-      // Set the submitted configuration setting.
-      ->set('example_thing', $form_state->getValue('example_thing'))
-      // You can set multiple configurations at once by making
-      // multiple calls to set().
-      ->set('other_things', $form_state->getValue('other_things'))
-      ->save();
-
-    parent::submitForm($form, $form_state);
-   
-      /* $settings = \Drupal::configFactory()->getEditable(static::SETTINGS);
-
+    $imediaelement_settings = [];
+    
     $player_settings_fields = [
       'skin',
       'classPrefix',
@@ -286,7 +275,31 @@ class IMediaElementConfigForm extends ConfigFormBase {
       'features',
     ];
 
-    $imediaelement_settings = [];
+    // Retrieve the configuration from form.
+    $update = $this->configFactory->getEditable(static::SETTINGS);
+
+    $mergedSettings = $this -> getFormValues()
+    
+
+      // Set the submitted configuration setting.
+      ->set('example_thing', $form_state->getValue('example_thing'))
+      // You can set multiple configurations at once by making
+      // multiple calls to set().
+      ->set('other_things', $form_state->getValue('other_things'))
+      ->save();
+
+    parent::submitForm($form, $form_state);
+    /*$this->configFactory->getEditable(static::SETTINGS)
+      // Set the submitted configuration setting.
+      ->set('example_thing', $form_state->getValue('example_thing'))
+      // You can set multiple configurations at once by making
+      // multiple calls to set().
+      ->set('other_things', $form_state->getValue('other_things'))
+      ->save();
+
+    parent::submitForm($form, $form_state); */
+   
+      /* $settings = \Drupal::configFactory()->getEditable(static::SETTINGS);
 
     $imediaelement_settings['player_settings'] = $this->getFormValues(
       $player_settings_fields,
