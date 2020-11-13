@@ -1,4 +1,4 @@
-imediaelement_local:
+imediaelement:
   js:
     /libraries/imediaelement/build/imediaelement-and-player.min.js: {}
     js/imediaelement.js: {}
@@ -6,9 +6,7 @@ imediaelement_local:
     component:
       /libraries/imediaelement/build/default/imediaelementplayer.min.css: {}
   dependencies:
-    # - core/drupal
     - core/drupalSettings
     - core/jquery
     - core/jquery.once
-  version: VERSION
   

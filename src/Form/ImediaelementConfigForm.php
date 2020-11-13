@@ -237,7 +237,9 @@ class IMediaElementConfigForm extends ConfigFormBase {
   public function submitForm(array &$form, FormStateInterface $form_state) {
  
     $imediaelement_settings = [];
-    
+
+    $getFormValues = $this->configFactory->getEditable(static::SETTINGS);
+
     $player_settings_fields = [
       'skin',
       'classPrefix',
@@ -275,51 +277,20 @@ class IMediaElementConfigForm extends ConfigFormBase {
       'features',
     ];
 
-    // Retrieve the configuration from form.
-    $update = $this->configFactory->getEditable(static::SETTINGS);
-
-    $mergedSettings = $this -> getFormValues()
+    foreach($player_settings_fields as $field){
+      $getFormValues->set($field, $form_state->getValue($field));
+    }
     
+    foreach($audio_settings_fields as $field){
+      $getFormValues->set($field, $form_state->getValue($field));
+    }
 
-      // Set the submitted configuration setting.
-      ->set('example_thing', $form_state->getValue('example_thing'))
-      // You can set multiple configurations at once by making
-      // multiple calls to set().
-      ->set('other_things', $form_state->getValue('other_things'))
-      ->save();
-
+    foreach($video_settings_fields as $field){
+      $getFormValues->set($field, $form_state->getValue($field));
+    }
+    
+    $getFormValues->save();
+    
     parent::submitForm($form, $form_state);
-    /*$this->configFactory->getEditable(static::SETTINGS)
-      // Set the submitted configuration setting.
-      ->set('example_thing', $form_state->getValue('example_thing'))
-      // You can set multiple configurations at once by making
-      // multiple calls to set().
-      ->set('other_things', $form_state->getValue('other_things'))
-      ->save();
-
-    parent::submitForm($form, $form_state); */
-   
-      /* $settings = \Drupal::configFactory()->getEditable(static::SETTINGS);
-
-    $imediaelement_settings['player_settings'] = $this->getFormValues(
-      $player_settings_fields,
-      $form_state
-    );
-
-    $imediaelement_settings['video_settings'] = $this->getConfigurationValues(
-      $video_settings_fields,
-      $form_state
-    );
-
-    $imediaelement_settings['audio_settings'] = $this->getConfigurationValues(
-      $audio_settings_fields,
-      $form_state
-    );
-
-    $settings->set(static::SETTINGS, $imediaelement_settings)->save();
-
-    parent::submitForm($form, $form_state); 
-    */
   }
-
 }
