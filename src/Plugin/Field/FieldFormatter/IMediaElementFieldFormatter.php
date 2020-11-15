@@ -8,7 +8,7 @@ use Drupal\Core\Form\FormStateInterface;
 /**
  * Common methods for imediaelement.js processing.
  */
-trait imediaelementFieldFormatterTrait {
+trait IMediaElementFieldFormatter {
 
   /**
    * {@inheritdoc}
@@ -75,7 +75,6 @@ trait imediaelementFieldFormatterTrait {
     foreach ($elements as &$element) {
       $element['#download_link'] = $this->settings['download_link'];
       $element['#download_text'] = $this->settings['download_text'];
-      $element['#attached']['library'][] = "imediaelement/imediaelement_{$library_source}";
     }
 
     return $elements;

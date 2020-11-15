@@ -23,11 +23,11 @@ use Drupal\file\Plugin\Field\FieldFormatter\FileVideoFormatter;
  *   }
  * )
  */
-class imediaelementVideoFieldFormatter extends FileVideoFormatter implements ContainerFactoryPluginInterface {
+class IMediaElementFieldFormatterVideo extends FileVideoFormatter implements ContainerFactoryPluginInterface {
 
   // Include trait with global imediaelement formatter config items. Allow for
   // overriding of Trait methods.
-  use imediaelementFieldFormatterTrait {
+  use IMediaElementFieldFormatter {
     defaultSettings as traitDefaultSettings;
     settingsForm as traitSettingsForm;
     settingsSummary as traitSettingsSummary;
@@ -178,16 +178,19 @@ class imediaelementVideoFieldFormatter extends FileVideoFormatter implements Con
   protected function getPosterPath(EntityInterface $entity) {
     $image_field = $this->settings['poster_image_field'];
     $image_style = $this->settings['poster_image_style'];
+    $image_uri = $entity->{$image_field}->entity->getFileUri();
 
     // @codingStandardsIgnoreLine
     if ($image_field == 'none') { return ''; }
     if ($entity->get($image_field)->isEmpty()) { return ''; }
 
-    $image_uri = $entity->{$image_field}->entity->getFileUri();
 
-    $image_url = $image_style == 'raw'
-      ? file_create_url($image_uri)
-      : $this->imageStyleStorage->load($image_style)->buildUrl($image_uri);
+    if($image_style == 'raw'){
+      $image_url = file_create_url($image_uri);
+    } 
+    else {
+      $this->imageStyleStorage->load($image_style)->buildUrl($image_uri);
+    } 
 
     return file_url_transform_relative($image_url);
   }

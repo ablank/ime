@@ -132,7 +132,7 @@ class IMediaElementConfigForm extends ConfigFormBase {
       '#type' => 'number',
       '#title' => $this->t('Audio Width'),
       '#description' => $this->t('If set, overrides <code>&#60;audio&#62;</code> width'),
-      '#default_value' => $audio_settings['audioWidth'] ?? '',
+      '#default_value' => $audio_settings['audioWidth'] ?? 400,
       '#placeholder' => $audio_settings['audioWidth'] ?? 400,
     ];
 
@@ -140,7 +140,7 @@ class IMediaElementConfigForm extends ConfigFormBase {
       '#type' => 'number',
       '#title' => $this->t('Audio Height'),
       '#description' => $this->t('If set, overrides <code>&#60;audio&#62;</code> height'),
-      '#default_value' => $audio_settings['audioHeight'] ?? '',
+      '#default_value' => $audio_settings['audioHeight'] ?? 40,
       '#placeholder' => $audio_settings['audioHeight'] ?? 40,
     ];    
 
@@ -170,7 +170,7 @@ class IMediaElementConfigForm extends ConfigFormBase {
       '#type' => 'number',
       '#title' => $this->t('Video Width'),
       '#description' => $this->t('If set, overrides <code>&#60;video&#62;</code> width'),
-      '#default_value' => $video_settings['videoWidth'] ?? '',
+      '#default_value' => $video_settings['videoWidth'] ?? 480,
       '#placeholder' => $video_settings['videoWidth'] ?? 480,
     ];
 
@@ -178,7 +178,7 @@ class IMediaElementConfigForm extends ConfigFormBase {
       '#type' => 'number',
       '#title' => $this->t('Video Height'),
       '#description' => $this->t('If set, overrides <code>&#60;video&#62;</code> height'),
-      '#default_value' => $video_settings['videoHeight'] ?? '',
+      '#default_value' => $video_settings['videoHeight'] ?? 270,
       '#placeholder' => $video_settings['videoHeight'] ?? 270,
     ];
 
@@ -186,7 +186,8 @@ class IMediaElementConfigForm extends ConfigFormBase {
       '#type' => 'select',
       '#title' => $this->t('Video Stretching Mode'),
       '#description' => $this->t('If set, overrides <code>&#60;video&#62;</code> height'),
-      '#default_value' => $video_settings['stretching'] ?? '',
+      /* auto, fill, responsive, none*/
+      '#default_value' => $video_settings['stretching'] ?? 'auto',
     ];
 /*
  * Help / Documentation 
@@ -235,10 +236,10 @@ class IMediaElementConfigForm extends ConfigFormBase {
    * {@inheritdoc}
    */
   public function submitForm(array &$form, FormStateInterface $form_state) {
- 
-    $imediaelement_settings = [];
 
     $getFormValues = $this->configFactory->getEditable(static::SETTINGS);
+
+    //$imediaelement_settings = [];
 
     $player_settings_fields = [
       'skin',
