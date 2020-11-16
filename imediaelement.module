@@ -57,6 +57,7 @@ function imediaelement_preprocess_imediaelement_file(&$variables) {
  *   Config items.
  */
 function imediaelement_parse_config($config) {
+  dpm($confg);
   /*
 
   $settings = [];

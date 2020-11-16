@@ -81,24 +81,48 @@ class IMediaElementConfigForm extends ConfigFormBase {
         'light' => $this->t('Light'),
         'light_large' => $this->t('Light [Large]'),
       ],
-      '#default_value' => $player_config['skin'] ?? 'default',
+      '#default_value' => 'default',
     ];
 
     $form['imediaelement']['player_settings']['classPrefix'] = [
       '#type' => 'textfield',
       '#title' => $this->t('Class Prefix'),
       '#description' => $this->t('Class prefix for player elements.'),
-      '#default_value' => $player_config['classPrefix'] ?? '',
-      '#placeholder' => $player_config['classPrefix'] ?? 'mejs__',
+      '#default_value' => 'mejs__',
+      '#placeholder' => $player_config['classPrefix'],
     ];
 
     $form['imediaelement']['player_settings']['setDimensions'] = [
       '#type' => 'checkbox',
       '#title' => $this->t('Set Dimensions'),
       '#description' => $this->t('Set dimensions via JS instead of CSS.'),
-      '#default_value' => $player_config['setDimensions'] ?? TRUE,
+      '#default_value' => TRUE,
+    ];
+    
+    $form['imediaelement']['player_settings']['controlsTimeoutDefault'] = [
+      '#type' => 'number',
+      '#title' => $this->t('Timeout Default'),
+      '#description' => $this->t('Default timeout (in ms) before controls are hidden.'),
+      '#default_value' => 1000,
+      '#placeholder' => $player_config['controlsTimeoutDefault'],
     ];
 
+    $form['imediaelement']['player_settings']['controlsTimeoutMouseEnter'] = [
+      '#type' => 'number',
+      '#title' => $this->t('mouseEnter Timeout'),
+      '#description' => $this->t('Time to wait (in ms) after the mouseEnter event is fired.'),
+      '#default_value' => 1000,
+      '#placeholder' => $player_config['controlsTimeoutMouseEnter'],
+    ];
+    
+    $form['imediaelement']['player_settings']['controlsTimeoutMouseLeave'] = [
+      '#type' => 'number',
+      '#title' => $this->t('mouseLeave Timeout'),
+      '#description' => $this->t('Time to wait (in ms) after the mouseLeave event is fired.'),
+      '#default_value' => 1000,
+      '#placeholder' => $player_config['controlsTimeoutMouseLeave'],
+    ];
+    
     /*
      * Audio Settings
      *
@@ -118,16 +142,16 @@ class IMediaElementConfigForm extends ConfigFormBase {
       '#type' => 'number',
       '#title' => $this->t('Audio Width'),
       '#description' => $this->t('If set, overrides <code>&#60;audio&#62;</code> width'),
-      '#default_value' => $audio_settings['audioWidth'] ?? 400,
-      '#placeholder' => $audio_settings['audioWidth'] ?? 400,
+      '#default_value' => 400,
+      '#placeholder' => $audio_settings['audioWidth'],
     ];
 
     $form['imediaelement']['audio_settings']['audioHeight'] = [
       '#type' => 'number',
       '#title' => $this->t('Audio Height'),
       '#description' => $this->t('If set, overrides <code>&#60;audio&#62;</code> height'),
-      '#default_value' => $audio_settings['audioHeight'] ?? 40,
-      '#placeholder' => $audio_settings['audioHeight'] ?? 40,
+      '#default_value' => 40,
+      '#placeholder' => $audio_settings['audioHeight'],
     ];
 
     /*
@@ -142,9 +166,6 @@ class IMediaElementConfigForm extends ConfigFormBase {
     'hideVideoControlsOnLoad',
     'hideVideoControlsOnPause',
     'clickToPlayPause',
-    'controlsTimeoutDefault',
-    'controlsTimeoutMouseEnter',
-    'controlsTimeoutMouseLeave',
      */
     $form['imediaelement']['video_settings'] = [
       '#type' => 'details',
@@ -156,16 +177,16 @@ class IMediaElementConfigForm extends ConfigFormBase {
       '#type' => 'number',
       '#title' => $this->t('Video Width'),
       '#description' => $this->t('If set, overrides <code>&#60;video&#62;</code> width'),
-      '#default_value' => $video_settings['videoWidth'] ?? 480,
-      '#placeholder' => $video_settings['videoWidth'] ?? 480,
+      '#default_value' => 480,
+      '#placeholder' => $video_settings['videoWidth'],
     ];
 
     $form['imediaelement']['video_settings']['videoHeight'] = [
       '#type' => 'number',
       '#title' => $this->t('Video Height'),
       '#description' => $this->t('If set, overrides <code>&#60;video&#62;</code> height'),
-      '#default_value' => $video_settings['videoHeight'] ?? 270,
-      '#placeholder' => $video_settings['videoHeight'] ?? 270,
+      '#default_value' => 270,
+      '#placeholder' => $video_settings['videoHeight'],
     ];
 
     $form['imediaelement']['video_settings']['features'] = [
@@ -177,38 +198,67 @@ class IMediaElementConfigForm extends ConfigFormBase {
         'time' => $this->t('Time'),
         'fullscreen' => $this->t('Fullscreen'),
         'tracks' => $this->t('Track List'),
-        'i18n' => $this->t('Language Switchesr'),
+        'i18n' => $this->t('UI Language Switcher'),
       ],
       '#title' => $this->t('Video UI controls to implement.'),
-      '#default_value' => $video_settings['features'] ?? [0, 1, 2, 3, 4],
+      '#default_value' => [
+        'playpause',
+        'progress',
+        'volume',
+        'time',
+        'fullscreen'
+      ],
     ];
 
     $form['imediaelement']['video_settings']['stretching'] = [
       '#type' => 'select',
       '#title' => $this->t('Video Stretching Mode'),
       '#description' => $this->t('If set, overrides <code>&#60;video&#62;</code> height'),
-      /* auto, fill, responsive, none*/
-      '#default_value' => $video_settings['stretching'] ?? 'auto',
+      '#options' => [
+        'auto', 
+        'fill', 
+        'responsive', 
+        'none', 
+      ],
+      '#default_value' => 'auto',
+    ];
+
+    $form['imediaelement']['player_settings']['clickToPlayPause'] = [
+      '#type' => 'checkbox',
+      '#title' => $this->t('Click To Play Pause'),
+      '#description' => $this->t('Click on video to play or pause'),
+      '#default_value' => TRUE,
+    ];
+
+    $form['imediaelement']['player_settings']['hideVideoControlsOnLoad'] = [
+      '#type' => 'checkbox',
+      '#title' => $this->t('Hide Video Controls On Load'),
+      '#description' => $this->t('Hide Video Controls On Load'),
+      '#default_value' => TRUE,
+    ];
+    
+    $form['imediaelement']['player_settings']['hideVideoControlsOnPause'] = [
+      '#type' => 'checkbox',
+      '#title' => $this->t('Hide Video Controls On Pause'),
+      '#description' => $this->t('Hide Video Controls On Pause'),
+      '#default_value' => FALSE,
     ];
 
     $form['imediaelement']['video_settings']['framesPerSecond'] = [
       '#type' => 'number',
       '#title' => $this->t('Frames Per Second'),
       '#description' => $this->t('Video frames per second'),
-      '#default_value' => $video_settings['framesPerSecond'] ?? 24,
-      '#placeholder' => $video_settings['framesPerSecond'] ?? 24,
+      '#default_value' => 24,
+      '#placeholder' => $video_settings['framesPerSecond'],
     ];
 
     $form['imediaelement']['player_settings']['showTimecodeFrameCount'] = [
       '#type' => 'checkbox',
       '#title' => $this->t('Show Timecode Frame Count'),
       '#description' => $this->t(''),
-      '#default_value' => $player_config['showTimecodeFrameCount'] ?? FALSE,
+      '#default_value' => FALSE,
     ];
-
     /*
-    'hideVideoControlsOnLoad',
-    'hideVideoControlsOnPause',
     'clickToPlayPause',
     'controlsTimeoutDefault',
     'controlsTimeoutMouseEnter',
