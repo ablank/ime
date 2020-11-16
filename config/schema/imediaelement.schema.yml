@@ -100,95 +100,97 @@ imediaelement.settings:
     secondsDecimalLength: 
       type: int
       label: 'Number of decimal places to show if frames are shown'
-    features: 
-      type: mapping
-      label: 'Control features to display'
-      mapping:
-        playpause:
-          type: boolean
-          label: 'PlayPause'
-        current:
-          type: boolean
-          label: 'Current'
-        progress:
-          type: boolean
-          label: 'Progress'
-        duration:
-          type: boolean
-          label: 'Duration'
-        tracks:
-          type: boolean
-          label: 'Tracks'
-        volume:
-          type: boolean
-          label: 'Volume'
-        fullscreen:
-          type: boolean
-          label: 'Fullscreen'
-    featureText: 
-      type: mapping
-      label: 'Control features to display'
-      mapping:
-        downloadFile:
-          type: string
-          label: 'Download File'
-        videoPlayer:
-          type: string
-          label: 'Video Player'
-        audioPlayer:
-          type: string
-          label: 'Audio Player'
-        flashRequired:
-          type: string
-          label: 'Flash Required Message'
-        play:
-          type: string
-          label: 'Play'
-        pause:
-          type: string
-          label: 'Pause'
-        current:
-          type: string
-          label: 'Current'
-        progress:
-          type: string
-          label: 'Progress'
-        duration:
-          type: string
-          label: 'Duration'
-        tracks:
-          type: string
-          label: 'Tracks'
-        volumeSlider:
-          type: string
-          label: 'Volume Control'
-        volumeHelpText:
-          type: string
-          label: 'Volume Help Text'
-        mute:
-          type: string
-          label: 'Mute'
-        unmute:
-          type: string
-          label: 'Unmute'
-        fullscreen:
-          type: string
-          label: 'Fullscreen'
-        timeSlider:
-          type: string
-          label: 'Play Time'
-        timeHelpText:
-          type: string
-          label: 'Time Help Text'
-        liveBroadcast:
-          type: string
-          label: 'Live Broadcast'
-        captionsSubtitles:
-          type: string
-          label: 'Captions/Subtitles'
-        captionsChapters:
-          type: string
-          label: 'Chapters'
+    
+imediaelement.features: 
+  type: mapping
+  label: 'Control features to display'
+  mapping:
+    playpause:
+      type: boolean
+      label: 'PlayPause'
+    current:
+      type: boolean
+      label: 'Current'
+    progress:
+      type: boolean
+      label: 'Progress'
+    duration:
+      type: boolean
+      label: 'Duration'
+    tracks:
+      type: boolean
+      label: 'Tracks'
+    volume:
+      type: boolean
+      label: 'Volume'
+    fullscreen:
+      type: boolean
+      label: 'Fullscreen'
+
+featureText: 
+  type: mapping
+  label: 'Control features to display'
+  mapping:
+    downloadFile:
+      type: string
+      label: 'Download File'
+    videoPlayer:
+      type: string
+      label: 'Video Player'
+    audioPlayer:
+      type: string
+      label: 'Audio Player'
+    flashRequired:
+      type: string
+      label: 'Flash Required Message'
+    play:
+      type: string
+      label: 'Play'
+    pause:
+      type: string
+      label: 'Pause'
+    current:
+      type: string
+      label: 'Current'
+    progress:
+      type: string
+      label: 'Progress'
+    duration:
+      type: string
+      label: 'Duration'
+    tracks:
+      type: string
+      label: 'Tracks'
+    volumeSlider:
+      type: string
+      label: 'Volume Control'
+    volumeHelpText:
+      type: string
+      label: 'Volume Help Text'
+    mute:
+      type: string
+      label: 'Mute'
+    unmute:
+      type: string
+      label: 'Unmute'
+    fullscreen:
+      type: string
+      label: 'Fullscreen'
+    timeSlider:
+      type: string
+      label: 'Play Time'
+    timeHelpText:
+      type: string
+      label: 'Time Help Text'
+    liveBroadcast:
+      type: string
+      label: 'Live Broadcast'
+    captionsSubtitles:
+      type: string
+      label: 'Captions/Subtitles'
+    captionsChapters:
+      type: string
+      label: 'Chapters'
 
 imediaelement.audio.settings:
   audioWidth:

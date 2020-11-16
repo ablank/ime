@@ -33,20 +33,6 @@ class IMediaElementConfigForm extends ConfigFormBase {
   }
 
   /**
-   * Gets the list of available version numbers for the library.
-   *
-   * @return string[]
-   *   The array of version strings.
-   */
-  /*
-  protected function getVersionList() {
-    $data = $this->getApiData(['fields' => 'assets']);
-    return array_map(function ($asset) {
-      return $asset->version;
-    }, $data->assets);
-  }*/
-
-  /**
    * {@inheritdoc}
    */
   public function buildForm(array $form, FormStateInterface $form_state) {
@@ -294,4 +280,18 @@ class IMediaElementConfigForm extends ConfigFormBase {
     
     parent::submitForm($form, $form_state);
   }
+  
+  /**
+   * Gets the list of available version numbers for the library.
+   *
+   * @return string[]
+   *   The array of version strings.
+   */
+  /*
+  protected function getVersionList() {
+    $data = $this->getApiData(['fields' => 'assets']);
+    return array_map(function ($asset) {
+      return $asset->version;
+    }, $data->assets);
+  }*/
 }

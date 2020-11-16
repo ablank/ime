@@ -1,6 +1,6 @@
 # imediaelement.js
 
-Provides HTML5 video and audio elements using imediaelement.js for HTML4 browsers.
+Play all the things- provides HTML5 video and audio elements from a variety of sources using imediaelement.js to provide a consistent media experience across all major browsers.
 
 ## Installation
 
