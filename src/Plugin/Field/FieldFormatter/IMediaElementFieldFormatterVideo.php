@@ -182,15 +182,16 @@ class IMediaElementFieldFormatterVideo extends FileVideoFormatter implements Con
 
     // @codingStandardsIgnoreLine
     if ($image_field == 'none') { return ''; }
-    if ($entity->get($image_field)->isEmpty()) { return ''; }
+    if ($entity->get($image_field)->isEmpty()) {
+      return '';
+    }
 
-
-    if($image_style == 'raw'){
+    if ($image_style == 'raw') {
       $image_url = file_create_url($image_uri);
-    } 
+    }
     else {
       $this->imageStyleStorage->load($image_style)->buildUrl($image_uri);
-    } 
+    }
 
     return file_url_transform_relative($image_url);
   }

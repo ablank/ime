@@ -39,35 +39,36 @@ function imediaelement_preprocess_html(&$variables) {
 }
 
 /**
- * Implements imediaelement_preprocess_imediaelement_file().
+ * Implements hook_preprocess_imediaelement_file().
  */
 function imediaelement_preprocess_imediaelement_file(&$variables) {
   $variables['attributes']->addClass('imediaelementjs');
-/*
+  /*
   $file = Media::load(your_file_id);
- $file_uri = $file->field_file->entity->getFileUri();
- $file_downloadable_link = file_create_url($file_uri);
- */
+  $file_uri = $file->field_file->entity->getFileUri();
+  $file_downloadable_link = file_create_url($file_uri);
+   */
 }
 
 /**
  * Converts module into JS config.
  *
- * @param array $confg
- *   An array of config items.
+ * @param object $confg
+ *   Config items.
  */
 function imediaelement_parse_config($config) {
-  $settings = [];
-  $config = imediaelement_flatten_array($config);
+  /*
 
+  $settings = [];
+  //$config = imediaelement_flatten_array($config);
   // Prepare config for Javascript.
   foreach ($config as $setting => $value) {
     // Camel case the setting name.
     $settingCamel = str_replace('_', '', lcfirst(ucwords($setting, '_')));
     $settings[$settingCamel] = $value;
   }
-
   return $settings;
+*/
 }
 
 /**
@@ -81,7 +82,7 @@ function imediaelement_parse_config($config) {
  * @return array
  *   The flattened array.
  */
-function imediaelement_flatten_array($array, $return = []) {
+function imediaelement_flatten_array(array $array, array $return = []) {
   foreach ($array as $key => $value) {
     if (is_array($value)) {
       $return = imediaelement_flatten_array($value, $return);
@@ -101,5 +102,4 @@ function imediaelement_file_mimetype_mapping_alter(&$mapping) {
 
   // Add new MIME type 'drupal/info'.
   $mapping['mimetypes']['youtube'] = 'video/x-youtube';
-
 }

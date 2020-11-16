@@ -11,11 +11,11 @@ use Drupal\Core\Url;
  * Configuration form for imediaelement.js module.
  */
 class IMediaElementConfigForm extends ConfigFormBase {
-/** 
-   * Config settings.
-   *
-   * @var string
-   */
+  /**
+     * Config settings.
+     *
+     * @var string
+     */
   const SETTINGS = 'imediaelement.settings';
 
   /**
@@ -43,25 +43,25 @@ class IMediaElementConfigForm extends ConfigFormBase {
     $audio_settings = $config->get('imediaelement_settings.audio_settings');
     // Configuration for video players.
     $video_settings = $config->get('imediaelement_settings.video_settings');
-    
+
     /*
      * General settings
-     * 
-      'skin',
-      'classPrefix',
-      'enableKeyboard',
-      'setDimensions',
-      'enableAutosize',
-      'timeFormat',
-      'alwaysShowHours',
-      'secondsDecimalLength',
-      'pauseOtherPlayers',
-      'defaultSeekInterval',
-      'featureText',
+     *
+    'skin',
+    'classPrefix',
+    'enableKeyboard',
+    'setDimensions',
+    'enableAutosize',
+    'timeFormat',
+    'alwaysShowHours',
+    'secondsDecimalLength',
+    'pauseOtherPlayers',
+    'defaultSeekInterval',
+    'featureText',
      */
     $form['imediaelement'] = [
       '#type' => 'fieldset',
-      //'#title' => $this->t('Default Settings'),
+      // '#title' => $this->t('Default Settings'),
     ];
 
     $form['imediaelement']['player_settings'] = [
@@ -75,11 +75,11 @@ class IMediaElementConfigForm extends ConfigFormBase {
       '#title' => $this->t('Player Skin'),
       '#description' => $this->t('Select skin style for mediaplayer elements.'),
       '#options' => [
-        'default'=>$this->t('Default'),
-        'dark'=>$this->t('Dark'),
-        'dark_large'=>$this->t('Dark [Large]'),
-        'light'=>$this->t('Light'),
-        'light_large'=>$this->t('Light [Large]'),
+        'default' => $this->t('Default'),
+        'dark' => $this->t('Dark'),
+        'dark_large' => $this->t('Dark [Large]'),
+        'light' => $this->t('Light'),
+        'light_large' => $this->t('Light [Large]'),
       ],
       '#default_value' => $player_config['skin'] ?? 'default',
     ];
@@ -99,15 +99,15 @@ class IMediaElementConfigForm extends ConfigFormBase {
       '#default_value' => $player_config['setDimensions'] ?? TRUE,
     ];
 
-/*
- * Audio Settings
- * 
-      'audioWidth',
-      'audioHeight',
-      'loop',
-      'autoRewind',
-      'features',
- */
+    /*
+     * Audio Settings
+     *
+    'audioWidth',
+    'audioHeight',
+    'features',
+    'loop',
+    'autoRewind',
+     */
     $form['imediaelement']['audio_settings'] = [
       '#type' => 'details',
       '#title' => $this->t('Audio Player Settings'),
@@ -128,24 +128,24 @@ class IMediaElementConfigForm extends ConfigFormBase {
       '#description' => $this->t('If set, overrides <code>&#60;audio&#62;</code> height'),
       '#default_value' => $audio_settings['audioHeight'] ?? 40,
       '#placeholder' => $audio_settings['audioHeight'] ?? 40,
-    ];    
+    ];
 
-/*
- * Video Settings 
- * 
-      'videoWidth',
-      'videoHeight',
-      'stretching',
-      'framesPerSecond',
-      'showTimecodeFrameCount',
-      'hideVideoControlsOnLoad',
-      'hideVideoControlsOnPause',
-      'clickToPlayPause',
-      'controlsTimeoutDefault',
-      'controlsTimeoutMouseEnter',
-      'controlsTimeoutMouseLeave',
-      'features',
- */
+    /*
+     * Video Settings
+     *
+    'videoWidth',
+    'videoHeight',
+    'features',
+    'stretching',
+    'framesPerSecond',
+    'showTimecodeFrameCount',
+    'hideVideoControlsOnLoad',
+    'hideVideoControlsOnPause',
+    'clickToPlayPause',
+    'controlsTimeoutDefault',
+    'controlsTimeoutMouseEnter',
+    'controlsTimeoutMouseLeave',
+     */
     $form['imediaelement']['video_settings'] = [
       '#type' => 'details',
       '#title' => $this->t('Video Player Settings'),
@@ -168,6 +168,21 @@ class IMediaElementConfigForm extends ConfigFormBase {
       '#placeholder' => $video_settings['videoHeight'] ?? 270,
     ];
 
+    $form['imediaelement']['video_settings']['features'] = [
+      '#type' => 'checkboxes',
+      '#options' => [
+        'playpause' => $this->t('Play / Pause'),
+        'progress' => $this->t('Progress'),
+        'volume' => $this->t('Volume'),
+        'time' => $this->t('Time'),
+        'fullscreen' => $this->t('Fullscreen'),
+        'tracks' => $this->t('Track List'),
+        'i18n' => $this->t('Language Switchesr'),
+      ],
+      '#title' => $this->t('Video UI controls to implement.'),
+      '#default_value' => $video_settings['features'] ?? [0, 1, 2, 3, 4],
+    ];
+
     $form['imediaelement']['video_settings']['stretching'] = [
       '#type' => 'select',
       '#title' => $this->t('Video Stretching Mode'),
@@ -175,9 +190,34 @@ class IMediaElementConfigForm extends ConfigFormBase {
       /* auto, fill, responsive, none*/
       '#default_value' => $video_settings['stretching'] ?? 'auto',
     ];
-/*
- * Help / Documentation 
- */
+
+    $form['imediaelement']['video_settings']['framesPerSecond'] = [
+      '#type' => 'number',
+      '#title' => $this->t('Frames Per Second'),
+      '#description' => $this->t('Video frames per second'),
+      '#default_value' => $video_settings['framesPerSecond'] ?? 24,
+      '#placeholder' => $video_settings['framesPerSecond'] ?? 24,
+    ];
+
+    $form['imediaelement']['player_settings']['showTimecodeFrameCount'] = [
+      '#type' => 'checkbox',
+      '#title' => $this->t('Show Timecode Frame Count'),
+      '#description' => $this->t(''),
+      '#default_value' => $player_config['showTimecodeFrameCount'] ?? FALSE,
+    ];
+
+    /*
+    'hideVideoControlsOnLoad',
+    'hideVideoControlsOnPause',
+    'clickToPlayPause',
+    'controlsTimeoutDefault',
+    'controlsTimeoutMouseEnter',
+    'controlsTimeoutMouseLeave',
+    'features', */
+
+    /*
+     * Help / Documentation
+     */
     $api_link = Link::fromTextAndUrl(
       $this->t('API Documentation'),
       Url::fromUri('https://github.com/imediaelement/imediaelement/blob/master/docs/api.md#imediaelementplayer')
@@ -225,8 +265,7 @@ class IMediaElementConfigForm extends ConfigFormBase {
 
     $getFormValues = $this->configFactory->getEditable(static::SETTINGS);
 
-    //$imediaelement_settings = [];
-
+    // $imediaelement_settings = [];
     $player_settings_fields = [
       'skin',
       'classPrefix',
@@ -248,7 +287,7 @@ class IMediaElementConfigForm extends ConfigFormBase {
       'autoRewind',
       'features',
     ];
-    
+
     $video_settings_fields = [
       'videoWidth',
       'videoHeight',
@@ -264,23 +303,23 @@ class IMediaElementConfigForm extends ConfigFormBase {
       'features',
     ];
 
-    foreach($player_settings_fields as $field){
-      $getFormValues->set($field, $form_state->getValue($field));
-    }
-    
-    foreach($audio_settings_fields as $field){
+    foreach ($player_settings_fields as $field) {
       $getFormValues->set($field, $form_state->getValue($field));
     }
 
-    foreach($video_settings_fields as $field){
+    foreach ($audio_settings_fields as $field) {
       $getFormValues->set($field, $form_state->getValue($field));
     }
-    
+
+    foreach ($video_settings_fields as $field) {
+      $getFormValues->set($field, $form_state->getValue($field));
+    }
+
     $getFormValues->save();
-    
+
     parent::submitForm($form, $form_state);
   }
-  
+
   /**
    * Gets the list of available version numbers for the library.
    *
@@ -289,9 +328,9 @@ class IMediaElementConfigForm extends ConfigFormBase {
    */
   /*
   protected function getVersionList() {
-    $data = $this->getApiData(['fields' => 'assets']);
-    return array_map(function ($asset) {
-      return $asset->version;
-    }, $data->assets);
+  $data = $this->getApiData(['fields' => 'assets']);
+  return array_map(function ($asset) {
+  return $asset->version;
+  }, $data->assets);
   }*/
 }
