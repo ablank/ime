@@ -1,10 +1,13 @@
 imediaelement:
   js:
-    /libraries/imediaelement/build/imediaelement-and-player.min.js: {}
-    js/imediaelement.js: {}
+    /libraries/imediaelement/build/imediaelement-and-player.min.js: {minified: true}
+    js/imediaelement.js: {minified: false}
   css:
     component:
-      /libraries/imediaelement/build/default/imediaelementplayer.min.css: {}
+      /libraries/imediaelement/build/skins/default/imediaelementplayer.min.css: {media: screen, minified: true}
+      /libraries/imediaelement/build/skins/dark/imediaelementplayer.min.css: {media: screen, minified: true}
+      /libraries/imediaelement/build/skins/light/imediaelementplayer.min.css: {media: screen, minified: true}
+      /libraries/imediaelement/build/skins/bright/imediaelementplayer.min.css: {media: screen, minified: true}
   dependencies:
     - core/drupalSettings
     - core/jquery

@@ -29,7 +29,7 @@ function imediaelement_theme($existing, $type, $theme, $path) {
 }
 
 /**
- * Implements hook_file_mimetype_mapping_alter()
+ * Implements hook_file_mimetype_mapping_alter().
  */
 function imediaelement_file_mimetype_mapping_alter(&$mapping) {
 
@@ -41,10 +41,9 @@ function imediaelement_file_mimetype_mapping_alter(&$mapping) {
  */
 function imediaelement_preprocess_html(&$variables) {
   $config = \Drupal::config('imediaelement.settings');
-  //dpm($config);
-
-  $settings = $config->get();//imediaelement_parse_config($config);
-///dpm($settings);
+  $settings = imediaelement_parse_config($config);
+  //dpm($settings);
+  $variables['#attached']['library'][] = 'imediaelement';
   $variables['#attached']['drupalSettings']['imediaelement'] = $settings;
 }
 
@@ -60,22 +59,43 @@ function imediaelement_preprocess_imediaelement_file(&$variables) {
    */
 }
 
+
 /**
- * Converts module config to javascript.
+ * Convert module config to javascript.
  *
  * @param object $confg
  *   Config items.
+ * 
+ * @return array $settings
+ *    
  */
 function imediaelement_parse_config($config) {
   $settings = [];
-  //$config = imediaelement_flatten_array($config);
+  imediaelement_diff_config($config);
   // Prepare config for Javascript.
+  /*
   foreach ($config as $setting => $value) {
     // Camel case the setting name.
     $settingCamel = str_replace('_', '', lcfirst(ucwords($setting, '_')));
     $settings[$settingCamel] = $value;
   }
+  */
   return $settings;
+}
+
+/**
+ * Check module config vs. javascript default config.
+ *
+ * @param object $config
+ *   Config items.
+ * 
+ * @return array $config_diff
+ *    Config Items changed from default settings.
+ */
+function imediaelement_diff_config($config) {
+  $config_diff = [];
+
+  return $config_diff;
 }
 
 /**
