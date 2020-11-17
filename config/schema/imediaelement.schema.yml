@@ -10,18 +10,6 @@ imediaelement.settings:
     classPrefix: 
       type: string
       label: 'Class Prefix'
-    download_file:
-      type: boolean
-      label: 'Show Download Link'
-    downloadFile:
-      type: string
-      label: 'Download Link Text'
-    poster_image_field:
-      type: string
-      label: 'Poster Image Field'
-    poster_image_style:
-      type: string
-      label: 'Poster Image Style'
     audioWidth:
       type: integer
       label: 'Audio Width'
@@ -34,6 +22,33 @@ imediaelement.settings:
     videoHeight:
       type: integer
       label: 'Video Height'
+    clickToPlayPause: 
+      type: boolean
+      label: 'Click Poster or Video To Play/Pause'
+    controlsTimeoutDefault: 
+      type: int
+      label: 'Default Controls Timeout'
+    controlsTimeoutMouseEnter: 
+      type: integer
+      label: 'Controls Timeout on MouseEnter event'
+    controlsTimeoutMouseLeave: 
+      type: integer
+      label: 'Controls Timeout on MouseLeave event'
+    stretching: 
+      type: string
+      label: 'Video stretch mode'
+    download_file:
+      type: boolean
+      label: 'Show Download Link'
+    downloadFile:
+      type: string
+      label: 'Download Link Text'
+    poster_image_field:
+      type: string
+      label: 'Poster Image Field'
+    poster_image_style:
+      type: string
+      label: 'Poster Image Style'
     showPosterWhenEnded: 
       type: boolean
       label: 'Show Poster When Ended'
@@ -65,7 +80,7 @@ imediaelement.settings:
       type: boolean
       label: 'Show Timecode Frame Count'
     framesPerSecond: 
-      type: int
+      type: integer
       label: 'Frames Per Second'
     alwaysShowControls: 
       type: boolean
@@ -76,21 +91,6 @@ imediaelement.settings:
     hideVideoControlsOnPause: 
       type: boolean
       label: 'Hide Video Controls On Pause'
-    clickToPlayPause: 
-      type: boolean
-      label: 'Click Poster or Video To Play/Pause'
-    controlsTimeoutDefault: 
-      type: int
-      label: 'Default Controls Timeout'
-    controlsTimeoutMouseEnter: 
-      type: int
-      label: 'Controls Timeout on MouseEnter event'
-    controlsTimeoutMouseLeave: 
-      type: int
-      label: 'Controls Timeout on MouseLeave event'
-    stretching: 
-      type: string
-      label: 'Video stretch mode'
     enableKeyboard: 
       type: boolean
       label: 'Enable keyboard control'
@@ -98,127 +98,94 @@ imediaelement.settings:
       type: boolean
       label: 'Pause other players when another starts'
     secondsDecimalLength: 
-      type: int
+      type: integer
       label: 'Number of decimal places to show if frames are shown'
-    
-imediaelement.features: 
-  type: mapping
-  label: 'Control features to display'
-  mapping:
-    playpause:
-      type: boolean
-      label: 'PlayPause'
-    current:
-      type: boolean
-      label: 'Current'
-    progress:
-      type: boolean
-      label: 'Progress'
-    duration:
-      type: boolean
-      label: 'Duration'
-    tracks:
-      type: boolean
-      label: 'Tracks'
-    volume:
-      type: boolean
-      label: 'Volume'
-    fullscreen:
-      type: boolean
-      label: 'Fullscreen'
-
-featureText: 
-  type: mapping
-  label: 'Control features to display'
-  mapping:
-    downloadFile:
-      type: string
-      label: 'Download File'
-    videoPlayer:
-      type: string
-      label: 'Video Player'
-    audioPlayer:
-      type: string
-      label: 'Audio Player'
-    flashRequired:
-      type: string
-      label: 'Flash Required Message'
-    play:
-      type: string
-      label: 'Play'
-    pause:
-      type: string
-      label: 'Pause'
-    current:
-      type: string
-      label: 'Current'
-    progress:
-      type: string
-      label: 'Progress'
-    duration:
-      type: string
-      label: 'Duration'
-    tracks:
-      type: string
-      label: 'Tracks'
-    volumeSlider:
-      type: string
-      label: 'Volume Control'
-    volumeHelpText:
-      type: string
-      label: 'Volume Help Text'
-    mute:
-      type: string
-      label: 'Mute'
-    unmute:
-      type: string
-      label: 'Unmute'
-    fullscreen:
-      type: string
-      label: 'Fullscreen'
-    timeSlider:
-      type: string
-      label: 'Play Time'
-    timeHelpText:
-      type: string
-      label: 'Time Help Text'
-    liveBroadcast:
-      type: string
-      label: 'Live Broadcast'
-    captionsSubtitles:
-      type: string
-      label: 'Captions/Subtitles'
-    captionsChapters:
-      type: string
-      label: 'Chapters'
-
-imediaelement.audio.settings:
-  audioWidth:
-    type: integer
-    label: 'Audio Width'
-  audioHeight:
-    type: integer
-    label: 'Audio Height'
-
-imediaelement.video.settings:
-  hideVideoControlsOnLoad:       
-    type: boolean
-    label: 'Hide Video Controls On Load'
-  hideVideoControlsOnPause: 
-    type: boolean
-    label: 'Hide Video Controls On Pause'
-  clickToPlayPause: 
-    type: boolean
-    label: 'Click Poster or Video To Play/Pause'
-  controlsTimeoutDefault: 
-    type: int
-    label: 'Default Controls Timeout'
-  controlsTimeoutMouseEnter: 
-    type: int
-    label: 'Controls Timeout on MouseEnter event'
-  controlsTimeoutMouseLeave: 
-    type: int
-    label: 'Controls Timeout on MouseLeave event'
-  stretching: 
-    type: string
-    label: 'Video stretch mode'
+    features: 
+      type: sequence
+      label: 'UI features to implement'
+      sequence:
+        playPause:
+          type: boolean
+          label: 'PlayPause'
+        current:
+          type: boolean
+          label: 'Current'
+        progress:
+          type: boolean
+          label: 'Progress'
+        duration:
+          type: boolean
+          label: 'Duration'
+        tracks:
+          type: boolean
+          label: 'Tracks'
+        volume:
+          type: boolean
+          label: 'Volume'
+        fullscreen:
+          type: boolean
+          label: 'Fullscreen'
+    featuretext:
+      type: sequence
+      label: 'Text to display in controls'
+      mapping:      
+        downloadFile:
+          type: string
+          label: 'Download File'
+        videoPlayer:
+          type: string
+          label: 'Video Player'
+        audioPlayer:
+          type: string
+          label: 'Audio Player'
+        flashRequired:
+          type: string
+          label: 'Flash Required Message'
+        play:
+          type: string
+          label: 'Play'
+        pause:
+          type: string
+          label: 'Pause'
+        current:
+          type: string
+          label: 'Current'
+        progress:
+          type: string
+          label: 'Progress'
+        duration:
+          type: string
+          label: 'Duration'
+        tracks:
+          type: string
+          label: 'Tracks'
+        volumeSlider:
+          type: string
+          label: 'Volume Control'
+        volumeHelpText:
+          type: string
+          label: 'Volume Help Text'
+        mute:
+          type: string
+          label: 'Mute'
+        unmute:
+          type: string
+          label: 'Unmute'
+        fullscreen:
+          type: string
+          label: 'Fullscreen'
+        timeSlider:
+          type: string
+          label: 'Play Time'
+        timeHelpText:
+          type: string
+          label: 'Time Help Text'
+        liveBroadcast:
+          type: string
+          label: 'Live Broadcast'
+        captionsSubtitles:
+          type: string
+          label: 'Captions/Subtitles'
+        captionsChapters:
+          type: string
+          label: 'Chapters'

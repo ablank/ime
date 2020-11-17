@@ -1,16 +1,33 @@
 classPrefix: mejs__
+timeFormat: mm:ss
 audioWidth: 400
 audioHeight: 40
 videoWidth: 480
 videoHeight: 270
-timeFormat: mm:ss
-  
-
+showPosterWhenEnded: false  
+showPosterWhenPaused: false
+defaultSeekInterval: 0.05
+setDimensions: true
+autoRewind: true
+alwaysShowHours: false
+controlsTimeoutDefault: 1500
+controlsTimeoutMouseEnter: 2500
+controlsTimeoutMouseLeave: 1000
+enableKeyboard: true
+pauseOtherPlayers: true
+features: 
+  - playPause
+  - current
+  - progress
+  - duration
+  - tracks
+  - volume
+  - fullscreen
 
   # When the video is ended, show the poster.
-  #showPosterWhenEnded: false
+  #
   # When the video is paused, show the poster.
-  #showPosterWhenPaused: false
+  #
   # Default if the <video width> is not specified
   #defaultVideoWidth: 480
   # Default if the <video height> is not specified
@@ -24,9 +41,9 @@ timeFormat: mm:ss
   # Default if the user doesn't specify
   #defaultAudioHeight: 40
   # Default amount to move forward or backward when left/right key is pressed = duration * this val
-  #defaultSeekInterval: 0.05
+  #
   # Set dimensions via JS instead of CSS
-  #setDimensions: true
+  #
   # Width of audio player
   #audioWidth: -1
   # Height of audio player
@@ -66,7 +83,7 @@ timeFormat: mm:ss
   # Enable click video element to toggle play/pause
   #clickToPlayPause: true
   # Time in ms to hide controls
-  #controlsTimeoutDefault: 1500
+  #
   # Time in ms to trigger the timer when mouse moves
   #controlsTimeoutMouseEnter: 2500
   # Time in ms to trigger the timer when mouse leaves

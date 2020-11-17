@@ -1,0 +1,22 @@
+downloadFile: Download File
+videoPlayer: Video Player
+audioPlayer: Audio Player
+flashRequired: You are using a browser that does not have Flash player enabled or installed. Please turn on your Flash player plugin or download the latest version from https:#get.adobe.com/flashplayer/
+play: Play
+pause: Pause
+current: Current
+progress: Progress
+duration: Duration
+tracks: Tracks
+volumeSlider: Volume Control
+volumeHelpText: Use Up/Down Arrow keys to increase or decrease volume.
+mute: Mute
+unmute: Unmute
+fullscreen: Fullscreen
+timeSlider: Play Time
+timeHelpText: Use Left/Right Arrow keys to advance one second, Up/Down arrows to advance ten seconds.
+liveBroadcast: Live Broadcast
+captionsSubtitles: Captions/Subtitles
+captionsChapters: Chapters
+none: None
+
