@@ -33,7 +33,6 @@ function imediaelement_theme($existing, $type, $theme, $path) {
  */
 function imediaelement_file_mimetype_mapping_alter(&$mapping) {
 
-  // Add new MIME type 'drupal/info'.
   $mapping['mimetypes']['youtube'] = 'video/youtube';
 }
 
