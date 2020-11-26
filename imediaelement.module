@@ -8,79 +8,88 @@
 /**
  * Implements hook_theme().
  */
-function imediaelement_theme($existing, $type, $theme, $path) {
-  $defaults = [
-    'variables' => [
-      'files' => [],
-      'attributes' => NULL,
-      'download_link' => FALSE,
-      'download_text' => t('Download'),
-    ],
-    'path' => "${path}/templates",
-    'preprocess functions' => [
-      'imediaelement_preprocess_imediaelement_file',
-    ],
-  ];
+function imediaelement_theme($existing, $type, $theme, $path)
+{
+    $defaults = [
+        'variables' => [
+            'files' => [],
+            'attributes' => null,
+            'download_link' => false,
+            'download_text' => t('Download'),
+        ],
+        'path' => "${path}/templates",
+        'preprocess functions' => [
+            'imediaelement_preprocess_imediaelement_file',
+        ],
+    ];
 
-  return [
-    'imediaelement_audio' => [] + $defaults,
-    'imediaelement_video' => [] + $defaults,
-  ];
+    return [
+        'imediaelement_audio' => [] + $defaults,
+        'imediaelement_video' => [] + $defaults,
+    ];
 }
 
 /**
  * Implements hook_file_mimetype_mapping_alter().
  */
-function imediaelement_file_mimetype_mapping_alter(&$mapping) {
-
-  $mapping['mimetypes']['youtube'] = 'video/youtube';
+function imediaelement_file_mimetype_mapping_alter(&$mapping)
+{
+    $mapping['mimetypes']['youtube'] = 'video/youtube';
 }
 
 /**
  * Implements hook_preprocess_html().
  */
-function imediaelement_preprocess_html(&$variables) {
-  $config = \Drupal::config('imediaelement.settings');
-  $settings = imediaelement_parse_config($config);
-  //dpm($settings);
-  $variables['#attached']['library'][] = 'imediaelement';
-  $variables['#attached']['drupalSettings']['imediaelement'] = $settings;
+function imediaelement_preprocess_html(&$variables)
+{
+    $config = \Drupal::config('imediaelement.settings');
+    $settings = imediaelement_create_settings($config);
+    $skin = $config->get('skin');
+    $variables['#attached']['library'][] = 'imediaelement/imediaelementjs';
+    if ($skin !== 'native') {
+        $variables['#attached']['library'][] = "imediaelement/imediaelement_skin_{$skin}";
+    }
+    // $variables['#attached']['library']['imediaelement']['css'][] = "/libraries/imediaelement/build/{$skin}/default/imediaelementplayer.min.css";
+    $variables['#attached']['drupalSettings']['imediaelement'] = $settings;
+    //dpm($variables['#attached']);
+
+    return $variables;
 }
 
 /**
  * Implements hook_preprocess_imediaelement_file().
  */
-function imediaelement_preprocess_imediaelement_file(&$variables) {
-  $variables['attributes']->addClass('imediaelementjs');
-  /*
-  $file = Media::load(your_file_id);
-  $file_uri = $file->field_file->entity->getFileUri();
-  $file_downloadable_link = file_create_url($file_uri);
-   */
+function imediaelement_preprocess_imediaelement_file(&$variables)
+{
+    $variables['attributes']->addClass('imediaelementjs');
+    /*
+$file = Media::load(your_file_id);
+$file_uri = $file->field_file->entity->getFileUri();
+$file_downloadable_link = file_create_url($file_uri);
+ */
 }
 
-
 /**
- * Convert module config to javascript.
+ * Convert module settings to javascript.
  *
  * @param object $confg
  *   Config items.
- * 
+ *
  * @return array $settings
- *    
+ *
  */
-function imediaelement_parse_config($config) {
-  $settings = [];
-  imediaelement_diff_config($config);
-  // Prepare config for Javascript.
-  /*
-  foreach ($config as $setting => $value) {
+function imediaelement_create_settings($config)
+{
+    $settings = [];
+    imediaelement_diff_config($config);
+    /*
+    foreach ($config as $setting => $value) {
     // Camel case the setting name.
     $settingCamel = str_replace('_', '', lcfirst(ucwords($setting, '_')));
     $settings[$settingCamel] = $value;
-  }
-  */
-  return $settings;
+    }
+     */
+    return $settings;
 }
 
 /**
@@ -88,14 +97,18 @@ function imediaelement_parse_config($config) {
  *
  * @param object $config
  *   Config items.
- * 
+ *
  * @return array $config_diff
  *    Config Items changed from default settings.
  */
-function imediaelement_diff_config($config) {
-  $config_diff = [];
+function imediaelement_diff_config($config)
+{
 
-  return $config_diff;
+    $settings = $config->get('imediaelement.settings');
+    $config_diff = [];
+    dpm($settings);
+
+    return $config_diff;
 }
 
 /**
@@ -109,16 +122,15 @@ function imediaelement_diff_config($config) {
  * @return array
  *   The flattened array.
  */
-function imediaelement_flatten_array(array $array, array $return = []) {
-  foreach ($array as $key => $value) {
-    if (is_array($value)) {
-      $return = imediaelement_flatten_array($value, $return);
+function imediaelement_flatten_array(array $array, array $return = [])
+{
+    foreach ($array as $key => $value) {
+        if (is_array($value)) {
+            $return = imediaelement_flatten_array($value, $return);
+        } else {
+            $return[$key] = $value;
+        }
     }
-    else {
-      $return[$key] = $value;
-    }
-  }
 
-  return $return;
+    return $return;
 }
-

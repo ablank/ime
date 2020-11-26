@@ -9,20 +9,44 @@ showPosterWhenPaused: false
 defaultSeekInterval: 0.05
 setDimensions: true
 autoRewind: true
+enableAutosize: true
 alwaysShowHours: false
 controlsTimeoutDefault: 1500
 controlsTimeoutMouseEnter: 2500
 controlsTimeoutMouseLeave: 1000
 enableKeyboard: true
 pauseOtherPlayers: true
+secondsDecimalLength: 0
+loop: false
 features: 
-  - playPause
-  - current
-  - progress
-  - duration
-  - tracks
-  - volume
-  - fullscreen
+  playPause: true
+  current: true
+  progress: true
+  duration: true
+  tracks: false
+  volume: true
+  fullscreen: true
+featureText:
+  downloadFile: 'Download File'
+  videoPlayer: 'Video Player'
+  audioPlayer: 'Audio Player'
+  flashRequired: 'Flash Required Message'
+  play: 'Play'
+  pause: 'Pause'
+  current: 'Current'
+  progress: 'Progress'
+  duration: 'Duration'
+  tracks: 'Tracks'
+  volumeSlider: 'Volume Control'
+  volumeHelpText: 'Volume Help Text'
+  mute: 'Mute'
+  unmute: 'Unmute'
+  fullscreen: 'Fullscreen'
+  timeSlider: 'Play Time'
+  timeHelpText: 'Time Help Text'
+  liveBroadcast: 'Live Broadcast'
+  captionsSubtitles: 'Captions/Subtitles'
+  captionsChapters: 'Chapters'
 
   # When the video is ended, show the poster.
   #

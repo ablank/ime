@@ -4,6 +4,9 @@ imediaelement.settings:
   type: config_object
   label: 'iMediaElement Settings'
   mapping:
+    langcode:
+      type: string
+      label: 'Language Code'
     skin:
       type: string
       label: 'Name of the css skin to use'
@@ -26,7 +29,7 @@ imediaelement.settings:
       type: boolean
       label: 'Click Poster or Video To Play/Pause'
     controlsTimeoutDefault: 
-      type: int
+      type: integer
       label: 'Default Controls Timeout'
     controlsTimeoutMouseEnter: 
       type: integer
@@ -100,13 +103,16 @@ imediaelement.settings:
     secondsDecimalLength: 
       type: integer
       label: 'Number of decimal places to show if frames are shown'
-    features: 
-      type: sequence
-      label: 'UI features to implement'
-      sequence:
+    features:
+      type: mapping
+      label: 'Allowed values list'
+      mapping:
         playPause:
           type: boolean
           label: 'PlayPause'
+        time:
+          type: boolean
+          label: 'Time'
         current:
           type: boolean
           label: 'Current'
@@ -125,10 +131,10 @@ imediaelement.settings:
         fullscreen:
           type: boolean
           label: 'Fullscreen'
-    featuretext:
-      type: sequence
+    featureText:
+      type: mapping
       label: 'Text to display in controls'
-      mapping:      
+      mapping:
         downloadFile:
           type: string
           label: 'Download File'

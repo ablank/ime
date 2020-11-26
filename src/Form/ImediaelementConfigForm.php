@@ -57,9 +57,8 @@ class IMediaElementConfigForm extends ConfigFormBase {
         'native' => $this->t('Native'),
         'default' => $this->t('Default'),
         'dark' => $this->t('Dark'),
-        'dark_large' => $this->t('Dark [Large]'),
         'light' => $this->t('Light'),
-        'light_large' => $this->t('Light [Large]'),
+        'bright' => $this->t('Bright'),
       ],
       '#default_value' => $config->get('skin'),
     ];
@@ -77,10 +76,24 @@ class IMediaElementConfigForm extends ConfigFormBase {
       '#placeholder' => $config->get('classPrefix'),
     ];
     
+    $form['imediaelement']['player_settings']['controlsTimeoutDefault'] = [
+      '#type' => 'number',
+      '#title' => $this->t('Timeout Default'),
+      '#description' => $this->t('Default timeout (in ms) before controls are hidden.'),
+      '#default_value' => $config->get('controlsTimeoutDefault'),
+      '#placeholder' => $config->get('controlsTimeoutDefault'),
+    ];
+
+    
     $form['imediaelement']['player_settings']['features'] = [
+      '#type' => 'container',
+      '#title' => $this->t('Player Features'),
+    ];
+
+    $form['imediaelement']['player_settings']['features']['features'] = [
       '#type' => 'checkboxes',
       '#options' => [
-        'playpause' => $this->t('Play / Pause'),
+        'playPause' => $this->t('Play / Pause'),
         'progress' => $this->t('Progress'),
         'volume' => $this->t('Volume'),
         'time' => $this->t('Time'),
@@ -92,15 +105,26 @@ class IMediaElementConfigForm extends ConfigFormBase {
       '#default_value' => $config->get('features'),
     ];
     
-    $form['imediaelement']['player_settings']['controlsTimeoutDefault'] = [
-      '#type' => 'number',
-      '#title' => $this->t('Timeout Default'),
-      '#description' => $this->t('Default timeout (in ms) before controls are hidden.'),
-      '#default_value' => $config->get('controlsTimeoutDefault'),
-      '#placeholder' => $config->get('controlsTimeoutDefault'),
+    $form['imediaelement']['player_settings']['features']['featureText'] = [
+      '#type' => 'details',
+      '#title' => $this->t('Player UI Text'),
+    ];
+    
+    $form['imediaelement']['player_settings']['features']['featureText']['play'] = [
+      '#type' => 'string',
+      '#title' => $this->t('Play'),
+      '#default_value' => $config->get('featureText.play'),
+      '#placeholder' => $config->get('featureText.play'),
+    ];
+    
+    $form['imediaelement']['player_settings']['features']['featureText']['pause'] = [
+      '#type' => 'string',
+      '#title' => $this->t('Pause'),
+      '#default_value' => $config->get('featureText.pause'),
+      '#placeholder' => $config->get('featureText.pause'),
     ];
 
-    
+
     /*
      * Audio Settings
      */

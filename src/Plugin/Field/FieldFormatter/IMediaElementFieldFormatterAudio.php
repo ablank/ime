@@ -16,8 +16,7 @@ use Drupal\file\Plugin\Field\FieldFormatter\FileAudioFormatter;
  * )
  */
 class IMediaElementFieldFormatterAudio extends FileAudioFormatter {
-
-  // Include trait with global imediaelement formatter config items.
+  
   use IMediaElementFieldFormatter;
 
 }

@@ -1,15 +1,29 @@
-imediaelement:
+imediaelementjs:
   js:
-    /libraries/imediaelement/build/imediaelement-and-player.min.js: {minified: true}
-    js/imediaelement.js: {minified: false}
-  css:
-    component:
-      /libraries/imediaelement/build/skins/default/imediaelementplayer.min.css: {media: screen, minified: true}
-      /libraries/imediaelement/build/skins/dark/imediaelementplayer.min.css: {media: screen, minified: true}
-      /libraries/imediaelement/build/skins/light/imediaelementplayer.min.css: {media: screen, minified: true}
-      /libraries/imediaelement/build/skins/bright/imediaelementplayer.min.css: {media: screen, minified: true}
+    /libraries/imediaelement/build/mediaelement-and-player.min.js: {minified: true}
+    js/imediaelement.js: {minified: false}      
   dependencies:
     - core/drupalSettings
     - core/jquery
     - core/jquery.once
-  
+
+imediaelement_skin_default:
+  css:
+    component:
+      /libraries/imediaelement/build/skins/default/mediaelementplayer.min.css: {media: screen, minified: true}
+
+imediaelement_skin_dark:
+  css:
+    component:
+      /libraries/imediaelement/build/skins/dark/mediaelementplayer.min.css: {media: screen, minified: true}
+
+
+imediaelement_skin_light:
+  css:
+    component:
+      /libraries/imediaelement/build/skins/light/mediaelementplayer.min.css: {media: screen, minified: true}
+      
+imediaelement_skin_bright:
+  css:
+    component:
+      /libraries/imediaelement/build/skins/bright/mediaelementplayer.min.css: {media: screen, minified: true}
