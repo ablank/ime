@@ -89,14 +89,15 @@ class IMediaElementConfigForm extends ConfigFormBase {
       '#type' => 'container',
       '#title' => $this->t('Player Features'),
     ];
+    
 
     $form['imediaelement']['player_settings']['features']['features'] = [
       '#type' => 'checkboxes',
       '#options' => [
         'playPause' => $this->t('Play / Pause'),
         'progress' => $this->t('Progress'),
+        'duration' => $this->t('Duration'),
         'volume' => $this->t('Volume'),
-        'time' => $this->t('Time'),
         'fullscreen' => $this->t('Fullscreen'),
         'tracks' => $this->t('Track List'),
         //'i18n' => $this->t('UI Language Switcher'),
@@ -278,8 +279,6 @@ class IMediaElementConfigForm extends ConfigFormBase {
    */
   public function submitForm(array &$form, FormStateInterface $form_state) {
 
-    $formValues = $this->configFactory->getEditable(static::SETTINGS);
-
     $player_settings_fields = [
       'skin',
       'classPrefix',      
@@ -306,16 +305,45 @@ class IMediaElementConfigForm extends ConfigFormBase {
       'defaultSeekInterval',
       'loop',
       'autoRewind',
-      'features',
-      'featureText',
     ];
 
+    $player_settings_fields_features = [
+      'playPause',
+      'current',
+      'progress',
+      'duration',
+      'tracks',
+      'volume',
+      'fullscreen',
+    ];
+
+    $player_settings_fields_featureText = [
+
+    ];
+
+    $settings = $this->configFactory->getEditable(static::SETTINGS);
+    $sub_settingstub = $this->configFactory->getEditable(static::SETTINGS . '.' );
+
     foreach ($player_settings_fields as $field) {
-      $formValues->set($field, $form_state->getValue($field));
+      $settings->set($field, $form_state->getValue($field));
     }
+    $settings->set('features', array_values( array_filter( $form_state->getValue('features') ) ) );
+    //$settings->set('featureText', array_values( array_filter( $form_state->getValue('featureText') ) ) );
 
-
-    $formValues->save();
+    foreach ($player_settings_fields_features as $field) {
+      $feature = 'features.' . $field;
+     // dpr($feature); 
+     //$settings->set('features', array_values( array_filter( $form_state->getValue('features') ) ) );
+      $settings->set($feature, $form_state->getValue($feature));
+    }
+    
+    
+    /*
+    foreach ($player_settings_fields_featureText as $field) {
+      $formValues->set("features.{$field}", $form_state->getValue($field));
+    }
+    */
+    $settings->save();
 
     parent::submitForm($form, $form_state);
   }

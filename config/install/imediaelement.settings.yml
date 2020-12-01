@@ -26,6 +26,14 @@ features:
   tracks: false
   volume: true
   fullscreen: true
+features1: 
+  - playPause: true
+  - current: true
+  - progress: true
+  - duration: true
+  - tracks: false
+  - volume: true
+  - fullscreen: true
 featureText:
   downloadFile: 'Download File'
   videoPlayer: 'Video Player'
