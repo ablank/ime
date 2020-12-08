@@ -106,7 +106,6 @@ function imediaelement_diff_config($config)
 
     $settings = $config->get('imediaelement.settings');
     $config_diff = [];
-    dpm($settings);
 
     return $config_diff;
 }

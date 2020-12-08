@@ -130,37 +130,7 @@ imediaelement.settings:
           label: 'Volume'
         fullscreen:
           type: boolean
-          label: 'Fullscreen'
-    features1:
-      type: sequence
-      label: 'Allowed values list'
-      sequence:
-        type: mapping
-        mapping:
-          playPause:
-            type: boolean
-            label: 'PlayPause'
-          time:
-            type: boolean
-            label: 'Time'
-          current:
-            type: boolean
-            label: 'Current'
-          progress:
-            type: boolean
-            label: 'Progress'
-          duration:
-            type: boolean
-            label: 'Duration'
-          tracks:
-            type: boolean
-            label: 'Tracks'
-          volume:
-            type: boolean
-            label: 'Volume'
-          fullscreen:
-            type: boolean
-            label: 'Fullscreen'      
+          label: 'Fullscreen'   
     featureText:
       type: mapping
       label: 'Text to display in controls'
