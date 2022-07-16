@@ -24,13 +24,13 @@ function imediaelement_admin_form() {
     '#title' => t('Player Skin'),
     '#type' => 'select',
     '#options' => array(
-      $libpath . '/build/mediaelement_dark.min.css' => t('ME Dark'),
-      $libpath . '/build/mediaelement_light.min.css' => t('ME Light'),
-      $libpath . '/build/mediaelement_large_dark.min.css' => t('ME Large Dark'),
-      $libpath . '/build/mediaelement_large_light.min.css' => t('ME Large Light'),
-      $libpath . '/build/mediaelementplayer.min.css' => t('Original ME'),
+      $libpath . '/dist/css/mediaelement_dark.min.css' => t('ME Dark'),
+      $libpath . '/dist/css/mediaelement_light.min.css' => t('ME Light'),
+      $libpath . '/dist/css/mediaelement_large_dark.min.css' => t('ME Large Dark'),
+      $libpath . '/dist/css/mediaelement_large_light.min.css' => t('ME Large Light'),
+      $libpath . '/dist/css/mediaelementplayer.min.css' => t('Original ME'),
     ),
-    '#default_value' => variable_get('imediaelement_skin', $libpath . '/build/mediaelement_dark.min.css'),
+    '#default_value' => variable_get('imediaelement_skin', $libpath . '/dist/css/mediaelement_dark.min.css'),
   );
 
   $form['imediaelement_sitewide'] = array(
@@ -109,7 +109,7 @@ function imediaelement_admin_form() {
     . '<thead><tr><th>Demo</th><tr></thead>'
     . '<tbody><tr><td style="text-align:center">'
     . '<video width="360" height="200" id="player1">'
-    . '<source type="video/youtube" src="//youtu.be/XsZDWNk_RIA">'
+    . '<source type="video/youtube" src="//youtu.be/6zpxRB2vT0Y">'
     . '<p>Your browser leaves much to be desired.</p></video>'
     . '</td></tr></tbody></table>',
   );
